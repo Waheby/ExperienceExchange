@@ -11,7 +11,6 @@ function Navbar() {
   const token = localStorage.getItem("token");
   const userInfo = useRef("");
   let isAdmin = false;
-  const url = "http://localhost:5000";
 
   if (token) {
     const user = jose.decodeJwt(token);

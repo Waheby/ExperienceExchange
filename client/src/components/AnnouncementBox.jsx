@@ -5,15 +5,17 @@ import * as jose from "jose";
 
 function AnnouncementBox() {
   let navigate = useNavigate();
-  const url = "http://localhost:5000";
   const token = localStorage.getItem("token");
   const [result, setResult] = useState([""]);
 
   useEffect(() => {
     const getAnnouncement = async () => {
-      const response = await fetch(`${url}/admin/get-announcement`, {
-        method: "GET",
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/admin/get-announcement`,
+        {
+          method: "GET",
+        }
+      ).catch((err) => {
         console.log(err);
       });
 

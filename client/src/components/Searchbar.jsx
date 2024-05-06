@@ -6,7 +6,6 @@ import { Navigate, useNavigate } from "react-router-dom";
 function Searchbar() {
   const [input, setInput] = useState("");
   let navigate = useNavigate();
-  const url = "http://localhost:5000";
 
   const handleSearch = () => {
     navigate(`/search?skill=${input}`);
