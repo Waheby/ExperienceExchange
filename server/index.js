@@ -39,13 +39,13 @@ app.use("/certificate", CertsModel);
 app.use("/admin", AdminModel);
 app.use("/comment", CommentModel);
 
-//use client app
-app.use(express.static(path.join(__dirname, "/client/dist")));
+// //use client app
+// app.use(express.static(path.join(__dirname, "/client/dist")));
 
-// render client for any path
-app.get("*", (req, res) =>
-  res.sendFile(path.join(__dirname, "/client/dist/index.html"))
-);
+// // render client for any path
+// app.get("*", (req, res) =>
+//   res.sendFile(path.join(__dirname, "/client/dist/index.html"))
+// );
 
 // app.use(bodyParser.json({ limit: "30mb", extended: true })); //for image upload
 // app.use(bodyParser.urlencoded({ limit: "30mb", extended: true })); //for image upload
