@@ -11,7 +11,7 @@ import CommentModel from "./routes/comments.js";
 
 import path from "path";
 import { fileURLToPath } from "url";
-import serverless from "serverless-http";
+// import serverless from "serverless-http";
 // resolving dirname for ES module
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
@@ -60,4 +60,4 @@ mongoose
   .then(() => console.log(`Database Running`))
   .catch((error) => console.log(error.message));
 
-module.exports.handler = serverless(app);
+// module.exports.handler = serverless(app);
