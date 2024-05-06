@@ -38,18 +38,21 @@ function NewPostForm() {
     setIsSubmitting(true);
     if (!filter.isProfane(content)) {
       if (!filter.isProfane(title)) {
-        const response = await fetch(`${url}/post/new`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token": localStorage.getItem("token"),
-          },
-          body: JSON.stringify({
-            content: content,
-            creator: username,
-            tags: tags,
-          }),
-        }).catch((err) => {
+        const response = await fetch(
+          `${import.meta.env.VITE_REACT_APP_API_URL}/post/new`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-access-token": localStorage.getItem("token"),
+            },
+            body: JSON.stringify({
+              content: content,
+              creator: username,
+              tags: tags,
+            }),
+          }
+        ).catch((err) => {
           console.log(err);
         });
 

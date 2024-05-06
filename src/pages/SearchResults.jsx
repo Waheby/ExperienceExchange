@@ -17,16 +17,19 @@ function SearchResults() {
 
   const searchUserbySkill = async (input) => {
     if (token) {
-      const response = await fetch(`${url}/user/search-skill`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
-        },
-        body: JSON.stringify({
-          skill: input.toLowerCase().trim(),
-        }),
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/user/search-skill`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            skill: input.toLowerCase().trim(),
+          }),
+        }
+      ).catch((err) => {
         console.log(err);
       });
 
@@ -52,16 +55,19 @@ function SearchResults() {
 
   const searchUserbyUsername = async () => {
     if (token) {
-      const response = await fetch(`${url}/user/search-username`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
-        },
-        body: JSON.stringify({
-          username: input.toLowerCase().trim(),
-        }),
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/user/search-username`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            username: input.toLowerCase().trim(),
+          }),
+        }
+      ).catch((err) => {
         console.log(err);
       });
 
@@ -87,15 +93,18 @@ function SearchResults() {
 
   const searchPostbyUsername = async () => {
     if (token) {
-      const response = await fetch(`${url}/post/search-username`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: input.toLowerCase().trim(),
-        }),
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/post/search-username`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: input.toLowerCase().trim(),
+          }),
+        }
+      ).catch((err) => {
         console.log(err);
       });
 
@@ -121,15 +130,18 @@ function SearchResults() {
 
   const searchPostbyTag = async () => {
     if (token) {
-      const response = await fetch(`${url}/post/search-skill`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          skill: input.toLowerCase().trim(),
-        }),
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/post/search-skill`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            skill: input.toLowerCase().trim(),
+          }),
+        }
+      ).catch((err) => {
         console.log(err);
       });
 

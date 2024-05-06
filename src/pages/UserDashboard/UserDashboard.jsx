@@ -47,16 +47,19 @@ function UserDashboard() {
     } else navigate("/login");
 
     const getUser = async () => {
-      const response = await fetch(`${url}/user/get-user`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
-        },
-        body: JSON.stringify({
-          username: username,
-        }),
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/user/get-user`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            username: username,
+          }),
+        }
+      ).catch((err) => {
         console.log(err);
       });
 
@@ -67,12 +70,15 @@ function UserDashboard() {
     };
 
     const getMessages = async () => {
-      const response = await fetch(`${url}/user/get-messages`, {
-        method: "GET",
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/user/get-messages`,
+        {
+          method: "GET",
+          headers: {
+            "x-access-token": localStorage.getItem("token"),
+          },
+        }
+      ).catch((err) => {
         console.log(err);
       });
 
@@ -82,12 +88,15 @@ function UserDashboard() {
     };
 
     const getRequests = async () => {
-      const response = await fetch(`${url}/user/get-requests`, {
-        method: "GET",
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/user/get-requests`,
+        {
+          method: "GET",
+          headers: {
+            "x-access-token": localStorage.getItem("token"),
+          },
+        }
+      ).catch((err) => {
         console.log(err);
       });
 
@@ -97,12 +106,15 @@ function UserDashboard() {
     };
 
     const getSessions = async () => {
-      const response = await fetch(`${url}/user/available-sessions`, {
-        method: "GET",
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/user/available-sessions`,
+        {
+          method: "GET",
+          headers: {
+            "x-access-token": localStorage.getItem("token"),
+          },
+        }
+      ).catch((err) => {
         console.log(err);
       });
 
@@ -119,7 +131,7 @@ function UserDashboard() {
   console.log(user);
   console.log(userInfo.current[0]);
   // const createSession = async () => {
-  //   const response = await fetch(`${url}/user/generate-token`, {
+  //   const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/generate-token`, {
   //     method: "GET",
   //     headers: {
   //       "x-access-token": localStorage.getItem("token"),
@@ -136,17 +148,20 @@ function UserDashboard() {
   const modifyRequest = async (requestID, status) => {
     console.log(status);
 
-    const responseModifyStatus = await fetch(`${url}/user/modify-request`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        id: requestID,
-        status: status,
-      }),
-    }).catch((err) => {
+    const responseModifyStatus = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/user/modify-request`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          id: requestID,
+          status: status,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 
@@ -157,16 +172,19 @@ function UserDashboard() {
   };
 
   const deleteSession = async (id) => {
-    const response = await fetch(`${url}/user/delete-request`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        id: id,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/user/delete-request`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          id: id,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 

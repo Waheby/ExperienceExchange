@@ -35,14 +35,17 @@ function UploadForm() {
     formData1.append("file", file);
     console.log(formData1);
 
-    const response = await fetch(`${url}/user/upload`, {
-      method: "POST",
-      headers: {
-        // "Content-Type": "multipart/form-data; boundary=-------",
-        "x-access-token": localStorage.getItem("token"),
-      },
-      body: formData1,
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/user/upload`,
+      {
+        method: "POST",
+        headers: {
+          // "Content-Type": "multipart/form-data; boundary=-------",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: formData1,
+      }
+    ).catch((err) => {
       console.log(err);
     });
 

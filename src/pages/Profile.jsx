@@ -30,16 +30,19 @@ function Profile() {
   // }
 
   const getUser = async () => {
-    const response = await fetch(`${url}/user/get-user`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        username: userID,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/user/get-user`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          username: userID,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 
@@ -52,18 +55,21 @@ function Profile() {
   const sendMessage = async (e) => {
     e.preventDefault();
 
-    const response = await fetch(`${url}/user/new-messages`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        toUser: userID,
-        fromUser: userTokenData.username,
-        content: content,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/user/new-messages`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          toUser: userID,
+          fromUser: userTokenData.username,
+          content: content,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
       toast.success(err, {
         position: "bottom-right",
@@ -108,19 +114,22 @@ function Profile() {
   const sendRequest = async (e) => {
     e.preventDefault();
 
-    const response = await fetch(`${url}/user/new-request`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        toUser: userID,
-        fromUser: userTokenData.username,
-        channel: channel,
-        content: contentInfo,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/user/new-request`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          toUser: userID,
+          fromUser: userTokenData.username,
+          channel: channel,
+          content: contentInfo,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 

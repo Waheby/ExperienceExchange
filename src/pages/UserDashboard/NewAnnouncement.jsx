@@ -27,12 +27,15 @@ function NewAnnouncement() {
     } else navigate("/login");
 
     const getAnnouncement = async () => {
-      const response = await fetch(`${url}/admin/get-announcement`, {
-        method: "GET",
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/admin/get-announcement`,
+        {
+          method: "GET",
+          headers: {
+            "x-access-token": localStorage.getItem("token"),
+          },
+        }
+      ).catch((err) => {
         console.log(err);
       });
 
@@ -44,17 +47,20 @@ function NewAnnouncement() {
 
   const CreateAnnouncement = async (e) => {
     e.preventDefault();
-    const response = await fetch(`${url}/admin/announcement`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        content: input,
-        creator: username,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/admin/announcement`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          content: input,
+          creator: username,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 

@@ -43,15 +43,18 @@ function PostDetails() {
   }, []);
 
   const getPost = async () => {
-    const response = await fetch(`${url}/post/post`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        postID: postID,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/post/post`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          postID: postID,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 
@@ -61,9 +64,12 @@ function PostDetails() {
   };
 
   const getSimilarPost = async () => {
-    const response = await fetch(`${url}/post/all`, {
-      method: "GET",
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/post/all`,
+      {
+        method: "GET",
+      }
+    ).catch((err) => {
       console.log(err);
     });
 
@@ -73,15 +79,18 @@ function PostDetails() {
   };
 
   const getComment = async () => {
-    const response = await fetch(`${url}/comment/all`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        postID: postID,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/comment/all`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          postID: postID,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 
@@ -92,18 +101,21 @@ function PostDetails() {
 
   const createComment = async () => {
     if (!filter.isProfane(content)) {
-      const response = await fetch(`${url}/comment/new`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
-        },
-        body: JSON.stringify({
-          postID: postID,
-          content: content,
-          creator: username,
-        }),
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/comment/new`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            postID: postID,
+            content: content,
+            creator: username,
+          }),
+        }
+      ).catch((err) => {
         console.log(err);
       });
 
@@ -136,16 +148,19 @@ function PostDetails() {
   };
 
   const deletePost = async () => {
-    const response = await fetch(`${url}/post/delete`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        postId: post._id,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/post/delete`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          postId: post._id,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 
@@ -155,16 +170,19 @@ function PostDetails() {
   };
 
   const deleteComment = async (id) => {
-    const response = await fetch(`${url}/comment/delete`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        postId: id,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/comment/delete`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          postId: id,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 

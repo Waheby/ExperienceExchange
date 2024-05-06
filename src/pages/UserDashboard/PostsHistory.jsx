@@ -24,15 +24,18 @@ function PostsHistory() {
     } else navigate("/login");
 
     const getPost = async () => {
-      const response = await fetch(`${url}/post/history`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-        }),
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/post/history`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+          }),
+        }
+      ).catch((err) => {
         console.log(err);
       });
 

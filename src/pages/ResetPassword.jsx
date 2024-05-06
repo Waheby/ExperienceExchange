@@ -14,15 +14,20 @@ function resetPassword() {
     e.preventDefault();
     const url = "http://localhost:5000";
 
-    const response = await fetch(`${url}/user/new-password/${id}/${token}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        password: password,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${
+        import.meta.env.VITE_REACT_APP_API_URL
+      }/user/new-password/${id}/${token}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: password,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 

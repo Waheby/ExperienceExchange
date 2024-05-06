@@ -30,12 +30,15 @@ function ChangeBio() {
     } else navigate("/login");
 
     const getUser = async () => {
-      const response = await fetch(`${url}/user/get-user`, {
-        method: "POST",
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/user/get-user`,
+        {
+          method: "POST",
+          headers: {
+            "x-access-token": localStorage.getItem("token"),
+          },
+        }
+      ).catch((err) => {
         console.log(err);
       });
 
@@ -48,16 +51,19 @@ function ChangeBio() {
   const changeUser = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    const response = await fetch(`${url}/user/bio`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        bio: bio,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/user/bio`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          bio: bio,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 

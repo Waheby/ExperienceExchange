@@ -20,18 +20,21 @@ function Register() {
     setIsSubmitting(true);
     const url = "http://localhost:5000";
     if (password == confirmpassword) {
-      const response = await fetch(`${url}/user/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          email: email,
-          password: password,
-          confpass: confirmpassword,
-        }),
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/user/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            email: email,
+            password: password,
+            confpass: confirmpassword,
+          }),
+        }
+      ).catch((err) => {
         console.log(err);
       });
 

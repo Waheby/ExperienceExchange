@@ -31,12 +31,15 @@ function CheckVerify() {
     } else navigate("/login");
 
     const getCerts = async () => {
-      const response = await fetch(`${url}/certificate/all`, {
-        method: "GET",
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/certificate/all`,
+        {
+          method: "GET",
+          headers: {
+            "x-access-token": localStorage.getItem("token"),
+          },
+        }
+      ).catch((err) => {
         console.log(err);
       });
 
@@ -52,17 +55,20 @@ function CheckVerify() {
     e.preventDefault();
     console.log(certId);
 
-    const response = await fetch(`${url}/certificate/modify`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        status: "deny",
-        id: certId,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/certificate/modify`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          status: "deny",
+          id: certId,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 
@@ -84,17 +90,20 @@ function CheckVerify() {
     e.preventDefault();
     console.log(certId);
 
-    const response = await fetch(`${url}/certificate/modify`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        status: "accept",
-        id: certId,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/certificate/modify`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          status: "accept",
+          id: certId,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 
@@ -116,7 +125,7 @@ function CheckVerify() {
     e.preventDefault();
     console.log(certs);
 
-    // const response = await fetch(`${url}/certificate/modify`, {
+    // const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/certificate/modify`, {
     //   method: "POST",
     //   headers: {
     //     "Content-Type": "application/json",

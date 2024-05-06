@@ -32,12 +32,15 @@ function NewSkillForm() {
     } else navigate("/login");
 
     const getUser = async () => {
-      const response = await fetch(`${url}/user/get-user`, {
-        method: "POST",
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/user/get-user`,
+        {
+          method: "POST",
+          headers: {
+            "x-access-token": localStorage.getItem("token"),
+          },
+        }
+      ).catch((err) => {
         console.log(err);
       });
 
@@ -51,16 +54,19 @@ function NewSkillForm() {
     setIsSubmitting(true);
     e.preventDefault();
     skillsArray.push(skill.toLowerCase().trim());
-    const response = await fetch(`${url}/user/skill`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        skills: skillsArray,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/user/skill`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          skills: skillsArray,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 

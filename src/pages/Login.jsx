@@ -15,16 +15,19 @@ function Login() {
     setIsSubmitting(true);
     const url = "http://localhost:5000";
 
-    const response = await fetch(`${url}/user/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/user/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 
@@ -68,7 +71,7 @@ function Login() {
     // setIsSubmitting(true);
     // const url = "http://localhost:5000";
 
-    // const response = await fetch(`${url}/user/login`, {
+    // const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/login`, {
     //   method: "POST",
     //   headers: {
     //     "Content-Type": "application/json",

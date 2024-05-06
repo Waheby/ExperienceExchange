@@ -22,9 +22,12 @@ function PostsPage() {
     } else navigate("/login");
 
     const getPost = async () => {
-      const response = await fetch(`${url}/post/all`, {
-        method: "GET",
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/post/all`,
+        {
+          method: "GET",
+        }
+      ).catch((err) => {
         console.log(err);
       });
 

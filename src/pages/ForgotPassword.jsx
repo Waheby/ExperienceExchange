@@ -9,17 +9,19 @@ function forgotPassword() {
 
   const reset = async (e) => {
     e.preventDefault();
-    const url = "http://localhost:5000";
 
-    const response = await fetch(`${url}/user/reset-password`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/user/reset-password`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 

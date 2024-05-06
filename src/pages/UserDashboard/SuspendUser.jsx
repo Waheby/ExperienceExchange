@@ -28,12 +28,15 @@ function SuspendUser() {
     } else navigate("/login");
 
     const getUser = async () => {
-      const response = await fetch(`${url}/user/get-user`, {
-        method: "GET",
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      }).catch((err) => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/user/get-user`,
+        {
+          method: "GET",
+          headers: {
+            "x-access-token": localStorage.getItem("token"),
+          },
+        }
+      ).catch((err) => {
         console.log(err);
       });
 
@@ -45,16 +48,19 @@ function SuspendUser() {
 
   const suspendUser = async (e) => {
     e.preventDefault();
-    const response = await fetch(`${url}/admin/suspend`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        username: username,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/admin/suspend`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          username: username,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 
@@ -74,16 +80,19 @@ function SuspendUser() {
 
   const reinstateUser = async (e) => {
     e.preventDefault();
-    const response = await fetch(`${url}/admin/reinstate`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        username: username,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/admin/reinstate`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          username: username,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
 
