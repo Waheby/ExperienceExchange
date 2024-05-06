@@ -7,7 +7,6 @@ import { ToastContainer, toast } from "react-toastify";
 
 function CheckVerify() {
   let navigate = useNavigate();
-  const url = "http://localhost:5000";
   const [username, setUsername] = useState(null);
   const [results, setResult] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);

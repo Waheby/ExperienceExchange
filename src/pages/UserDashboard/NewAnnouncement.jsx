@@ -7,7 +7,6 @@ import { ToastContainer, toast } from "react-toastify";
 
 function NewAnnouncement() {
   let navigate = useNavigate();
-  const url = "http://localhost:5000";
   const [input, setInput] = useState("");
   const [username, setUsername] = useState("");
   //Deny entry to non-authorized users OR get user info

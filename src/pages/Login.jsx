@@ -13,7 +13,6 @@ function Login() {
   const login = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    const url = "http://localhost:5000";
 
     const response = await fetch(
       `${import.meta.env.VITE_REACT_APP_API_URL}/user/login`,
@@ -69,7 +68,6 @@ function Login() {
   const faceLogin = async (e) => {
     e.preventDefault();
     // setIsSubmitting(true);
-    // const url = "http://localhost:5000";
 
     // const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/login`, {
     //   method: "POST",

@@ -7,7 +7,6 @@ import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
-  const url = "https://experienceexchange.netlify.app/";
   const [results, setResult] = useState([]);
   let navigate = useNavigate();
 
