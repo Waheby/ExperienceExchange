@@ -1,5 +1,4 @@
 import express from "express";
-import { send } from "vite";
 import multer from "multer";
 import path from "path";
 import { getPosts, createPost } from "../controllers/posts.js";
