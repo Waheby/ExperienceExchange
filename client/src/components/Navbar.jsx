@@ -18,11 +18,7 @@ function Navbar() {
       <>
         <div className={NavCSS.navContainer}>
           <div className={NavCSS.logoContainer}>
-            <img
-              className={NavCSS.logoImg}
-              src={"../dist/LogoEX.png"}
-              alt="Logo"
-            />
+            <img className={NavCSS.logoImg} src={"/LogoEX.png"} alt="Logo" />
           </div>
           <div className={NavCSS.buttonContainer}>
             <Link className={NavCSS.btnHome} to="/posts">
@@ -80,11 +76,7 @@ function Navbar() {
       <>
         <div className={NavCSS.navContainer}>
           <div className={NavCSS.logoContainer}>
-            <img
-              className={NavCSS.logoImg}
-              src={"../dist/LogoEX.png"}
-              alt="Logo"
-            />
+            <img className={NavCSS.logoImg} src={"LogoEX.png"} alt="Logo" />
           </div>
           <div className={NavCSS.buttonContainer}>
             <Link className={NavCSS.btnHome} to="/home">
