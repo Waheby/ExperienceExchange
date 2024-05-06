@@ -21,7 +21,7 @@ function Navbar() {
           <div className={NavCSS.logoContainer}>
             <img
               className={NavCSS.logoImg}
-              src={"../public/LogoEX.png"}
+              src={"../dist/LogoEX.png"}
               alt="Logo"
             />
           </div>
@@ -83,7 +83,7 @@ function Navbar() {
           <div className={NavCSS.logoContainer}>
             <img
               className={NavCSS.logoImg}
-              src={"../public/LogoEX.png"}
+              src={"../dist/LogoEX.png"}
               alt="Logo"
             />
           </div>

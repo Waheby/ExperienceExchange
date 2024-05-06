@@ -288,7 +288,7 @@ function SearchResults() {
                             borderWidth: "1px",
                           }}
                           className={ContentCSS.postImg}
-                          src={`./public/profile/${result.profileImage}`}
+                          src={`./dist/profile/${result.profileImage}`}
                           alt="profile pic"
                         />
                       </div>
@@ -316,7 +316,7 @@ function SearchResults() {
                       <div>
                         {/* <img
                           className={ContentCSS.postImg}
-                          src={`../public/${result.profileImage}`}
+                          src={`../dist/${result.profileImage}`}
                           alt="profile pic"
                         /> */}
                       </div>

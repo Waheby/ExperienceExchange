@@ -63,7 +63,7 @@ function PostsHistory() {
                     <div>
                       <img
                         className={ContentCSS.postImg}
-                        src={`../public/${result.image}`}
+                        src={`../dist/${result.image}`}
                         alt="profile pic"
                       />
                     </div>

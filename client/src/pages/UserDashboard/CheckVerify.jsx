@@ -189,7 +189,7 @@ function CheckVerify() {
                     alignSelf: "center",
                     width: "600px",
                   }}
-                  src={`../public/certs/${result.certificate}`}
+                  src={`../dist/certs/${result.certificate}`}
                 />
 
                 <hr style={{ width: "350px" }} />

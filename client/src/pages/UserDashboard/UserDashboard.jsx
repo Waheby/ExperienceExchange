@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 function UserDashboard() {
   let navigate = useNavigate();
-  const url = "http://localhost:5000";
   const token = localStorage.getItem("token");
   const user = jose.decodeJwt(token);
   const [username, setUsername] = useState(user.username);
@@ -231,7 +230,7 @@ function UserDashboard() {
                     height: "70px",
                     borderRadius: "50px",
                   }}
-                  src={`./public/profile/${userInfo.current[0].profileImage}`}
+                  src={`./dist/profile/${userInfo.current[0].profileImage}`}
                   alt="user profile picture"
                 />
                 <li>Username: {username}</li>
@@ -632,7 +631,7 @@ function UserDashboard() {
                     height: "70px",
                     borderRadius: "50px",
                   }}
-                  src={`./public/profile/${userInfo.current[0].profileImage}`}
+                  src={`./dist/profile/${userInfo.current[0].profileImage}`}
                   alt="user profile picture"
                 />
                 <li>Username: {username}</li>
