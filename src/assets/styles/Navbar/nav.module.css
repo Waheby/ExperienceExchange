@@ -1,0 +1,130 @@
+.navContainer {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  width: 100%;
+  height: 60px;
+  margin-top: -8px;
+}
+
+.logoContainer {
+  display: flex;
+  width: 30%;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoImg {
+  width: 150px;
+  cursor: pointer;
+}
+
+.buttonContainer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.othersContainer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnHome {
+  display: flex;
+  margin: auto;
+  width: 80px;
+  height: 35px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  border-style: none;
+  border-radius: 20px;
+  background-color: white;
+  text-decoration-line: none;
+  text-decoration: none;
+  color: black;
+}
+
+.btnHome:hover {
+  background-color: gray;
+}
+
+.btnAbout {
+  margin: auto;
+  width: 80px;
+  height: 35px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  border-style: none;
+  border-radius: 20px;
+  background-color: white;
+}
+
+.btnAbout:hover {
+  background-color: gray;
+}
+
+.btnLogin {
+  display: flex;
+  margin: auto;
+  width: 80px;
+  height: 35px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  border-style: none;
+  border-radius: 20px;
+  background-color: white;
+  color: black;
+  text-decoration-line: none;
+  text-decoration: none;
+}
+
+.btnLogin:hover {
+  background-color: gray;
+}
+
+.btnRegister {
+  display: flex;
+  margin: auto;
+  height: 40px;
+  cursor: pointer;
+  border-style: none;
+  border-radius: 20px;
+  background-color: white;
+  align-items: center;
+  justify-items: center;
+  color: black;
+  text-decoration-line: none;
+  text-decoration: none;
+  padding: 5px;
+}
+
+.btnRegister:hover {
+  background-color: gray;
+}
+
+.othersdiv1 {
+  display: flex;
+  width: 100%;
+  margin: 10px;
+}
+
+.othersdiv2 {
+  display: flex;
+  width: 100%;
+  margin: 10px;
+}
+
+@media (width <= 1000px) {
+  .buttonContainer {
+    visibility: hidden;
+    width: 1%;
+  }
+}
