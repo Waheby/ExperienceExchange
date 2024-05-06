@@ -7,7 +7,6 @@ import { ToastContainer, toast } from "react-toastify";
 
 function ChangeBio() {
   let navigate = useNavigate();
-  const url = "http://localhost:5000";
 
   const [username, setUsername] = useState("");
   const [bio, setBio] = useState("");
