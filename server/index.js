@@ -11,7 +11,7 @@ import CommentModel from "./routes/comments.js";
 
 import path from "path";
 import { fileURLToPath } from "url";
-
+import serverless from "serverless-http";
 // resolving dirname for ES module
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
@@ -30,13 +30,11 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 app.use("/post", PostModel);
 app.use("/user", UsersModel);
 app.use("/certificate", CertsModel);
 app.use("/admin", AdminModel);
 app.use("/comment", CommentModel);
-
 // //use client app
 // app.use(express.static(path.join(__dirname, "/client/dist")));
 
@@ -61,3 +59,5 @@ mongoose
   .connect(CONNECTION_URL)
   .then(() => console.log(`Database Running`))
   .catch((error) => console.log(error.message));
+
+module.exports.handler = serverless(app);
