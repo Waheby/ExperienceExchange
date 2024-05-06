@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import multer from "multer";
 import agora from "agora-access-token";
-import bcrypt, { hash } from "bcrypt";
+import bcrypt from "bcryptjs";
 
 const { RtcTokenBuilder, RtcRole } = agora;
 
