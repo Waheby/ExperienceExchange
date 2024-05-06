@@ -25,7 +25,6 @@ function PostDetails() {
   const [resultsSimilar, setResultsSimilar] = useState([]);
   const [post, setPost] = useState("");
   const [content, setContent] = useState("");
-  const url = "http://localhost:5000";
   const postID = params.postId;
   console.log(postID);
 

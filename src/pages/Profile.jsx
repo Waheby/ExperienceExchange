@@ -22,7 +22,6 @@ function Profile() {
   const [channel, setChannel] = useState("");
   const [contentInfo, setContentInfo] = useState("");
   const [user, setUser] = useState([""]);
-  const url = "http://localhost:5000";
   const userID = params.userId;
 
   // if (token) {

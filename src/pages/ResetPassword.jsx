@@ -12,7 +12,6 @@ function resetPassword() {
 
   const reset = async (e) => {
     e.preventDefault();
-    const url = "http://localhost:5000";
 
     const response = await fetch(
       `${

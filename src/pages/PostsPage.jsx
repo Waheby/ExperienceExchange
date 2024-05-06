@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 function PostsPage() {
   let navigate = useNavigate();
-  const url = "http://localhost:5000";
   const [results, setResult] = useState([]);
 
   useEffect(() => {

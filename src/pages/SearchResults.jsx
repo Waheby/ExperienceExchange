@@ -12,7 +12,6 @@ function SearchResults() {
   const [results, setResult] = useState([]);
   const [searchBy, setSearchBy] = useState("username");
   const [searchFor, setSearchFor] = useState("user");
-  const url = "http://localhost:5000";
   const token = localStorage.getItem("token");
 
   const searchUserbySkill = async (input) => {
