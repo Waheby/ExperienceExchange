@@ -31,36 +31,43 @@ export const userGet = async (req, res) => {
 
 export const userLogin = async (req, res) => {
   try {
-    console.log(req.body.username);
-
     const checkUser = await UsersEX.findOne({
       username: req.body.username,
     });
 
-    const isValidPassword = await bcrypt.compare(
-      req.body.password,
-      checkUser.password
-    );
+    console.log(checkUser);
+    if (checkUser) {
+      const isValidPassword = await bcrypt.compare(
+        req.body.password,
+        checkUser.password
+      );
 
-    if (checkUser && isValidPassword) {
-      if (checkUser.status != "suspended") {
-        const token = jwt.sign(
-          {
-            username: checkUser.username,
-            role: checkUser.role,
-            image: checkUser.profileImage,
-            email: checkUser.email,
-            rating: checkUser.rating,
-            skill: checkUser.skills,
-          },
-          "secretkey"
-        );
-        return res.status(200).json({ status: 200, token: token });
+      if (isValidPassword) {
+        if (checkUser.status != "suspended") {
+          const token = jwt.sign(
+            {
+              username: checkUser.username,
+              role: checkUser.role,
+              image: checkUser.profileImage,
+              email: checkUser.email,
+              rating: checkUser.rating,
+              skill: checkUser.skills,
+            },
+            "secretkey"
+          );
+          return res.status(200).json({ status: 200, token: token });
+        } else {
+          return res
+            .status(401)
+            .json({ status: 401, data: "User is Suspended" });
+        }
       } else {
-        return res.status(401).json({ status: 401, data: "User is Suspended" });
+        return res.status(401).json({ status: 401, data: "Wrong Credentials" });
       }
     } else {
-      return res.status(401).json({ status: 401, data: "Wrong Credentials" });
+      return res
+        .status(401)
+        .json({ status: 401, data: "Username doesn't exist" });
     }
   } catch (error) {
     res.status(401).json({ message: error.message });
