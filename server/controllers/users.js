@@ -36,7 +36,8 @@ export const userLogin = async (req, res) => {
     });
 
     console.log(checkUser);
-    if (checkUser) {
+
+    if (checkUser != null) {
       const isValidPassword = await bcrypt.compare(
         req.body.password,
         checkUser.password
@@ -65,9 +66,7 @@ export const userLogin = async (req, res) => {
         return res.status(401).json({ status: 401, data: "Wrong Credentials" });
       }
     } else {
-      return res
-        .status(401)
-        .json({ status: 401, data: "Username doesn't exist" });
+      return res.status(401).json({ status: 401, data: "Wrong Credentials" });
     }
   } catch (error) {
     res.status(401).json({ message: error.message });
