@@ -198,7 +198,7 @@ function PostDetails() {
             <div className={ContentCSS.detailedPostTop}>
               <img
                 className={ContentCSS.detailedPostImg}
-                src={`../dist/profile/DefaultProfile.svg`}
+                src={`/profile/DefaultProfile.svg`}
                 alt="profile pic"
               />
               <div
@@ -361,7 +361,7 @@ function PostDetails() {
             <div className={ContentCSS.detailedPostTop}>
               <img
                 className={ContentCSS.detailedPostImg}
-                src={`../dist/profile/${post.image}`}
+                src={`/profile/${post.image}`}
                 alt="profile pic"
               />
               <div

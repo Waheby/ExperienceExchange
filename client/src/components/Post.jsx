@@ -9,7 +9,7 @@ function Post() {
           <div>
             <img
               className={ContentCSS.postImg}
-              src={"../dist/vite.svg"}
+              src={"/vite.svg"}
               alt="profile pic"
             />
           </div>

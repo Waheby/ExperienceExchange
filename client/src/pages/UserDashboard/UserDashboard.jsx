@@ -230,7 +230,7 @@ function UserDashboard() {
                     height: "70px",
                     borderRadius: "50px",
                   }}
-                  src={`./dist/profile/${userInfo.current[0].profileImage}`}
+                  src={`/profile/${userInfo.current[0].profileImage}`}
                   alt="user profile picture"
                 />
                 <li>Username: {username}</li>
@@ -631,7 +631,7 @@ function UserDashboard() {
                     height: "70px",
                     borderRadius: "50px",
                   }}
-                  src={`./dist/profile/${userInfo.current[0].profileImage}`}
+                  src={`/profile/${userInfo.current[0].profileImage}`}
                   alt="user profile picture"
                 />
                 <li>Username: {username}</li>

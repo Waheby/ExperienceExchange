@@ -192,7 +192,7 @@ function Profile() {
             <img
               style={{ width: "110px", height: "110px" }}
               className={ContentCSS.detailedPostImg}
-              src={`../dist/profile/${user[0].profileImage}`}
+              src={`/profile/${user[0].profileImage}`}
               alt="profile pic"
             />
             <div
