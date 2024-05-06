@@ -12,7 +12,7 @@ import CommentModel from "./routes/comments.js";
 const app = express();
 app.use(
   cors({
-    origin: ["https://main--experienceexchange.netlify.app/"],
+    origin: ["https://experience-exchange-frontend.vercel.app"],
     methods: ["POST", "GET"],
     credentials: true,
   })
