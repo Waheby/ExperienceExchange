@@ -8,6 +8,7 @@ import Filter from "bad-words";
 
 function ChangeBio() {
   let navigate = useNavigate();
+  var filter = new Filter();
 
   const [username, setUsername] = useState("");
   const [bio, setBio] = useState("");
