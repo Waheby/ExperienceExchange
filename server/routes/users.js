@@ -33,7 +33,7 @@ const router = express.Router();
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     console.log(file);
-    return cb(null, "/profile");
+    return cb(null, "/profile/");
   },
   filename: function (req, file, cb) {
     return cb(null, Date.now() + "_" + file.originalname);
