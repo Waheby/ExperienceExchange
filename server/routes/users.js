@@ -26,38 +26,31 @@ import {
   sessionModify,
   sessionDelete,
 } from "../controllers/users.js";
+import { v2 as cloudinary } from "cloudinary";
 
 const router = express.Router();
 
+//IMAGE FILE UPLOAD CLOUDINARY===========================================
+cloudinary.config({
+  cloud_name: "dpsa9tlr5",
+  api_key: "472164376875152",
+  api_secret: "ZRAcUSnSmcfP_Z5_8-Ei0FkdLNM",
+});
+
 //IMAGE FILE UPLOAD FUNCTION===========================================
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    console.log(file);
-    return cb(null, "../public/profile");
-  },
-  filename: function (req, file, cb) {
-    return cb(null, Date.now() + "_" + file.originalname);
-  },
-});
-const imageUpload = multer({
-  storage: storage,
-  // fileFilter: function (req, file, callback) {
-  //   var ext = path.extname(file.originalname);
-  //   if (
-  //     ext !== ".PNG" &&
-  //     ext !== ".png" &&
-  //     ext !== ".jpg" &&
-  //     ext !== ".gif" &&
-  //     ext !== ".jpeg"
-  //   ) {
-  //     return callback(new Error("Only images are allowed"));
-  //   }
-  //   callback(null, true);
-  // },
-  // limits: {
-  //   fileSize: 1024 * 1024,
-  // },
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     console.log(file);
+//     return cb(null, "../public/profile");
+//   },
+//   filename: function (req, file, cb) {
+//     return cb(null, Date.now() + "_" + file.originalname);
+//   },
+// });
+// const imageUpload = multer({
+//   storage: storage,
+// });
+
 //AGORA TOKEN============================================
 const nocache = (req, res, next) => {
   res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
@@ -75,7 +68,7 @@ router.post("/username", userUpdateUsername);
 router.post("/update/email", userUpdateEmail);
 router.post("/reset-password", userResetPassword);
 router.post("/new-password/:id/:token", userNewPassword);
-router.post("/upload", imageUpload.single("file"), userUploadImage);
+router.post("/upload", userUploadImage);
 router.post("/skill", userAddSkill);
 router.post("/bio", userBio);
 router.post("/search-username", userSearchUsername);

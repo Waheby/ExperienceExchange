@@ -7,7 +7,7 @@ import nodemailer from "nodemailer";
 import multer from "multer";
 import agora from "agora-access-token";
 import bcrypt from "bcryptjs";
-
+import { v2 as cloudinary } from "cloudinary";
 const { RtcTokenBuilder, RtcRole } = agora;
 
 export const userGet = async (req, res) => {
@@ -220,6 +220,7 @@ export const userNewPassword = async (req, res) => {
 export const userUploadImage = async (req, res) => {
   const token = req.headers["x-access-token"];
   const content = req.file;
+
   try {
     jwt.verify(token, "secretkey", async (err, decodeToken) => {
       if (err) {
