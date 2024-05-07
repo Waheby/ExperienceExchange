@@ -242,6 +242,7 @@ function PostDetails() {
                   fontSize: "larger",
                   margin: "15px",
                   textAlign: "center",
+                  height: "150px",
                 }}
               >
                 {post.content}
@@ -262,46 +263,32 @@ function PostDetails() {
               <div key={id}>
                 <>
                   <div
-                    onClick={() => navigate(`/posts/${result._id}`)}
                     className={ContentCSS.postContainer}
+                    onClick={() => {
+                      navigate(`/posts/${result._id}`);
+                      location.reload();
+                    }}
                   >
-                    <div
-                      style={{
-                        display: "flex",
-                        margin: "auto",
-                        justifyItems: "center",
-                      }}
-                      className={ContentCSS.postTop}
-                    >
+                    <div className={ContentCSS.postTop}>
                       <div
-                        style={{
-                          textAlign: "center",
-                        }}
+                        style={{ textAlign: "center" }}
                         className={ContentCSS.postUsername}
                       >
                         @{result.creator}
                       </div>
                     </div>
-
-                    <div>
-                      <p
-                        style={{
-                          textAlign: "center",
-                          height: "130px",
-                          overflow: "auto",
-                        }}
-                      >
-                        {result.content}
-                      </p>
+                    <hr style={{ width: "95%" }} />
+                    <div style={{ overflow: "hidden", height: "150px" }}>
+                      <p style={{ textAlign: "center" }}>{result.content}</p>
                     </div>
                     <hr style={{ width: "370px" }} />
                     <div className={ContentCSS.postFooter}>
-                      <span className={ContentCSS.postFooterShowComments}>
-                        Comments(2)
-                      </span>
-                      <div className={ContentCSS.postFooterTag}>
+                      <span
+                        style={{ textAlign: "center" }}
+                        className={ContentCSS.postFooterShowComments}
+                      >
                         {result.tags ? result.tags.join(", ") : null}
-                      </div>
+                      </span>
                     </div>
                   </div>
                 </>

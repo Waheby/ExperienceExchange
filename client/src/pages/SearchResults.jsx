@@ -311,15 +311,11 @@ function SearchResults() {
             return (
               <div key={id}>
                 <>
-                  <div className={ContentCSS.postContainer}>
+                  <div
+                    className={ContentCSS.postContainer}
+                    onClick={() => navigate(`/posts/${result._id}`)}
+                  >
                     <div className={ContentCSS.postTop}>
-                      <div>
-                        {/* <img
-                          className={ContentCSS.postImg}
-                          src={`/${result.profileImage}`}
-                          alt="profile pic"
-                        /> */}
-                      </div>
                       <div
                         style={{ textAlign: "center" }}
                         className={ContentCSS.postUsername}
@@ -327,16 +323,18 @@ function SearchResults() {
                         @{result.creator}
                       </div>
                     </div>
-                    <div>
+                    <hr style={{ width: "95%" }} />
+                    <div style={{ overflow: "hidden", height: "150px" }}>
                       <p style={{ textAlign: "center" }}>{result.content}</p>
                     </div>
+                    <hr style={{ width: "370px" }} />
                     <div className={ContentCSS.postFooter}>
-                      <span className={ContentCSS.postFooterShowComments}>
-                        Comments
+                      <span
+                        style={{ textAlign: "center" }}
+                        className={ContentCSS.postFooterShowComments}
+                      >
+                        {result.tags ? result.tags.join(", ") : null}
                       </span>
-                      <div className={ContentCSS.postFooterTag}>
-                        {result.tags}
-                      </div>
                     </div>
                   </div>
                 </>

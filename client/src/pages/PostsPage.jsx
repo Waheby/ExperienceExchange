@@ -39,49 +39,38 @@ function PostsPage() {
 
   return (
     <>
-      <h1 style={{ textAlign: "center" }}>Recommended Users for you</h1>
+      <h1 style={{ textAlign: "center" }}>
+        Recommended Posts and Users for you
+      </h1>
       <div className={ContentCSS.postsPageMainContainer}>
         {results.map((result, id) => {
           return (
             <div key={id}>
               <>
                 <div
-                  onClick={() => navigate(`/posts/${result._id}`)}
-                  style={{ cursor: "pointer" }}
                   className={ContentCSS.postContainer}
+                  onClick={() => navigate(`/posts/${result._id}`)}
                 >
                   <div className={ContentCSS.postTop}>
                     <div
-                      className={ContentCSS.postUsername}
                       style={{ textAlign: "center" }}
+                      className={ContentCSS.postUsername}
                     >
                       @{result.creator}
                     </div>
                   </div>
-                  <hr style={{ width: "350px" }} />
-                  <div>
-                    <p
-                      style={{
-                        margin: "10px",
-                        textAlign: "center",
-                        overflowY: "hidden",
-                      }}
-                    >
-                      {result.content}
-                    </p>
+                  <hr style={{ width: "95%" }} />
+                  <div style={{ overflow: "hidden", height: "150px" }}>
+                    <p style={{ textAlign: "center" }}>{result.content}</p>
                   </div>
-
-                  <div
-                    style={{ flexDirection: "column" }}
-                    className={ContentCSS.postFooter}
-                  >
-                    <hr style={{ width: "350px" }} />
-                    <div
+                  <hr style={{ width: "370px" }} />
+                  <div className={ContentCSS.postFooter}>
+                    <span
                       style={{ textAlign: "center" }}
-                      className={ContentCSS.postFooterTag}
+                      className={ContentCSS.postFooterShowComments}
                     >
-                      {result.tags.join(", ")}
-                    </div>
+                      {result.tags ? result.tags.join(", ") : null}
+                    </span>
                   </div>
                 </div>
               </>

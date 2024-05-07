@@ -142,6 +142,7 @@ function NewPostForm() {
               cols="40"
               rows="10"
               required
+              maxLength="140"
               value={content}
               onChange={(event) => {
                 setContent(event.target.value);
