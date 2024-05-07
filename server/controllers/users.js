@@ -219,7 +219,7 @@ export const userNewPassword = async (req, res) => {
 
 export const userUploadImage = async (req, res) => {
   const token = req.headers["x-access-token"];
-  const filename = req.body;
+  const filename = req.body.file;
 
   try {
     jwt.verify(token, "secretkey", async (err, decodeToken) => {
