@@ -219,7 +219,7 @@ export const userNewPassword = async (req, res) => {
 
 export const userUploadImage = async (req, res) => {
   const token = req.headers["x-access-token"];
-  const content = req.file;
+  const filename = req.body;
 
   try {
     jwt.verify(token, "secretkey", async (err, decodeToken) => {
@@ -229,7 +229,7 @@ export const userUploadImage = async (req, res) => {
         console.log(decodeToken.username);
         const user = await UsersEX.findOneAndUpdate(
           { username: decodeToken.username },
-          { $set: { profileImage: content.filename } }
+          { $set: { profileImage: filename } }
         );
         if (!user) {
           res.status(400).json({ message: "User Dont Exist" });
