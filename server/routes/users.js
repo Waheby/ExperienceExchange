@@ -39,7 +39,19 @@ const storage = multer.diskStorage({
     return cb(null, Date.now() + "_" + file.originalname);
   },
 });
-const imageUpload = multer({ storage: storage });
+const imageUpload = multer({
+  storage: storage,
+  fileFilter: function (req, file, callback) {
+    var ext = path.extname(file.originalname);
+    if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg") {
+      return callback(new Error("Only images are allowed"));
+    }
+    callback(null, true);
+  },
+  limits: {
+    fileSize: 1024 * 1024,
+  },
+});
 //AGORA TOKEN============================================
 const nocache = (req, res, next) => {
   res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
