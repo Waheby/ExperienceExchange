@@ -48,7 +48,7 @@ function UploadForm() {
       setIsSubmitting(false);
     });
 
-    const dataCloudinary = await response.json();
+    const dataCloudinary = await responseCloudinary.json();
     console.log(dataCloudinary);
 
     const response = await fetch(
