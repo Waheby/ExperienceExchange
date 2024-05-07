@@ -175,7 +175,7 @@ export const userResetPassword = async (req, res) => {
           from: "12s161629@gmail.com",
           to: email,
           subject: "Resetting Your Password",
-          text: `Experience Exchange: Hello There, Click this link to reset password:   http://localhost:5173/reset/${user._id}/${token}`,
+          text: `Experience Exchange: Hello There, Click this link to reset password:   https://experienceexchange.onrender.com/reset/${user._id}/${token}`,
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
