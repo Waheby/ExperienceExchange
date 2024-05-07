@@ -22,7 +22,7 @@ function Searchbar() {
           onChange={(e) => setInput(e.target.value)}
         />
         <Icon
-          className={ContentCSS.searchIcon}
+          className={ContentCSS.searchIconHome}
           icon="material-symbols:search"
           onClick={handleSearch}
         />

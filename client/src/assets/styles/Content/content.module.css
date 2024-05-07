@@ -47,6 +47,14 @@
   cursor: pointer;
 }
 
+.searchIconHome {
+  position: absolute;
+  margin-left: 310px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
 .infocardContainer {
   display: flex;
   flex-direction: row;

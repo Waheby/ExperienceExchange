@@ -116,21 +116,44 @@ function PostDetails() {
         }
       ).catch((err) => {
         console.log(err);
+        toast.error("Action Failed!", {
+          position: "bottom-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       });
 
       const data = await response.json();
       console.log(data);
-      toast.success("Comment Published Successfully!", {
-        position: "bottom-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      setContent("");
+      if (data.status >= 400) {
+        toast.error("Action Failed!", {
+          position: "bottom-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      } else {
+        toast.success("Comment Published Successfully!", {
+          position: "bottom-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        setContent("");
+      }
     } else {
       toast.error("Comment Contains Profanity!", {
         position: "bottom-right",
