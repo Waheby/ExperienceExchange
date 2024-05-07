@@ -34,7 +34,6 @@ function resetPassword() {
     console.log(data);
 
     if (data) {
-      navigate("/login");
       toast.success(data.data, {
         position: "top-right",
         autoClose: 2000,
@@ -45,6 +44,9 @@ function resetPassword() {
         progress: undefined,
         theme: "colored",
       });
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     }
   };
 
