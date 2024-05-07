@@ -64,7 +64,7 @@ function Profile() {
         },
         body: JSON.stringify({
           toUser: userID,
-          fromUser: userTokenData.username,
+          fromUser: username,
           content: content,
         }),
       }
@@ -123,7 +123,7 @@ function Profile() {
         },
         body: JSON.stringify({
           toUser: userID,
-          fromUser: userTokenData.username,
+          fromUser: username,
           channel: channel,
           content: contentInfo,
         }),
