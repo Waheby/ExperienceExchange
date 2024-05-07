@@ -20,13 +20,13 @@ import { fileURLToPath } from "url";
 const app = express();
 app.use(cors());
 
-// app.use(
-//   cors({
-//     origin: ["https://experience-exchange-frontend.vercel.app"],
-//     methods: ["POST", "GET"],
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: ["https://experienceexchange-client.netlify.app"],
+    methods: ["POST", "GET"],
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
