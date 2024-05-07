@@ -4,6 +4,7 @@ import ContentCSS from "../../assets/styles/Content/content.module.css";
 import { Icon } from "@iconify/react";
 import * as jose from "jose";
 import { ToastContainer, toast } from "react-toastify";
+import Filter from "bad-words";
 
 function ChangeBio() {
   let navigate = useNavigate();
@@ -50,37 +51,50 @@ function ChangeBio() {
   const changeUser = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    const response = await fetch(
-      `${import.meta.env.VITE_REACT_APP_API_URL}/user/bio`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
-        },
-        body: JSON.stringify({
-          bio: bio,
-        }),
-      }
-    ).catch((err) => {
-      console.log(err);
-    });
+    if (!filter.isProfane(content)) {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/user/bio`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            bio: bio,
+          }),
+        }
+      ).catch((err) => {
+        console.log(err);
+      });
 
-    const data = await response.json();
-    console.log(data);
-    toast.success("Changed Biography Successfully!", {
-      position: "bottom-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-    setTimeout(() => {
-      navigate("/userdashboard");
-    }, 2000);
+      const data = await response.json();
+      console.log(data);
+      toast.success("Changed Biography Successfully!", {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      setTimeout(() => {
+        navigate("/userdashboard");
+      }, 2000);
+    } else {
+      toast.error("Biography Contains Profanity!", {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
   };
 
   return (
