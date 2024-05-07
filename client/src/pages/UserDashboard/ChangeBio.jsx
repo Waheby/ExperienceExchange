@@ -95,6 +95,7 @@ function ChangeBio() {
         progress: undefined,
         theme: "colored",
       });
+      setIsSubmitting(false);
     }
   };
 

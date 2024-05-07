@@ -82,6 +82,7 @@ function NewPostForm() {
           progress: undefined,
           theme: "colored",
         });
+        setIsSubmitting(false);
         setTitle("");
         setContent("");
       }
@@ -96,6 +97,7 @@ function NewPostForm() {
         progress: undefined,
         theme: "colored",
       });
+      setIsSubmitting(false);
       setTitle("");
       setContent("");
     }
