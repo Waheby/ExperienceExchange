@@ -52,7 +52,7 @@ function ChangeBio() {
   const changeUser = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    if (!filter.isProfane(content)) {
+    if (!filter.isProfane(bio)) {
       const response = await fetch(
         `${import.meta.env.VITE_REACT_APP_API_URL}/user/bio`,
         {
