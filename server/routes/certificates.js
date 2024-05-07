@@ -12,7 +12,7 @@ const router = express.Router();
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     console.log(file);
-    return cb(null, "../public/certs");
+    return cb(null, "/public/certs");
   },
   filename: function (req, file, cb) {
     return cb(null, Date.now() + "_" + file.originalname);

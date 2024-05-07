@@ -35,6 +35,8 @@ app.use("/user", UsersModel);
 app.use("/certificate", CertsModel);
 app.use("/admin", AdminModel);
 app.use("/comment", CommentModel);
+
+app.use(express.static(__dirname));
 // //use client app
 // app.use(express.static(path.join(__dirname, "/client/dist")));
 

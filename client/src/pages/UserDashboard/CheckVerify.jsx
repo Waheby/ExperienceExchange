@@ -53,7 +53,7 @@ function CheckVerify() {
   const denyFile = async (e, certId) => {
     e.preventDefault();
     console.log(certId);
-
+    setIsSubmitting(true);
     const response = await fetch(
       `${import.meta.env.VITE_REACT_APP_API_URL}/certificate/modify`,
       {
@@ -88,7 +88,7 @@ function CheckVerify() {
   const acceptFile = async (e, certId) => {
     e.preventDefault();
     console.log(certId);
-
+    setIsSubmitting(true);
     const response = await fetch(
       `${import.meta.env.VITE_REACT_APP_API_URL}/certificate/modify`,
       {
@@ -200,6 +200,7 @@ function CheckVerify() {
                       backgroundColor: "green",
                       color: "white",
                     }}
+                    disabled={isSubmitting}
                     className={ContentCSS.loginButton}
                     onClick={(e) => acceptFile(e, result._id)}
                   >
@@ -212,6 +213,7 @@ function CheckVerify() {
                       backgroundColor: "red",
                       color: "white",
                     }}
+                    disabled={isSubmitting}
                     className={ContentCSS.loginButton}
                     onClick={(e) => denyFile(e, result._id)}
                   >
