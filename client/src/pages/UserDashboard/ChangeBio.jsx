@@ -98,6 +98,7 @@ function ChangeBio() {
               type="text"
               required
               value={bio}
+              maxLength="20"
               onChange={(event) => {
                 setBio(event.target.value);
               }}
