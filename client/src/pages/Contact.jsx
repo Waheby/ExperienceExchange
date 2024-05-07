@@ -10,10 +10,8 @@ function Contact() {
       <h1 style={{ textAlign: "center" }}>Contact Page</h1>
       <div className={ContentCSS.registerContainer}>
         <form className={ContentCSS.contactFormContainer}>
-          <label htmlFor="text">Username: </label>
+          <label htmlFor="text">Title: </label>
           <input className={ContentCSS.loginInput} type="text" required />
-          <label htmlFor="text">Email: </label>
-          <input className={ContentCSS.loginInput} type="email" required />
           <label htmlFor="text">Message: </label>
           <textarea
             className={ContentCSS.contactMessage}
@@ -21,6 +19,7 @@ function Contact() {
             id="message"
             cols="40"
             rows="10"
+            maxLength="40"
             required
           ></textarea>
           <hr style={{ width: "350px" }} />

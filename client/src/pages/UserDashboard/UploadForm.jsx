@@ -51,6 +51,7 @@ function UploadForm() {
 
     const data = await response.json();
     console.log(data);
+    setIsSubmitting(false);
     toast.success("Changed Profile Picture Successfully!", {
       position: "bottom-right",
       autoClose: 2000,
