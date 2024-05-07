@@ -31,11 +31,6 @@ import { v2 as cloudinary } from "cloudinary";
 const router = express.Router();
 
 //IMAGE FILE UPLOAD CLOUDINARY===========================================
-cloudinary.config({
-  cloud_name: "dpsa9tlr5",
-  api_key: "472164376875152",
-  api_secret: "ZRAcUSnSmcfP_Z5_8-Ei0FkdLNM",
-});
 
 //IMAGE FILE UPLOAD FUNCTION===========================================
 // const storage = multer.diskStorage({

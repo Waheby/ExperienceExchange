@@ -32,24 +32,6 @@ function UploadForm() {
     e.preventDefault();
     setIsSubmitting(true);
     console.log(file);
-    const formData1 = new FormData();
-    formData1.append("file", file);
-    formData1.append("upload_preset", "experienceexchange");
-    console.log(file.name);
-
-    const responseCloudinary = await fetch(
-      "https://api.cloudinary.com/v1_1/dpsa9tlr5/upload",
-      {
-        method: "POST",
-        body: formData1,
-      }
-    ).catch((err) => {
-      console.log(err);
-      setIsSubmitting(false);
-    });
-
-    const dataCloudinary = await responseCloudinary.json();
-    console.log(dataCloudinary);
 
     const response = await fetch(
       `${import.meta.env.VITE_REACT_APP_API_URL}/user/upload`,
@@ -82,6 +64,25 @@ function UploadForm() {
     setTimeout(() => {
       navigate("/userdashboard");
     }, 2000);
+
+    const formData1 = new FormData();
+    formData1.append("file", file);
+    formData1.append("upload_preset", "experienceexchange");
+    console.log(file.name);
+
+    const responseCloudinary = await fetch(
+      "https://api.cloudinary.com/v1_1/dpsa9tlr5/upload",
+      {
+        method: "POST",
+        body: formData1,
+      }
+    ).catch((err) => {
+      console.log(err);
+      setIsSubmitting(false);
+    });
+
+    const dataCloudinary = await responseCloudinary.json();
+    console.log(dataCloudinary);
   };
 
   return (
