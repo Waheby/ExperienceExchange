@@ -47,6 +47,7 @@ function UploadForm() {
       }
     ).catch((err) => {
       console.log(err);
+      setIsSubmitting(false);
     });
 
     const data = await response.json();
