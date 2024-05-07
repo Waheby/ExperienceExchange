@@ -67,6 +67,7 @@ function Register() {
           progress: undefined,
           theme: "colored",
         });
+        setIsSubmitting(false);
       }
     } else {
       toast.error("Passwords doesn't match!", {
