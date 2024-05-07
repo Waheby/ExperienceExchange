@@ -33,7 +33,7 @@ const router = express.Router();
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     console.log(file);
-    return cb(null, "../public/profile");
+    return cb(null, "../dist/profile");
   },
   filename: function (req, file, cb) {
     return cb(null, Date.now() + "_" + file.originalname);
@@ -43,7 +43,13 @@ const imageUpload = multer({
   storage: storage,
   fileFilter: function (req, file, callback) {
     var ext = path.extname(file.originalname);
-    if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg") {
+    if (
+      ext !== ".PNG" &&
+      ext !== ".png" &&
+      ext !== ".jpg" &&
+      ext !== ".gif" &&
+      ext !== ".jpeg"
+    ) {
       return callback(new Error("Only images are allowed"));
     }
     callback(null, true);
