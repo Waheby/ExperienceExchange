@@ -208,10 +208,12 @@ function UserDashboard() {
 
   const calculateAverageRating = (rating) => {
     console.log(rating);
-    // const sum = rating.reduce((partialSum, a) => partialSum + a, 0);
-    // const count = rating.length;
-    // const average = sum / count;
-    return rating;
+    if (rating != null) {
+      const sum = rating.reduce((partialSum, a) => partialSum + a, 0);
+      const count = rating.length;
+      const average = sum / count;
+      return average;
+    } else return rating;
   };
 
   const modifyRating = async (toUser, fromUser) => {
@@ -242,6 +244,16 @@ function UserDashboard() {
 
     const data = await response.json();
     console.log(data);
+    toast.success("Rated Successfully!", {
+      position: "bottom-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   };
 
   if (role != "admin") {
@@ -966,6 +978,67 @@ function UserDashboard() {
                             >
                               Join
                             </button>
+                            <Popup
+                              contentStyle={{
+                                textAlign: "center",
+                                justifyContent: "center",
+                                justifyItems: "center",
+                                alignContent: "center",
+                                alignItems: "center",
+                                borderRadius: "15px",
+                                padding: "30px",
+                              }}
+                              trigger={
+                                <button
+                                  // onClick={() => {
+                                  //   rate(result.toUser, result.fromUser);
+                                  // }}
+                                  style={{
+                                    margin: "auto",
+                                    marginLeft: "5px",
+                                    borderRadius: "10px",
+                                  }}
+                                >
+                                  Rate
+                                </button>
+                              }
+                              modal
+                            >
+                              <span
+                                style={{
+                                  fontFamily: "DM Sans",
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                {" "}
+                                Rate the Session{" "}
+                              </span>
+                              <div
+                                style={{
+                                  width: "300px",
+                                  margin: "auto",
+                                }}
+                              >
+                                <ReactStars
+                                  count={10}
+                                  onChange={ratingChanged}
+                                  size={34}
+                                  activeColor="#ffd700"
+                                />
+                              </div>
+                              <br />
+                              <button
+                                style={{
+                                  borderRadius: "15px",
+                                  padding: "10px",
+                                }}
+                                onClick={() => {
+                                  modifyRating(result.toUser, result.fromUser);
+                                }}
+                              >
+                                Submit Rating
+                              </button>
+                            </Popup>
                             <button
                               onClick={() => {
                                 deleteSession(result._id);
@@ -976,7 +1049,7 @@ function UserDashboard() {
                                 borderRadius: "10px",
                               }}
                             >
-                              Close
+                              End
                             </button>
                           </div>
                           <hr
