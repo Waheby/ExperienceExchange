@@ -99,7 +99,7 @@ function PostDetails() {
   };
 
   const createComment = async () => {
-    if (content.length <= 40 && content.length > 0) {
+    if (content.length <= 200 && content.length > 0) {
       if (!filter.isProfane(content)) {
         const response = await fetch(
           `${import.meta.env.VITE_REACT_APP_API_URL}/comment/new`,
