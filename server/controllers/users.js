@@ -316,42 +316,82 @@ export const getAllUsers = async (req, res) => {
 export const userSearchUsername = async (req, res) => {
   const token = req.headers["x-access-token"];
   const decodeToken = jwt.verify(token, "secretkey");
+  const newest = req.body.sortByNewest;
+  if (newest) {
+    try {
+      const addSearchTermToUser = await UsersEX.findOneAndUpdate(
+        { username: decodeToken.username },
+        { $push: { searches: req.body.username } }
+      );
 
-  try {
-    const addSearchTermToUser = await UsersEX.findOneAndUpdate(
-      { username: decodeToken.username },
-      { $push: { searches: req.body.username } }
-    );
+      const User = await UsersEX.find({
+        username: { $regex: req.body.username },
+      }).sort({ createdAt: 1 });
 
-    const User = await UsersEX.find({
-      username: { $regex: req.body.username },
-    });
-    console.log(User);
+      console.log(User);
+      await addSearchTermToUser.save();
+      res.status(200).json(User);
+    } catch (error) {
+      res.status(404).json({ message: error.message });
+    }
+  } else {
+    try {
+      const addSearchTermToUser = await UsersEX.findOneAndUpdate(
+        { username: decodeToken.username },
+        { $push: { searches: req.body.username } }
+      );
 
-    await addSearchTermToUser.save();
-    res.status(200).json(User);
-  } catch (error) {
-    res.status(404).json({ message: error.message });
+      const User = await UsersEX.find({
+        username: { $regex: req.body.username },
+      }).sort({ createdAt: -1 });
+
+      console.log(User);
+      await addSearchTermToUser.save();
+      res.status(200).json(User);
+    } catch (error) {
+      res.status(404).json({ message: error.message });
+    }
   }
 };
 
 export const userSearchSkills = async (req, res) => {
   const token = req.headers["x-access-token"];
   const decodeToken = jwt.verify(token, "secretkey");
+  const newest = req.body.sortByNewest;
+  if (newest) {
+    try {
+      const addSearchTermToUser = await UsersEX.findOneAndUpdate(
+        { username: decodeToken.username },
+        { $push: { searches: req.body.skill } }
+      );
 
-  try {
-    const addSearchTermToUser = await UsersEX.findOneAndUpdate(
-      { username: decodeToken.username },
-      { $push: { searches: req.body.skill } }
-    );
+      const User = await UsersEX.find({
+        skills: { $regex: req.body.skill },
+      }).sort({ createdAt: 1 });
+      console.log(req.body);
 
-    const User = await UsersEX.find({ skills: { $regex: req.body.skill } });
-    console.log(req.body);
+      await addSearchTermToUser.save();
+      res.status(200).json(User);
+    } catch (error) {
+      res.status(404).json({ message: error.message });
+    }
+  } else {
+    try {
+      const addSearchTermToUser = await UsersEX.findOneAndUpdate(
+        { username: decodeToken.username },
+        { $push: { searches: req.body.skill } }
+      );
 
-    await addSearchTermToUser.save();
-    res.status(200).json(User);
-  } catch (error) {
-    res.status(404).json({ message: error.message });
+      const User = await UsersEX.find({
+        skills: { $regex: req.body.skill },
+      }).sort({ createdAt: -1 });
+      console.log(req.body);
+
+      await addSearchTermToUser.save();
+      res.status(200).json(User);
+    } catch (error) {
+      res.status(404).json({ message: error.message });
+    }
   }
 };
 
