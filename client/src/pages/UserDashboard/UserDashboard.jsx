@@ -216,7 +216,7 @@ function UserDashboard() {
     } else return rating;
   };
 
-  const modifyRating = async (toUser, fromUser) => {
+  const modifyRating = async (toUser, fromUser, sessionId) => {
     console.log(toUser, fromUser);
     var otherUser = null;
     if (toUser == username) {
@@ -254,6 +254,8 @@ function UserDashboard() {
       progress: undefined,
       theme: "colored",
     });
+
+    deleteSession(sessionId);
   };
 
   if (role != "admin") {
@@ -533,7 +535,7 @@ function UserDashboard() {
                                     borderRadius: "10px",
                                   }}
                                 >
-                                  Rate
+                                  Rate & Close
                                 </button>
                               }
                               modal
@@ -567,14 +569,18 @@ function UserDashboard() {
                                   padding: "10px",
                                 }}
                                 onClick={() => {
-                                  modifyRating(result.toUser, result.fromUser);
+                                  modifyRating(
+                                    result.toUser,
+                                    result.fromUser,
+                                    result._id
+                                  );
                                 }}
                               >
                                 Submit Rating
                               </button>
                             </Popup>
 
-                            <button
+                            {/* <button
                               onClick={() => {
                                 deleteSession(result._id);
                               }}
@@ -585,7 +591,7 @@ function UserDashboard() {
                               }}
                             >
                               End
-                            </button>
+                            </button> */}
                           </div>
                           <hr
                             style={{
@@ -1033,13 +1039,17 @@ function UserDashboard() {
                                   padding: "10px",
                                 }}
                                 onClick={() => {
-                                  modifyRating(result.toUser, result.fromUser);
+                                  modifyRating(
+                                    result.toUser,
+                                    result.fromUser,
+                                    result._id
+                                  );
                                 }}
                               >
                                 Submit Rating
                               </button>
                             </Popup>
-                            <button
+                            {/* <button
                               onClick={() => {
                                 deleteSession(result._id);
                               }}
@@ -1050,7 +1060,7 @@ function UserDashboard() {
                               }}
                             >
                               End
-                            </button>
+                            </button> */}
                           </div>
                           <hr
                             style={{
