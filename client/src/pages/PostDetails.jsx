@@ -233,7 +233,9 @@ function PostDetails() {
             <div className={ContentCSS.detailedPostTop}>
               <img
                 className={ContentCSS.detailedPostImg}
-                src={`/profile/DefaultProfile.svg`}
+                src={`${
+                  import.meta.env.VITE_CLOUDINARY_URL
+                }/DefaultProfile.svg`}
                 alt="profile pic"
               />
               <div
@@ -434,7 +436,7 @@ function PostDetails() {
             <div className={ContentCSS.detailedPostTop}>
               <img
                 className={ContentCSS.detailedPostImg}
-                src={`/profile/${post.image}`}
+                src={`${import.meta.env.VITE_CLOUDINARY_URL}/${post.image}`}
                 alt="profile pic"
               />
               <div

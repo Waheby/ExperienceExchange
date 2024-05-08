@@ -46,39 +46,53 @@ function NewAnnouncement() {
 
   const CreateAnnouncement = async (e) => {
     e.preventDefault();
-    const response = await fetch(
-      `${import.meta.env.VITE_REACT_APP_API_URL}/admin/announcement`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
-        },
-        body: JSON.stringify({
-          content: input,
-          creator: username,
-        }),
-      }
-    ).catch((err) => {
-      console.log(err);
-    });
 
-    const data = await response.json();
-    console.log(data);
-    toast.success("Announcement is Created Successfully!", {
-      position: "bottom-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-    setTimeout(() => {
-      navigate("/userdashboard");
-      window.location.reload();
-    }, 2000);
+    if (input.length <= 50 && input.length > 0) {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/admin/announcement`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            content: input,
+            creator: username,
+          }),
+        }
+      ).catch((err) => {
+        console.log(err);
+      });
+
+      const data = await response.json();
+      console.log(data);
+      toast.success("Announcement is Created Successfully!", {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      setTimeout(() => {
+        navigate("/userdashboard");
+        window.location.reload();
+      }, 2000);
+    } else {
+      toast.error("Announcement length is wrong!", {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
   };
 
   return (

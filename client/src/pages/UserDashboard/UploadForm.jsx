@@ -41,7 +41,8 @@ function UploadForm() {
       file.name.includes(".png") ||
       file.name.includes(".gif") ||
       file.name.includes(".jpeg") ||
-      file.name.includes(".PNG")
+      file.name.includes(".PNG") ||
+      file.name.includes(".svg")
     ) {
       const responseCloudinary = await fetch(
         "https://api.cloudinary.com/v1_1/dpsa9tlr5/upload",

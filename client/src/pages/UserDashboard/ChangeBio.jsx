@@ -52,40 +52,54 @@ function ChangeBio() {
   const changeUser = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    if (!filter.isProfane(bio)) {
-      const response = await fetch(
-        `${import.meta.env.VITE_REACT_APP_API_URL}/user/bio`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token": localStorage.getItem("token"),
-          },
-          body: JSON.stringify({
-            bio: bio,
-          }),
-        }
-      ).catch((err) => {
-        console.log(err);
-      });
+    if (bio.length <= 100 && bio.length > 0) {
+      if (!filter.isProfane(bio)) {
+        const response = await fetch(
+          `${import.meta.env.VITE_REACT_APP_API_URL}/user/bio`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-access-token": localStorage.getItem("token"),
+            },
+            body: JSON.stringify({
+              bio: bio,
+            }),
+          }
+        ).catch((err) => {
+          console.log(err);
+        });
 
-      const data = await response.json();
-      console.log(data);
-      toast.success("Changed Biography Successfully!", {
-        position: "bottom-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      setTimeout(() => {
-        navigate("/userdashboard");
-      }, 2000);
+        const data = await response.json();
+        console.log(data);
+        toast.success("Changed Biography Successfully!", {
+          position: "bottom-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        setTimeout(() => {
+          navigate("/userdashboard");
+        }, 2000);
+      } else {
+        toast.error("Biography Contains Profanity!", {
+          position: "bottom-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        setIsSubmitting(false);
+      }
     } else {
-      toast.error("Biography Contains Profanity!", {
+      toast.error("Biography length is wrong!", {
         position: "bottom-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -114,7 +128,6 @@ function ChangeBio() {
               type="text"
               required
               value={bio}
-              maxLength="20"
               onChange={(event) => {
                 setBio(event.target.value);
               }}

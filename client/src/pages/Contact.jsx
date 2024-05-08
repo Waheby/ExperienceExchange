@@ -3,6 +3,9 @@ import Navbar from "../components/Navbar";
 import Searchbar from "../components/Searchbar";
 import ContentCSS from "../assets/styles/Content/content.module.css";
 import { ToastContainer, toast } from "react-toastify";
+import { Icon } from "@iconify/react";
+import * as jose from "jose";
+import Filter from "bad-words";
 
 function Contact() {
   return (
