@@ -26,7 +26,6 @@ function PostDetails() {
   const [post, setPost] = useState("");
   const [content, setContent] = useState("");
   const postID = params.postId;
-  console.log(postID);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -269,7 +268,58 @@ function PostDetails() {
             </div>
           </div>
         </div>
-        <h1 style={{ textAlign: "center" }}>Similar Posts </h1>
+        {username != post.creator ? (
+          <></>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                margin: "auto",
+                justifyContent: "center",
+                borderWidth: "1px",
+                borderStyle: "solid",
+                borderRadius: "10px",
+              }}
+            >
+              <span
+                style={{
+                  margin: "5px",
+                  fontSize: "smaller",
+                  alignSelf: "center",
+                }}
+              >
+                Delete my Post
+              </span>
+              <div
+                className={ContentCSS.adminControlIcon}
+                onClick={() => {
+                  deletePost();
+                }}
+                style={{
+                  margin: "5px",
+                  cursor: "pointer",
+                  display: "flex",
+                  borderRadius: "10px",
+                }}
+              >
+                <Icon
+                  icon="material-symbols:delete"
+                  style={{ color: "red", width: "40px", height: "40px" }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+        ;<h1 style={{ textAlign: "center" }}>Similar Posts </h1>
         <div className={ContentCSS.postsPageMainContainer}>
           {resultsSimilar.map((result, id) => {
             return (
