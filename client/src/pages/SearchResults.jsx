@@ -11,10 +11,11 @@ function SearchResults() {
   const [input, setInput] = useState(searchTerm || "");
   const [results, setResult] = useState([]);
   const [searchBy, setSearchBy] = useState("username");
+  const [sortByNewest, setSortByNewest] = useState(true);
   const [searchFor, setSearchFor] = useState("user");
   const token = localStorage.getItem("token");
 
-  const searchUserbySkill = async (input) => {
+  const searchUserbySkill = async (input, sort) => {
     if (token) {
       const response = await fetch(
         `${import.meta.env.VITE_REACT_APP_API_URL}/user/search-skill`,
@@ -26,6 +27,7 @@ function SearchResults() {
           },
           body: JSON.stringify({
             skill: input.toLowerCase().trim(),
+            sortByNewest: sort,
           }),
         }
       ).catch((err) => {
@@ -52,7 +54,7 @@ function SearchResults() {
     }
   };
 
-  const searchUserbyUsername = async () => {
+  const searchUserbyUsername = async (sort) => {
     if (token) {
       const response = await fetch(
         `${import.meta.env.VITE_REACT_APP_API_URL}/user/search-username`,
@@ -64,6 +66,7 @@ function SearchResults() {
           },
           body: JSON.stringify({
             username: input.toLowerCase().trim(),
+            sortByNewest: sort,
           }),
         }
       ).catch((err) => {
@@ -90,7 +93,7 @@ function SearchResults() {
     }
   };
 
-  const searchPostbyUsername = async () => {
+  const searchPostbyUsername = async (sort) => {
     if (token) {
       const response = await fetch(
         `${import.meta.env.VITE_REACT_APP_API_URL}/post/search-username`,
@@ -101,6 +104,7 @@ function SearchResults() {
           },
           body: JSON.stringify({
             username: input.toLowerCase().trim(),
+            sortByNewest: sort,
           }),
         }
       ).catch((err) => {
@@ -127,7 +131,7 @@ function SearchResults() {
     }
   };
 
-  const searchPostbyTag = async () => {
+  const searchPostbyTag = async (sort) => {
     if (token) {
       const response = await fetch(
         `${import.meta.env.VITE_REACT_APP_API_URL}/post/search-skill`,
@@ -138,6 +142,7 @@ function SearchResults() {
           },
           body: JSON.stringify({
             skill: input.toLowerCase().trim(),
+            sortByNewest: sort,
           }),
         }
       ).catch((err) => {
@@ -167,19 +172,19 @@ function SearchResults() {
   const handleSearch = () => {
     if (searchFor === "user") {
       if (searchBy === "skill") {
-        searchUserbySkill(input);
-      } else searchUserbyUsername();
+        searchUserbySkill(input, sortByNewest);
+      } else searchUserbyUsername(sortByNewest);
     } else {
       if (searchBy === "skill") {
-        searchPostbyTag();
-      } else searchPostbyUsername();
+        searchPostbyTag(sortByNewest);
+      } else searchPostbyUsername(sortByNewest);
     }
   };
 
   //to search first by query param if present
   useEffect(() => {
     if (searchTerm) {
-      searchUserbySkill(searchTerm);
+      searchUserbySkill(searchTerm, sortByNewest);
     }
   }, []);
 
@@ -262,6 +267,32 @@ function SearchResults() {
             }}
           />
           <label htmlFor="text">Skill/Tag </label>
+        </div>
+        <span>Sort by: </span>
+        <div>
+          <input
+            type="radio"
+            id="newest"
+            name="sort"
+            value="true"
+            defaultChecked="true"
+            onChange={(e) => {
+              setSortByNewest(e.target.value);
+              setResult([]);
+            }}
+          />
+          <label htmlFor="sort">Newest </label>
+          <input
+            type="radio"
+            id="oldest"
+            name="sort"
+            value="false"
+            onChange={(e) => {
+              setSortByNewest(e.target.value);
+              setResult([]);
+            }}
+          />
+          <label htmlFor="sort">Oldest</label>
         </div>
       </div>
       <div className={ContentCSS.postsPageMainContainer}>
