@@ -25,6 +25,7 @@ import {
   generateAccessToken,
   sessionModify,
   sessionDelete,
+  userRatingChange,
 } from "../controllers/users.js";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -76,5 +77,6 @@ router.post("/new-request", requestCreate);
 router.post("/modify-request", requestModify);
 router.post("/modify-session", sessionModify);
 router.delete("/delete-request", sessionDelete);
+router.post("/rate", userRatingChange);
 
 export default router;

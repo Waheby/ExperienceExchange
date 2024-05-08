@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
   posts: Number,
   comments: Number,
   skills: [String],
-  rating: { type: Number, default: 0 },
+  rating: [Number],
   searches: [String],
   createdAt: {
     type: Date,

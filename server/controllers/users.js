@@ -627,3 +627,27 @@ export const sessionDelete = async (req, res) => {
     res.status(401).json({ message: error.message });
   }
 };
+
+export const userRatingChange = async (req, res) => {
+  const token = req.headers["x-access-token"];
+  const rating = req.body.rating;
+  const username = req.body.user;
+
+  try {
+    console.log(token);
+    const decodeToken = jwt.verify(token, "secretkey");
+
+    const user = await UsersEX.findOneAndUpdate(
+      { username: username },
+      { $push: { rating: rating } }
+    );
+
+    await user.save();
+
+    return res
+      .status(200)
+      .json({ status: 200, message: "Change Rating Successful" });
+  } catch (error) {
+    res.status(401).json({ message: error.message });
+  }
+};

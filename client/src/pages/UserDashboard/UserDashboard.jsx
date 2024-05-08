@@ -5,6 +5,9 @@ import { Icon } from "@iconify/react";
 import * as jose from "jose";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
+import ReactStars from "react-rating-stars-component";
 
 function UserDashboard() {
   let navigate = useNavigate();
@@ -15,13 +18,14 @@ function UserDashboard() {
   const [image, setImage] = useState(null);
   const [skills, setSkills] = useState(null);
   const [email, setEmail] = useState(null);
-  const [rating, setRating] = useState(null);
+  const [rating, setRating] = useState([]);
   const [messages, setMessages] = useState([]);
   const [requests, setRequests] = useState([]);
   const [sessions, setSessions] = useState([]);
   const [sessionToken, setSessionToken] = useState("");
   const [joined, setJoined] = useState(false);
   const [toggle, setToggle] = useState(false);
+  const [newRating, setNewRating] = useState(null);
 
   const userInfo = useRef([""]);
   let seperatedSkills = "";
@@ -194,6 +198,41 @@ function UserDashboard() {
 
   const joinSession = (channelToken, channelName) => {
     navigate(`/session?token=${channelToken}&name=${channelName}`);
+  };
+
+  const ratingChanged = (newRating) => {
+    console.log(newRating);
+    setNewRating(newRating);
+  };
+
+  const modifyRating = async (toUser, fromUser) => {
+    console.log(toUser, fromUser);
+    var otherUser = null;
+    if (toUser == username) {
+      otherUser = fromUser;
+    } else otherUser = toUser;
+
+    console.log(otherUser);
+
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/user/rate`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          rating: newRating,
+          user: otherUser,
+        }),
+      }
+    ).catch((err) => {
+      console.log(err);
+    });
+
+    const data = await response.json();
+    console.log(data);
   };
 
   if (role != "admin") {
@@ -452,6 +491,68 @@ function UserDashboard() {
                             >
                               Join
                             </button>
+                            <Popup
+                              contentStyle={{
+                                textAlign: "center",
+                                justifyContent: "center",
+                                justifyItems: "center",
+                                alignContent: "center",
+                                alignItems: "center",
+                                borderRadius: "15px",
+                                padding: "30px",
+                              }}
+                              trigger={
+                                <button
+                                  // onClick={() => {
+                                  //   rate(result.toUser, result.fromUser);
+                                  // }}
+                                  style={{
+                                    margin: "auto",
+                                    marginLeft: "5px",
+                                    borderRadius: "10px",
+                                  }}
+                                >
+                                  Rate
+                                </button>
+                              }
+                              modal
+                            >
+                              <span
+                                style={{
+                                  fontFamily: "DM Sans",
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                {" "}
+                                Rate the Session{" "}
+                              </span>
+                              <div
+                                style={{
+                                  width: "300px",
+                                  margin: "auto",
+                                }}
+                              >
+                                <ReactStars
+                                  count={10}
+                                  onChange={ratingChanged}
+                                  size={34}
+                                  activeColor="#ffd700"
+                                />
+                              </div>
+                              <br />
+                              <button
+                                style={{
+                                  borderRadius: "15px",
+                                  padding: "10px",
+                                }}
+                                onClick={() => {
+                                  modifyRating(result.toUser, result.fromUser);
+                                }}
+                              >
+                                Submit Rating
+                              </button>
+                            </Popup>
+
                             <button
                               onClick={() => {
                                 deleteSession(result._id);
@@ -462,7 +563,7 @@ function UserDashboard() {
                                 borderRadius: "10px",
                               }}
                             >
-                              Terminate
+                              End
                             </button>
                           </div>
                           <hr
@@ -479,6 +580,7 @@ function UserDashboard() {
           </div>
         </div>
         <h1 style={{ textAlign: "center" }}>Actions:</h1>
+
         <div className={ContentCSS.dashboardMainContainer}>
           <Link
             className={ContentCSS.dashboardContainer}
