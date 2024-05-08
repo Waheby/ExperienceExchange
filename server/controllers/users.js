@@ -244,7 +244,7 @@ export const userUploadImage = async (req, res) => {
         console.log(decodeToken.username);
         const user = await UsersEX.findOneAndUpdate(
           { username: decodeToken.username },
-          { $set: { profileImage: file.filename } }
+          { $set: { profileImage: file } }
         );
         if (!user) {
           res.status(400).json({ message: "User Dont Exist" });
