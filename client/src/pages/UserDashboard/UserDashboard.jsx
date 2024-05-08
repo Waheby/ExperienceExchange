@@ -127,8 +127,8 @@ function UserDashboard() {
     getMessages();
     getSessions();
   }, [toggle]);
-  console.log(user);
-  console.log(userInfo.current[0]);
+  console.log(user.image);
+  console.log(userInfo.current[0].profileImage);
   // const createSession = async () => {
   //   const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/generate-token`, {
   //     method: "GET",
@@ -230,7 +230,9 @@ function UserDashboard() {
                     height: "70px",
                     borderRadius: "50px",
                   }}
-                  src={`/profile/${userInfo.current[0].profileImage}`}
+                  src={`${import.meta.env.VITE_CLOUDINARY_URL}/${
+                    userInfo.current[0].profileImage
+                  }`}
                   alt="user profile picture"
                 />
                 <li>Username: {username}</li>
@@ -631,7 +633,9 @@ function UserDashboard() {
                     height: "70px",
                     borderRadius: "50px",
                   }}
-                  src={`/profile/${userInfo.current[0].profileImage}`}
+                  src={`${import.meta.env.VITE_CLOUDINARY_URL}/${
+                    userInfo.current[0].profileImage
+                  }`}
                   alt="user profile picture"
                 />
                 <li>Username: {username}</li>
