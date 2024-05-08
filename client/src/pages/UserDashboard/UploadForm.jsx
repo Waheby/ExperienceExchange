@@ -101,6 +101,7 @@ function UploadForm() {
         progress: undefined,
         theme: "colored",
       });
+      setIsSubmitting(false);
     }
   };
 
