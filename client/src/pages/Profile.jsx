@@ -22,6 +22,8 @@ function Profile() {
   const [channel, setChannel] = useState("");
   const [contentInfo, setContentInfo] = useState("");
   const [user, setUser] = useState([""]);
+  // const [rating, setRating] = useState([]);
+
   const userID = params.userId;
 
   // if (token) {
@@ -110,6 +112,16 @@ function Profile() {
     setContent("");
   };
 
+  const calculateAverageRating = (rating) => {
+    console.log(rating);
+    if (rating != null) {
+      const sum = rating.reduce((partialSum, a) => partialSum + a, 0);
+      const count = rating.length;
+      const average = sum / count;
+      return average;
+    } else return rating;
+  };
+
   const sendRequest = async (e) => {
     e.preventDefault();
 
@@ -166,6 +178,7 @@ function Profile() {
     if (token) {
       const user = jose.decodeJwt(token);
       setUsername(user.username);
+      // setRating(user.rating);
       console.log(user);
     }
     getUser();
@@ -211,7 +224,7 @@ function Profile() {
                 textAlign: "center",
               }}
             >
-              Rating: {user[0].rating}/10
+              Rating: {calculateAverageRating(user[0].rating)}/10
             </div>
           </div>
           <hr style={{ width: "95%" }} />
