@@ -59,7 +59,7 @@ function UploadForm() {
           // "Content-Type": "application/json",
           "x-access-token": localStorage.getItem("token"),
         },
-        body: formData1,
+        body: file,
       }
     ).catch((err) => {
       console.log(err);
