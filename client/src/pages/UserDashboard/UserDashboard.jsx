@@ -26,6 +26,7 @@ function UserDashboard() {
   const [joined, setJoined] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [newRating, setNewRating] = useState(null);
+  const [averageRating, setAverageRating] = useState(null);
 
   const userInfo = useRef([""]);
   let seperatedSkills = "";
@@ -205,6 +206,11 @@ function UserDashboard() {
     setNewRating(newRating);
   };
 
+  const calculateAverageRating = (rating) => {
+    console.log(rating);
+    return average;
+  };
+
   const modifyRating = async (toUser, fromUser) => {
     console.log(toUser, fromUser);
     var otherUser = null;
@@ -287,7 +293,7 @@ function UserDashboard() {
                     ? userInfo.current[0].skills.join(", ")
                     : userInfo.current[0].skills}
                 </li>
-                <li>Rating: {rating}</li>
+                <li>Rating: {calculateAverageRating(rating)}</li>
                 <li>Role: {role}</li>
                 <li>User ID: {userInfo.current[0]._id}</li>
               </ul>
