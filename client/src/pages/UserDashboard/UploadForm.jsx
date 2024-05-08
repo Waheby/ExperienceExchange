@@ -35,57 +35,73 @@ function UploadForm() {
     const formData1 = new FormData();
     formData1.append("file", file);
     formData1.append("upload_preset", "experienceexchange");
-    console.log(file.name);
-    // if (file.name ==) {
+    console.log(file.name.includes(".jpg"));
+    if (
+      file.name.includes(".jpg") ||
+      file.name.includes(".png") ||
+      file.name.includes(".gif") ||
+      file.name.includes(".jpeg") ||
+      file.name.includes(".PNG")
+    ) {
+      const responseCloudinary = await fetch(
+        "https://api.cloudinary.com/v1_1/dpsa9tlr5/upload",
+        {
+          method: "POST",
+          body: formData1,
+        }
+      ).catch((err) => {
+        console.log(err);
+        setIsSubmitting(false);
+      });
 
-    // }
-    const responseCloudinary = await fetch(
-      "https://api.cloudinary.com/v1_1/dpsa9tlr5/upload",
-      {
-        method: "POST",
-        body: formData1,
-      }
-    ).catch((err) => {
-      console.log(err);
+      const dataCloudinary = await responseCloudinary.json();
+      console.log(dataCloudinary);
+
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/user/upload`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            file: file.name,
+          }),
+        }
+      ).catch((err) => {
+        console.log(err);
+        setIsSubmitting(false);
+      });
+
+      const data = await response.json();
+      console.log(data);
       setIsSubmitting(false);
-    });
-
-    const dataCloudinary = await responseCloudinary.json();
-    console.log(dataCloudinary);
-
-    const response = await fetch(
-      `${import.meta.env.VITE_REACT_APP_API_URL}/user/upload`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
-        },
-        body: JSON.stringify({
-          file: file.name,
-        }),
-      }
-    ).catch((err) => {
-      console.log(err);
-      setIsSubmitting(false);
-    });
-
-    const data = await response.json();
-    console.log(data);
-    setIsSubmitting(false);
-    toast.success("Changed Profile Picture Successfully!", {
-      position: "bottom-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-    setTimeout(() => {
-      navigate("/userdashboard");
-    }, 2000);
+      toast.success("Changed Profile Picture Successfully!", {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      setTimeout(() => {
+        navigate("/userdashboard");
+      }, 2000);
+    } else {
+      toast.error("Wrong File Format!", {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
   };
 
   return (
