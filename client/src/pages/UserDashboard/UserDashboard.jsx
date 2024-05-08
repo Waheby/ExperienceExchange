@@ -221,7 +221,11 @@ function UserDashboard() {
             </span>
             <div
               className={ContentCSS.generalContainer}
-              style={{ padding: "30px", marginBottom: "10px" }}
+              style={{
+                padding: "30px",
+                marginBottom: "10px",
+                maxWidth: "500px",
+              }}
             >
               <ul>
                 <img
