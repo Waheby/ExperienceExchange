@@ -7,6 +7,7 @@ import nodemailer from "nodemailer";
 import multer from "multer";
 import agora from "agora-access-token";
 import bcrypt from "bcryptjs";
+import { v2 as cloudinary } from "cloudinary";
 
 const { RtcTokenBuilder, RtcRole } = agora;
 
@@ -219,7 +220,20 @@ export const userNewPassword = async (req, res) => {
 
 export const userUploadImage = async (req, res) => {
   const token = req.headers["x-access-token"];
-  const filename = req.body.file;
+  const file = req.file;
+
+  cloudinary.config({
+    cloud_name: "dpsa9tlr5",
+    api_key: "472164376875152",
+    api_secret: "ZRAcUSnSmcfP_Z5_8-Ei0FkdLNM",
+  });
+  try {
+    cloudinary.uploader.upload(file, function (error, result) {
+      console.log(result);
+    });
+  } catch (error) {
+    res.status(401).json({ message: error.message });
+  }
 
   try {
     jwt.verify(token, "secretkey", async (err, decodeToken) => {
@@ -229,7 +243,7 @@ export const userUploadImage = async (req, res) => {
         console.log(decodeToken.username);
         const user = await UsersEX.findOneAndUpdate(
           { username: decodeToken.username },
-          { $set: { profileImage: filename } }
+          { $set: { profileImage: file.filename } }
         );
         if (!user) {
           res.status(400).json({ message: "User Dont Exist" });

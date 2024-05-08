@@ -37,31 +37,29 @@ function UploadForm() {
     formData1.append("upload_preset", "experienceexchange");
     console.log(file.name);
 
-    const responseCloudinary = await fetch(
-      "https://api.cloudinary.com/v1_1/dpsa9tlr5/upload",
-      {
-        method: "POST",
-        body: formData1,
-      }
-    ).catch((err) => {
-      console.log(err);
-      setIsSubmitting(false);
-    });
+    // const responseCloudinary = await fetch(
+    //   "https://api.cloudinary.com/v1_1/dpsa9tlr5/upload",
+    //   {
+    //     method: "POST",
+    //     body: formData1,
+    //   }
+    // ).catch((err) => {
+    //   console.log(err);
+    //   setIsSubmitting(false);
+    // });
 
-    const dataCloudinary = await responseCloudinary.json();
-    console.log(dataCloudinary);
+    // const dataCloudinary = await responseCloudinary.json();
+    // console.log(dataCloudinary);
 
     const response = await fetch(
       `${import.meta.env.VITE_REACT_APP_API_URL}/user/upload`,
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
           "x-access-token": localStorage.getItem("token"),
         },
-        body: JSON.stringify({
-          file: file.name,
-        }),
+        body: formData1,
       }
     ).catch((err) => {
       console.log(err);
@@ -95,7 +93,7 @@ function UploadForm() {
             onSubmit={uploadFile}
             className={ContentCSS.contactFormContainer}
           >
-            <label htmlFor="text">Uplaod Here: </label>
+            <label htmlFor="text">Upload Here: </label>
             <input
               className={ContentCSS.loginInput}
               name="file"
