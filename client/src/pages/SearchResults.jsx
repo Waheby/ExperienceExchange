@@ -277,7 +277,7 @@ function SearchResults() {
             value="true"
             defaultChecked="true"
             onChange={(e) => {
-              setSortByNewest(e.target.value);
+              setSortByNewest(true);
               setResult([]);
             }}
           />
@@ -288,7 +288,7 @@ function SearchResults() {
             name="sort"
             value="false"
             onChange={(e) => {
-              setSortByNewest(e.target.value);
+              setSortByNewest(false);
               setResult([]);
             }}
           />

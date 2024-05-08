@@ -79,13 +79,11 @@ export const getPost = async (req, res) => {
 
 export const postSearchUsername = async (req, res) => {
   const newest = req.body.sortByNewest;
-  if (newest) {
+  if (newest == false) {
     try {
       const Post = await PostModel.find({
         creator: { $regex: req.body.username },
-      })
-        .sort({ date: -1 })
-        .exec();
+      }).sort({ createdAt: -1 });
       console.log(Post);
       res.status(200).json(Post);
     } catch (error) {
@@ -95,9 +93,7 @@ export const postSearchUsername = async (req, res) => {
     try {
       const Post = await PostModel.find({
         creator: { $regex: req.body.username },
-      })
-        .sort({ date: 1 })
-        .exec();
+      }).sort({ createdAt: 1 });
       console.log(Post);
       res.status(200).json(Post);
     } catch (error) {
