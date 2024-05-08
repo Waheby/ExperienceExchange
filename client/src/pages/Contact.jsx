@@ -14,7 +14,12 @@ function Contact() {
       <div className={ContentCSS.registerContainer}>
         <form className={ContentCSS.contactFormContainer}>
           <label htmlFor="text">Title: </label>
-          <input className={ContentCSS.loginInput} type="text" required />
+          <input
+            className={ContentCSS.loginInput}
+            type="text"
+            required
+            maxLength="30"
+          />
           <label htmlFor="text">Message: </label>
           <textarea
             className={ContentCSS.contactMessage}
@@ -22,7 +27,7 @@ function Contact() {
             id="message"
             cols="40"
             rows="10"
-            maxLength="40"
+            maxLength="600"
             required
           ></textarea>
           <hr style={{ width: "350px" }} />

@@ -292,6 +292,7 @@ function Profile() {
                   cols="40"
                   rows="10"
                   required
+                  maxLength="400"
                   value={content}
                   onChange={(e) => {
                     setContent(e.target.value);
@@ -316,6 +317,7 @@ function Profile() {
                   className={ContentCSS.loginInput}
                   type="text"
                   required
+                  maxLength="10"
                   value={channel}
                   onChange={(e) => {
                     setChannel(e.target.value);
@@ -329,6 +331,7 @@ function Profile() {
                   cols="40"
                   rows="10"
                   required
+                  maxLength="400"
                   value={contentInfo}
                   onChange={(e) => {
                     setContentInfo(e.target.value);

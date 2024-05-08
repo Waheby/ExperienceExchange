@@ -112,6 +112,7 @@ function NewSkillForm() {
               className={ContentCSS.loginInput}
               type="text"
               required
+              maxLength="20"
               value={skill}
               onChange={(event) => {
                 setSkill(event.target.value);

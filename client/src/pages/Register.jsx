@@ -94,6 +94,7 @@ function Register() {
             className={ContentCSS.loginInput}
             type="text"
             required
+            maxLength="15"
             value={username}
             onChange={(event) => {
               setUsername(event.target.value);
@@ -104,6 +105,7 @@ function Register() {
             className={ContentCSS.loginInput}
             type="email"
             required
+            maxLength="40"
             value={email}
             onChange={(event) => {
               setEmail(event.target.value);
