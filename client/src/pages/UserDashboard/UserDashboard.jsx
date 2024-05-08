@@ -208,10 +208,10 @@ function UserDashboard() {
 
   const calculateAverageRating = (rating) => {
     console.log(rating);
-    sum = rating.reduce((partialSum, a) => partialSum + a, 0);
-    count = rating.length();
-    average = sum / count;
-    return average;
+    // const sum = rating.reduce((partialSum, a) => partialSum + a, 0);
+    // const count = rating.length;
+    // const average = sum / count;
+    return rating;
   };
 
   const modifyRating = async (toUser, fromUser) => {
