@@ -36,41 +36,57 @@ function NewPostForm() {
   const createPost = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    if (!filter.isProfane(content)) {
-      if (!filter.isProfane(title)) {
-        const response = await fetch(
-          `${import.meta.env.VITE_REACT_APP_API_URL}/post/new`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "x-access-token": localStorage.getItem("token"),
-            },
-            body: JSON.stringify({
-              content: content,
-              creator: username,
-              tags: tags,
-            }),
-          }
-        ).catch((err) => {
-          console.log(err);
-        });
+    if (content.length <= 300 && content.length > 0) {
+      if (!filter.isProfane(content)) {
+        if (!filter.isProfane(title)) {
+          const response = await fetch(
+            `${import.meta.env.VITE_REACT_APP_API_URL}/post/new`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token"),
+              },
+              body: JSON.stringify({
+                content: content,
+                creator: username,
+                tags: tags,
+              }),
+            }
+          ).catch((err) => {
+            console.log(err);
+          });
 
-        const data = await response.json();
-        console.log(data);
-        toast.success("Post is Created!", {
-          position: "bottom-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-        setTimeout(() => {
-          navigate("/posts");
-        }, 2000);
+          const data = await response.json();
+          console.log(data);
+          toast.success("Post is Created!", {
+            position: "bottom-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          setTimeout(() => {
+            navigate("/posts");
+          }, 2000);
+        } else {
+          toast.error("Post Contains Profanity!", {
+            position: "bottom-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          setIsSubmitting(false);
+          setTitle("");
+          setContent("");
+        }
       } else {
         toast.error("Post Contains Profanity!", {
           position: "bottom-right",
@@ -87,7 +103,7 @@ function NewPostForm() {
         setContent("");
       }
     } else {
-      toast.error("Post Contains Profanity!", {
+      toast.error("Post length is wrong!", {
         position: "bottom-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -98,8 +114,6 @@ function NewPostForm() {
         theme: "colored",
       });
       setIsSubmitting(false);
-      setTitle("");
-      setContent("");
     }
   };
 
@@ -132,6 +146,7 @@ function NewPostForm() {
               type="text"
               required
               value={title}
+              maxLength="30"
               onChange={(event) => {
                 setTitle(event.target.value);
               }}
@@ -144,7 +159,6 @@ function NewPostForm() {
               cols="40"
               rows="10"
               required
-              maxLength="140"
               value={content}
               onChange={(event) => {
                 setContent(event.target.value);

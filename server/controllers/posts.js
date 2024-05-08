@@ -109,7 +109,7 @@ export const postSearchSkills = async (req, res) => {
     try {
       const Post = await PostModel.find({
         tags: { $regex: req.body.skill },
-      }).sort({ createdAt: 1 });
+      }).sort({ createdAt: -1 });
       console.log(Post);
 
       res.status(200).json(Post);
@@ -121,7 +121,7 @@ export const postSearchSkills = async (req, res) => {
     try {
       const Post = await PostModel.find({
         tags: { $regex: req.body.skill },
-      }).sort({ createdAt: -1 });
+      }).sort({ createdAt: 1 });
       console.log(Post);
 
       res.status(200).json(Post);

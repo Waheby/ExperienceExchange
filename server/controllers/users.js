@@ -317,6 +317,7 @@ export const userSearchUsername = async (req, res) => {
   const token = req.headers["x-access-token"];
   const decodeToken = jwt.verify(token, "secretkey");
   const newest = req.body.sortByNewest;
+
   if (newest) {
     try {
       const addSearchTermToUser = await UsersEX.findOneAndUpdate(
@@ -326,7 +327,7 @@ export const userSearchUsername = async (req, res) => {
 
       const User = await UsersEX.find({
         username: { $regex: req.body.username },
-      }).sort({ createdAt: 1 });
+      }).sort({ createdAt: -1 });
 
       console.log(User);
       await addSearchTermToUser.save();
@@ -343,7 +344,7 @@ export const userSearchUsername = async (req, res) => {
 
       const User = await UsersEX.find({
         username: { $regex: req.body.username },
-      }).sort({ createdAt: -1 });
+      }).sort({ createdAt: 1 });
 
       console.log(User);
       await addSearchTermToUser.save();
@@ -367,7 +368,7 @@ export const userSearchSkills = async (req, res) => {
 
       const User = await UsersEX.find({
         skills: { $regex: req.body.skill },
-      }).sort({ createdAt: 1 });
+      }).sort({ createdAt: -1 });
       console.log(req.body);
 
       await addSearchTermToUser.save();
@@ -384,7 +385,7 @@ export const userSearchSkills = async (req, res) => {
 
       const User = await UsersEX.find({
         skills: { $regex: req.body.skill },
-      }).sort({ createdAt: -1 });
+      }).sort({ createdAt: 1 });
       console.log(req.body);
 
       await addSearchTermToUser.save();
