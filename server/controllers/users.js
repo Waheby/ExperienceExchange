@@ -222,18 +222,19 @@ export const userUploadImage = async (req, res) => {
   const token = req.headers["x-access-token"];
   const file = req.file;
 
-  cloudinary.config({
-    cloud_name: "dpsa9tlr5",
-    api_key: "472164376875152",
-    api_secret: "ZRAcUSnSmcfP_Z5_8-Ei0FkdLNM",
-  });
-  try {
-    cloudinary.uploader.upload(file, function (error, result) {
-      console.log(result);
-    });
-  } catch (error) {
-    res.status(401).json({ message: error.message });
-  }
+  // cloudinary.config({
+  //   cloud_name: "dpsa9tlr5",
+  //   api_key: "472164376875152",
+  //   api_secret: "***************************",
+  // });
+
+  // cloudinary.uploader.upload(
+  //   file,
+  //   { public_id: "olympic_flag" },
+  //   function (error, result) {
+  //     console.log(result);
+  //   }
+  // );
 
   try {
     jwt.verify(token, "secretkey", async (err, decodeToken) => {
