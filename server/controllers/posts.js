@@ -79,7 +79,7 @@ export const getPost = async (req, res) => {
 
 export const postSearchUsername = async (req, res) => {
   const newest = req.body.sortByNewest;
-  if (newest == false) {
+  if (newest) {
     try {
       const Post = await PostModel.find({
         creator: { $regex: req.body.username },
@@ -103,13 +103,18 @@ export const postSearchUsername = async (req, res) => {
 };
 
 export const postSearchSkills = async (req, res) => {
-  const skill = req.body.skill;
-  try {
-    const Post = await PostModel.find({ tags: { $regex: req.body.skill } });
-    console.log(Post);
+  const newest = req.body.sortByNewest;
+  if (newest) {
+    const skill = req.body.skill;
+    try {
+      const Post = await PostModel.find({
+        tags: { $regex: req.body.skill },
+      }).sort({ createdAt: 1 });
+      console.log(Post);
 
-    res.status(200).json(Post);
-  } catch (error) {
-    res.status(404).json({ message: error.message });
+      res.status(200).json(Post);
+    } catch (error) {
+      res.status(404).json({ message: error.message });
+    }
   }
 };
