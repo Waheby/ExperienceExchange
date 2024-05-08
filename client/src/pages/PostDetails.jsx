@@ -99,50 +99,64 @@ function PostDetails() {
   };
 
   const createComment = async () => {
-    if (!filter.isProfane(content)) {
-      const response = await fetch(
-        `${import.meta.env.VITE_REACT_APP_API_URL}/comment/new`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token": localStorage.getItem("token"),
-          },
-          body: JSON.stringify({
-            postID: postID,
-            content: content,
-            creator: username,
-          }),
-        }
-      ).catch((err) => {
-        console.log(err);
-        toast.error("Action Failed!", {
-          position: "bottom-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
+    if (content.length <= 40 && content.length > 0) {
+      if (!filter.isProfane(content)) {
+        const response = await fetch(
+          `${import.meta.env.VITE_REACT_APP_API_URL}/comment/new`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-access-token": localStorage.getItem("token"),
+            },
+            body: JSON.stringify({
+              postID: postID,
+              content: content,
+              creator: username,
+            }),
+          }
+        ).catch((err) => {
+          console.log(err);
+          toast.error("Action Failed!", {
+            position: "bottom-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
         });
-      });
 
-      const data = await response.json();
-      console.log(data);
-      if (data.status >= 400) {
-        toast.error("Action Failed!", {
-          position: "bottom-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        const data = await response.json();
+        console.log(data);
+        if (data.status >= 400) {
+          toast.error("Action Failed!", {
+            position: "bottom-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        } else {
+          toast.success("Comment Published Successfully!", {
+            position: "bottom-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          setContent("");
+        }
       } else {
-        toast.success("Comment Published Successfully!", {
+        toast.error("Comment Contains Profanity!", {
           position: "bottom-right",
           autoClose: 2000,
           hideProgressBar: false,
@@ -155,7 +169,7 @@ function PostDetails() {
         setContent("");
       }
     } else {
-      toast.error("Comment Contains Profanity!", {
+      toast.error("Comment length is wrong!", {
         position: "bottom-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -165,7 +179,6 @@ function PostDetails() {
         progress: undefined,
         theme: "colored",
       });
-      setContent("");
     }
   };
 
