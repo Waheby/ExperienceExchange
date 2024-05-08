@@ -1,5 +1,7 @@
 import ContentCSS from "../assets/styles/Content/content.module.css";
 import { Icon } from "@iconify/react";
+import { Link, useNavigate } from "react-router-dom";
+
 import {
   AgoraRTCProvider,
   useJoin,
@@ -13,8 +15,11 @@ import {
   LocalVideoTrack,
 } from "agora-rtc-react";
 import AgoraRTC from "agora-rtc-sdk-ng";
+import { Navigate } from "react-router-dom";
 
 function VideoForm(props) {
+  let navigate = useNavigate();
+
   const {
     AppID,
     setAppID,
@@ -65,6 +70,9 @@ function VideoForm(props) {
         }
       >
         Join
+      </button>
+      <button onClick={() => navigate(`/userdashboard`)}>
+        Exit to Dashboard
       </button>
     </div>
   );

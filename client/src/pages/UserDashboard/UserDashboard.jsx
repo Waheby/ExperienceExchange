@@ -462,7 +462,7 @@ function UserDashboard() {
                                 borderRadius: "10px",
                               }}
                             >
-                              Close
+                              Terminate
                             </button>
                           </div>
                           <hr
