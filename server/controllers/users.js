@@ -220,7 +220,7 @@ export const userNewPassword = async (req, res) => {
 
 export const userUploadImage = async (req, res) => {
   const token = req.headers["x-access-token"];
-  const file = req.file;
+  const file = req.body.file;
 
   // cloudinary.config({
   //   cloud_name: "dpsa9tlr5",

@@ -56,10 +56,12 @@ function UploadForm() {
       {
         method: "POST",
         headers: {
-          // "Content-Type": "application/json",
+          "Content-Type": "application/json",
           "x-access-token": localStorage.getItem("token"),
         },
-        body: file,
+        body: JSON.stringify({
+          file: file,
+        }),
       }
     ).catch((err) => {
       console.log(err);
