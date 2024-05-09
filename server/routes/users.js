@@ -26,6 +26,7 @@ import {
   sessionModify,
   sessionDelete,
   userRatingChange,
+  userSendContact,
 } from "../controllers/users.js";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -78,5 +79,5 @@ router.post("/modify-request", requestModify);
 router.post("/modify-session", sessionModify);
 router.delete("/delete-request", sessionDelete);
 router.post("/rate", userRatingChange);
-
+router.post("/contact", userSendContact);
 export default router;

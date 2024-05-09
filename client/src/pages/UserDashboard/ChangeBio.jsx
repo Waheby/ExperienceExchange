@@ -49,7 +49,7 @@ function ChangeBio() {
     getUser();
   });
 
-  const changeUser = async (e) => {
+  const changeUserBio = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     if (bio.length <= 100 && bio.length > 0) {
@@ -119,7 +119,7 @@ function ChangeBio() {
         <h1>Change your biography</h1>
         <div className={ContentCSS.registerContainer}>
           <form
-            onSubmit={changeUser}
+            onSubmit={changeUserBio}
             className={ContentCSS.contactFormContainer}
           >
             <label htmlFor="text">Type your new bio: </label>

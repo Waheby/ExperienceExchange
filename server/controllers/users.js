@@ -692,3 +692,38 @@ export const userRatingChange = async (req, res) => {
     res.status(401).json({ message: error.message });
   }
 };
+
+export const userSendContact = async (req, res) => {
+  try {
+    const decodeToken = jwt.verify(token, "secretkey");
+
+    const User = UsersEX.findOne({ username: decodeToken.username });
+
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "12s161629@gmail.com",
+        pass: "hfrn zxvn vuox bxcn",
+      },
+    });
+
+    var mailOptions = {
+      from: User.email,
+      to: "12s161629@gmail.com",
+      subject: "New User Contact Message",
+      text: `Experience Exchange, User Contact Message: ${title}: ${messsage}`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        return res
+          .status(200)
+          .json({ status: 200, message: "Successfully sent contact email" });
+      }
+    });
+  } catch (error) {
+    res.status(401).json({ message: error.message });
+  }
+};
