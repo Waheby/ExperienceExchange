@@ -30,8 +30,8 @@ function VideoForm(props) {
     setInCall,
   } = props;
   return (
-    <div>
-      <p>Please enter your Agora AppID and Channel Name {AppID}</p>
+    <div style={{ textAlign: "center" }}>
+      <p>Enter your AppID and Channel Name</p>
       <label htmlFor="appid">Agora App ID: </label>
       <input
         id="appid"
@@ -66,7 +66,7 @@ function VideoForm(props) {
         onClick={() =>
           AppID && channelName
             ? setInCall(true)
-            : alert("Please enter Agora App ID and Channel Name")
+            : alert("Please enter the App ID and Channel Name")
         }
       >
         Join

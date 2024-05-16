@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Searchbar from "../components/Searchbar";
-
+import ScreenRecording from "../components/ScreenRecorder";
 import {
   AgoraRTCProvider,
   useJoin,
@@ -105,17 +105,43 @@ function Session() {
           setInCall={setInCall}
         />
       ) : (
-        <AgoraRTCProvider client={client}>
-          <VideoPLayer channelName={channelName} AppID={AppID} token={token} />
-          <br />
-          <br />
-          <button
-            style={{ margin: "auto", alignContent: "center" }}
-            onClick={() => endSession()}
-          >
-            End Call
-          </button>
-        </AgoraRTCProvider>
+        <>
+          <ScreenRecording
+            screen={true}
+            audio={true}
+            video={false}
+            downloadRecordingPath="Screen_Recording_Demo"
+            downloadRecordingType="mp4"
+            emailToSupport="support@xyz.com"
+          ></ScreenRecording>
+          <AgoraRTCProvider client={client}>
+            <VideoPLayer
+              channelName={channelName}
+              AppID={AppID}
+              token={token}
+            />
+            <br />
+            <br />
+            <div
+              style={{
+                textAlign: "center",
+                margin: "auto",
+                alignContent: "center",
+              }}
+            >
+              <button
+                style={{
+                  textAlign: "center",
+                  margin: "auto",
+                  alignContent: "center",
+                }}
+                onClick={() => endSession()}
+              >
+                End Call
+              </button>
+            </div>
+          </AgoraRTCProvider>
+        </>
       )}
 
       {/* <button
