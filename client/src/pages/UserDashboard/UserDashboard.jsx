@@ -277,8 +277,18 @@ function UserDashboard() {
           }}
           className={ContentCSS.generalContainer}
         >
-          <div style={{ margin: "auto", justifyContent: "center" }}>
-            <span style={{ color: "#273e6e", fontSize: "larger" }}>
+          <div
+            style={{
+              margin: "auto",
+              justifyContent: "center",
+            }}
+          >
+            <span
+              style={{
+                color: "#273e6e",
+                fontSize: "larger",
+              }}
+            >
               User Card:
             </span>
             <div
@@ -289,7 +299,7 @@ function UserDashboard() {
                 maxWidth: "500px",
               }}
             >
-              <ul style={{ overflowWrap: "anywhere" }}>
+              <ul style={{ overflowWrap: "anywhere", listStyleType: "none" }}>
                 <img
                   style={{
                     width: "70px",
@@ -301,18 +311,30 @@ function UserDashboard() {
                   }`}
                   alt="user profile picture"
                 />
-                <li>Username: {username}</li>
-                <li>Email: {email}</li>
-                <li>Biography: "{userInfo.current[0].bio}"</li>
                 <li>
-                  Skills:{" "}
+                  <strong>Username:</strong> {username}
+                </li>
+                <li>
+                  <strong>Email:</strong> {email}
+                </li>
+                <li>
+                  <strong>Biography:</strong> "{userInfo.current[0].bio}"
+                </li>
+                <li>
+                  <strong>Skills:</strong>{" "}
                   {userInfo.current[0].skills
                     ? userInfo.current[0].skills.join(", ")
                     : userInfo.current[0].skills}
                 </li>
-                <li>Rating: {calculateAverageRating(rating)}</li>
-                <li>Role: {role}</li>
-                <li>User ID: {userInfo.current[0]._id}</li>
+                <li>
+                  <strong>Rating:</strong> {calculateAverageRating(rating)}
+                </li>
+                <li>
+                  <strong>Role:</strong> {role}
+                </li>
+                <li>
+                  <strong>User ID:</strong> {userInfo.current[0]._id}
+                </li>
               </ul>
             </div>
           </div>
@@ -752,7 +774,12 @@ function UserDashboard() {
           className={ContentCSS.generalContainer}
         >
           <div style={{ margin: "auto", justifyContent: "center" }}>
-            <span style={{ color: "#273e6e", fontSize: "larger" }}>
+            <span
+              style={{
+                color: "#273e6e",
+                fontSize: "larger",
+              }}
+            >
               User Card:
             </span>
             <div
@@ -763,7 +790,7 @@ function UserDashboard() {
                 maxWidth: "500px",
               }}
             >
-              <ul style={{ overflowWrap: "anywhere" }}>
+              <ul style={{ overflowWrap: "anywhere", listStyleType: "none" }}>
                 <img
                   style={{
                     width: "70px",
@@ -775,18 +802,30 @@ function UserDashboard() {
                   }`}
                   alt="user profile picture"
                 />
-                <li>Username: {username}</li>
-                <li>Email: {email}</li>
-                <li>Biography: "{userInfo.current[0].bio}"</li>
                 <li>
-                  Skills:{" "}
+                  <strong>Username:</strong> {username}
+                </li>
+                <li>
+                  <strong>Email:</strong> {email}
+                </li>
+                <li>
+                  <strong>Biography:</strong> "{userInfo.current[0].bio}"
+                </li>
+                <li>
+                  <strong>Skills:</strong>{" "}
                   {userInfo.current[0].skills
                     ? userInfo.current[0].skills.join(", ")
                     : userInfo.current[0].skills}
                 </li>
-                <li>Rating: {rating}</li>
-                <li>Role: {role}</li>
-                <li>User ID: {userInfo.current[0]._id}</li>
+                <li>
+                  <strong>Rating:</strong> {rating}
+                </li>
+                <li>
+                  <strong>Role:</strong> {role}
+                </li>
+                <li>
+                  <strong>User ID:</strong> {userInfo.current[0]._id}
+                </li>
               </ul>
             </div>
           </div>
