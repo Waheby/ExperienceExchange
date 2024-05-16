@@ -695,6 +695,8 @@ export const userRatingChange = async (req, res) => {
 
 export const userSendContact = async (req, res) => {
   const token = req.headers["x-access-token"];
+  const title = req.body.title;
+  const messsage = req.body.messsage;
 
   try {
     const decodeToken = jwt.verify(token, "secretkey");
