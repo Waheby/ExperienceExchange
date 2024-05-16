@@ -11,7 +11,7 @@ import Filter from "bad-words";
 function Contact() {
   let navigate = useNavigate();
   var filter = new Filter();
-
+  filter.addWords("badword", "kill", "Badword", "loser");
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
   const [title, setTitle] = useState("");

@@ -10,6 +10,7 @@ function NewPostForm() {
   let navigate = useNavigate();
   const url = "http://localhost:5000";
   var filter = new Filter();
+  filter.addWords("badword", "kill", "Badword", "loser");
 
   const [username, setUsername] = useState("");
   const [title, setTitle] = useState("");

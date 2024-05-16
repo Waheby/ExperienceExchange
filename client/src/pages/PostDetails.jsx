@@ -18,6 +18,7 @@ function PostDetails() {
   let navigate = useNavigate();
   const params = useParams();
   var filter = new Filter();
+  filter.addWords("badword", "kill", "Badword", "loser");
 
   const [username, setUsername] = useState("");
   const [role, setRole] = useState(null);
@@ -153,6 +154,9 @@ function PostDetails() {
             theme: "colored",
           });
           setContent("");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         }
       } else {
         toast.error("Comment Contains Profanity!", {
@@ -222,6 +226,19 @@ function PostDetails() {
 
     const data = await response.json();
     console.log(data);
+    toast.success("Comment Deleted Successfully!", {
+      position: "bottom-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
   };
 
   if (role !== "admin") {

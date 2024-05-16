@@ -9,7 +9,7 @@ import Filter from "bad-words";
 function ChangeBio() {
   let navigate = useNavigate();
   var filter = new Filter();
-
+  filter.addWords("badword", "kill", "Badword", "loser");
   const [username, setUsername] = useState("");
   const [bio, setBio] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
