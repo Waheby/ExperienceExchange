@@ -299,80 +299,84 @@ function SearchResults() {
       </div>
       <div className={ContentCSS.postsPageMainContainer}>
         {results.map((result, id) => {
-          if (searchFor === "user") {
-            return (
-              <div key={id}>
-                <>
-                  <div
-                    onClick={() => navigate(`/user/${result.username}`)}
-                    style={{ cursor: "pointer" }}
-                    className={ContentCSS.postContainer}
-                  >
+          if (results != null) {
+            if (searchFor === "user") {
+              return (
+                <div key={id}>
+                  <>
                     <div
-                      style={{ justifyContent: "center" }}
-                      className={ContentCSS.postTop}
+                      onClick={() => navigate(`/user/${result.username}`)}
+                      style={{ cursor: "pointer" }}
+                      className={ContentCSS.postContainer}
                     >
-                      <div>
-                        <img
-                          style={{
-                            width: "70px",
-                            height: "70px",
-                            borderStyle: "solid",
-                            borderWidth: "1px",
-                          }}
-                          className={ContentCSS.postImg}
-                          src={`/profile/${result.profileImage}`}
-                          alt="profile pic"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <p style={{ textAlign: "center" }}>@{result.username}</p>
-                    </div>
-                    <hr style={{ width: "350px" }} />
-                    <div
-                      className={ContentCSS.postFooter}
-                      style={{ justifyContent: "center" }}
-                    >
-                      <p>{result.skills ? result.skills.join(", ") : null}</p>
-                    </div>
-                  </div>
-                </>
-              </div>
-            );
-          } else
-            return (
-              <div key={id}>
-                <>
-                  <div
-                    className={ContentCSS.postContainer}
-                    onClick={() => navigate(`/posts/${result._id}`)}
-                  >
-                    <div className={ContentCSS.postTop}>
                       <div
-                        style={{ textAlign: "center" }}
-                        className={ContentCSS.postUsername}
+                        style={{ justifyContent: "center" }}
+                        className={ContentCSS.postTop}
                       >
-                        @{result.creator}
+                        <div>
+                          <img
+                            style={{
+                              width: "70px",
+                              height: "70px",
+                              borderStyle: "solid",
+                              borderWidth: "1px",
+                            }}
+                            className={ContentCSS.postImg}
+                            src={`/profile/${result.profileImage}`}
+                            alt="profile pic"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <p style={{ textAlign: "center" }}>
+                          @{result.username}
+                        </p>
+                      </div>
+                      <hr style={{ width: "350px" }} />
+                      <div
+                        className={ContentCSS.postFooter}
+                        style={{ justifyContent: "center" }}
+                      >
+                        <p>{result.skills ? result.skills.join(", ") : null}</p>
                       </div>
                     </div>
-                    <hr style={{ width: "95%" }} />
-                    <div style={{ overflow: "hidden", height: "150px" }}>
-                      <p style={{ textAlign: "center" }}>{result.content}</p>
+                  </>
+                </div>
+              );
+            } else
+              return (
+                <div key={id}>
+                  <>
+                    <div
+                      className={ContentCSS.postContainer}
+                      onClick={() => navigate(`/posts/${result._id}`)}
+                    >
+                      <div className={ContentCSS.postTop}>
+                        <div
+                          style={{ textAlign: "center" }}
+                          className={ContentCSS.postUsername}
+                        >
+                          @{result.creator}
+                        </div>
+                      </div>
+                      <hr style={{ width: "95%" }} />
+                      <div style={{ overflow: "hidden", height: "150px" }}>
+                        <p style={{ textAlign: "center" }}>{result.content}</p>
+                      </div>
+                      <hr style={{ width: "370px" }} />
+                      <div className={ContentCSS.postFooter}>
+                        <span
+                          style={{ textAlign: "center" }}
+                          className={ContentCSS.postFooterShowComments}
+                        >
+                          {result.tags ? result.tags.join(", ") : null}
+                        </span>
+                      </div>
                     </div>
-                    <hr style={{ width: "370px" }} />
-                    <div className={ContentCSS.postFooter}>
-                      <span
-                        style={{ textAlign: "center" }}
-                        className={ContentCSS.postFooterShowComments}
-                      >
-                        {result.tags ? result.tags.join(", ") : null}
-                      </span>
-                    </div>
-                  </div>
-                </>
-              </div>
-            );
+                  </>
+                </div>
+              );
+          } else return <div>No Results Found...</div>;
         })}
       </div>
     </>
