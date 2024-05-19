@@ -72,6 +72,8 @@ function UploadForm() {
           },
           body: JSON.stringify({
             file: file.name,
+            skill: skill,
+            description: description,
           }),
         }
       ).catch((err) => {

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const certificateSchema = mongoose.Schema({
   creator: String,
-  skill: String,
+  skill: { type: String, required: true },
   certificate: { type: String, required: true },
   description: String,
   status: { type: String, default: "ongoing" },

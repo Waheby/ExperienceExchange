@@ -28,9 +28,9 @@ function Profile() {
 
   const userID = params.userId;
 
-  const getUserCerts = async (user) => {
+  const getUserCerts = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_REACT_APP_API_URL}/certificate/cert`,
+      `${import.meta.env.VITE_REACT_APP_API_URL}/certificate/user-cert`,
       {
         method: "POST",
         headers: {
@@ -38,7 +38,7 @@ function Profile() {
           "x-access-token": localStorage.getItem("token"),
         },
         body: JSON.stringify({
-          username: user,
+          username: userID,
         }),
       }
     ).catch((err) => {
@@ -47,7 +47,7 @@ function Profile() {
 
     const data = await response.json();
     console.log(data);
-    setUser(data);
+    setCertificate(data);
     console.log(user);
   };
 
@@ -71,7 +71,6 @@ function Profile() {
     const data = await response.json();
     console.log(data);
     setUser(data);
-    getUserCerts(data[0].username);
     console.log(user);
   };
 
@@ -204,6 +203,7 @@ function Profile() {
       // console.log(user.username);
     }
     getUser();
+    getUserCerts();
   }, []);
   // console.log(username);
 
@@ -312,7 +312,9 @@ function Profile() {
                 textAlign: "center",
               }}
             >
-              {user[0].skills ? user[0].skills.join(", ") : user[0].skills}
+              {certificate[0].skill
+                ? certificate[0].skill.join(", ")
+                : certificate[0].skill}
             </p>
           </div>
         </div>
