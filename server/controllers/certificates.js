@@ -20,7 +20,7 @@ export const getUserCertificate = async (req, res) => {
   const username = req.body.username;
   try {
     const certificate = await CertificateModel.find({
-      fromUser: username,
+      creator: username,
     });
     console.log(certificate);
 
