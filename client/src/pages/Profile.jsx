@@ -28,9 +28,9 @@ function Profile() {
 
   const userID = params.userId;
 
-  const getUserCerts = async () => {
+  const getUserCerts = async (user) => {
     const response = await fetch(
-      `${import.meta.env.VITE_REACT_APP_API_URL}/user/get-user`,
+      `${import.meta.env.VITE_REACT_APP_API_URL}/certificate/cert`,
       {
         method: "POST",
         headers: {
@@ -38,7 +38,7 @@ function Profile() {
           "x-access-token": localStorage.getItem("token"),
         },
         body: JSON.stringify({
-          username: username,
+          username: user,
         }),
       }
     ).catch((err) => {
@@ -71,6 +71,7 @@ function Profile() {
     const data = await response.json();
     console.log(data);
     setUser(data);
+    getUserCerts(data[0].username);
     console.log(user);
   };
 
@@ -134,7 +135,7 @@ function Profile() {
   };
 
   const calculateAverageRating = (rating) => {
-    console.log(rating);
+    // console.log(rating);
     if (rating != null) {
       const sum = rating.reduce((partialSum, a) => partialSum + a, 0);
       const count = rating.length;
@@ -200,12 +201,11 @@ function Profile() {
       const user = jose.decodeJwt(token);
       setUsername(user.username);
       // setRating(user.rating);
-      console.log(user);
+      // console.log(user.username);
     }
     getUser();
-    getUserCerts();
   }, []);
-  console.log(username);
+  // console.log(username);
 
   return (
     <>

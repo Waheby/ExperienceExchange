@@ -459,7 +459,7 @@ function PostDetails() {
   if (role === "admin") {
     return (
       <>
-        <h1>This is a post page {params.postId}</h1>
+        <h1 style={{ textAlign: "center" }}>POST PAGE</h1>
         <div className={ContentCSS.postsPageMainContainer}>
           <div className={ContentCSS.detailedPostContainer}>
             <div className={ContentCSS.detailedPostTop}>
@@ -547,7 +547,7 @@ function PostDetails() {
           </div>
         </div>
         <div>
-          <h1>Comments Section:</h1>
+          <h1 style={{ textAlign: "center" }}>Comments Section:</h1>
           <div className={ContentCSS.postsPageMainContainer}>
             <div className={ContentCSS.commentContainer}>
               <label style={{ textAlign: "center", marginTop: "5px" }}>

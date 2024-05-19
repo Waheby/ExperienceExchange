@@ -23,7 +23,7 @@ const router = express.Router();
 //IMAGE FILE UPLOAD FUNCTION============================================
 
 router.get("/all", getAllCertificates);
-router.get("/cert", getUserCertificate);
+router.post("/cert", getUserCertificate);
 router.post("/new", uploadCertificate);
 router.post("/modify", modifyCertificate);
 
