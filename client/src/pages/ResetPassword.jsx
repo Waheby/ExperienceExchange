@@ -13,13 +13,13 @@ function resetPassword() {
 
   //Deny entry to non-authorized users
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const user = jose.decodeJwt(token);
+    const newtoken = token;
+    if (newtoken) {
+      const user = jose.decodeJwt(newtoken);
       console.log(user);
       if (!user) {
         console.log("Unauthorized User");
-        localStorage.removeItem("token");
+        // localStorage.removeItem("token");
         navigate("/login");
       } else console.log("User Authenticated");
     } else navigate("/login");
