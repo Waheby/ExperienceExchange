@@ -18,7 +18,7 @@ export const getAllCertificates = async (req, res) => {
 
 export const uploadCertificate = async (req, res) => {
   const token = req.headers["x-access-token"];
-  const certFile = req.file;
+  const certFile = req.body.file;
   const emptyArr = []; //i need empty arr to use concat
   try {
     console.log(token);
