@@ -162,7 +162,7 @@ function UploadForm() {
               }}
             />
             <hr style={{ width: "350px" }} />
-            <button className={ContentCSS.loginButton}>
+            <button className={ContentCSS.loginButton} disabled={isSubmitting}>
               Submit for verification
             </button>
           </form>

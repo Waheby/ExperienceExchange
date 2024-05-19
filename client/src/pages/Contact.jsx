@@ -54,6 +54,7 @@ function Contact() {
             progress: undefined,
             theme: "colored",
           });
+          setIsSubmitting(false);
           setMessage("");
         } else {
           toast.error("Message Contains Profanity", {
