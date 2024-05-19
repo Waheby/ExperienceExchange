@@ -161,7 +161,7 @@ export const userResetPassword = async (req, res) => {
         res.status(404).json({ message: "User Dont Exist" });
       } else {
         const token = jwt.sign({ id: user._id }, "secretkey", {
-          expiresIn: "1h",
+          expiresIn: "60",
         });
 
         var transporter = nodemailer.createTransport({
