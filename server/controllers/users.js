@@ -203,19 +203,13 @@ export const userNewPassword = async (req, res) => {
       if (err) {
         res.status(401).json({ message: "Token Error" });
       } else {
+        const hash = await bcrypt.hash(password, 13);
+
         await UsersEX.findOneAndUpdate(
           { _id: id },
-          { $set: { password: password } }
+          { $set: { password: hash } }
         ).then(async (user) => {
-          const hash = await bcrypt.hash(password, 13);
-
-          const newUser = new UsersEX({
-            username: req.body.username,
-            email: req.body.email,
-            password: hash,
-          });
-
-          newUser.save();
+          user.save();
 
           return res
             .status(200)
