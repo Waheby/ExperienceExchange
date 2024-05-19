@@ -348,7 +348,7 @@ function UserDashboard() {
                 <li>
                   <strong>Skills:</strong>{" "}
                   {userInfo.current[0].skills
-                    ? userInfo.current[0].skills.join(", ")
+                    ? userInfo.current[0].skills.join(" - ")
                     : userInfo.current[0].skills}
                 </li>
                 <li>
@@ -843,9 +843,9 @@ function UserDashboard() {
                   <strong>Biography:</strong> "{userInfo.current[0].bio}"
                 </li>
                 <li>
-                  <strong>Certified Skills:</strong>{" "}
+                  <strong>Skills:</strong>{" "}
                   {userInfo.current[0].skills
-                    ? userInfo.current[0].skills.join(", ")
+                    ? userInfo.current[0].skills.join(" - ")
                     : userInfo.current[0].skills}
                 </li>
                 <li>
