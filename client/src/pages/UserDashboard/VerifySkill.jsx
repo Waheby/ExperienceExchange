@@ -158,6 +158,7 @@ function UploadForm() {
                 setSkill(event.target.value);
               }}
             >
+              <option>{""}</option>
               {skillsArray.map((skill, id) => {
                 return (
                   <option key={id} value={skill}>
