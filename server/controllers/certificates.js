@@ -21,7 +21,14 @@ export const getUserCertificate = async (req, res) => {
   console.log(username);
   try {
     const certificate = await CertificateModel.find({
-      creator: username,
+      $and: [
+        {
+          status: "accept",
+        },
+        {
+          creator: username,
+        },
+      ],
     });
     console.log(certificate);
 

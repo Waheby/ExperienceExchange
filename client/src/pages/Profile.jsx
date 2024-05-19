@@ -290,7 +290,7 @@ function Profile() {
                 textAlign: "center",
               }}
             >
-              {user[0].skills ? user[0].skills.join(", ") : user[0].skills}
+              {user[0].skills ? user[0].skills.join(" - ") : user[0].skills}
             </p>
           </div>
           <hr style={{ width: "95%" }} />
@@ -306,14 +306,16 @@ function Profile() {
             >
               Certified Skills:
             </p>
-            <p
+            <div
               style={{
                 fontSize: "larger",
                 textAlign: "center",
               }}
             >
-              {certificates[0] ? certificates[0].join(", ") : certificates[0]}
-            </p>
+              {certificates.map((certificate, id) => {
+                return <span key={id}>{certificate.skill} - </span>;
+              })}
+            </div>
           </div>
         </div>
         {username == userID ? (
