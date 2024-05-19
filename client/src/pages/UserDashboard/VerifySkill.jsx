@@ -147,6 +147,7 @@ function UploadForm() {
             <label htmlFor="text">Enter the Skill: </label>
 
             <select
+              defaultValue={skillsArray[0]}
               name="skill"
               id="skill"
               required
