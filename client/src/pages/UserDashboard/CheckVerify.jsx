@@ -83,6 +83,7 @@ function CheckVerify() {
       progress: undefined,
       theme: "colored",
     });
+    document.getElementById(certId).style.display = "none";
   };
 
   const acceptFile = async (e, certId) => {
@@ -118,6 +119,7 @@ function CheckVerify() {
       progress: undefined,
       theme: "colored",
     });
+    document.getElementById(certId).style.display = "none";
   };
 
   const autoVerify = async (e, certs) => {
@@ -189,12 +191,15 @@ function CheckVerify() {
                     alignSelf: "center",
                     width: "600px",
                   }}
-                  src={`/certs/${result.certificate}`}
+                  src={`${import.meta.env.VITE_CLOUDINARY_URL}/${
+                    result.certificate
+                  }`}
                 />
 
                 <hr style={{ width: "350px" }} />
                 <div>
                   <button
+                    id={result._id}
                     style={{
                       width: "120px",
                       backgroundColor: "green",
@@ -207,6 +212,7 @@ function CheckVerify() {
                     Accept
                   </button>
                   <button
+                    id={result._id}
                     style={{
                       width: "120px",
                       margin: "5px",

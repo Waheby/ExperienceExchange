@@ -327,6 +327,12 @@ function UserDashboard() {
                     : userInfo.current[0].skills}
                 </li>
                 <li>
+                  <strong>Skills:</strong>{" "}
+                  {userInfo.current[0].skills
+                    ? userInfo.current[0].skills.join(", ")
+                    : userInfo.current[0].skills}
+                </li>
+                <li>
                   <strong>Rating:</strong> {calculateAverageRating(rating)}
                 </li>
                 <li>
@@ -810,6 +816,12 @@ function UserDashboard() {
                 </li>
                 <li>
                   <strong>Biography:</strong> "{userInfo.current[0].bio}"
+                </li>
+                <li>
+                  <strong>Certified Skills:</strong>{" "}
+                  {userInfo.current[0].skills
+                    ? userInfo.current[0].skills.join(", ")
+                    : userInfo.current[0].skills}
                 </li>
                 <li>
                   <strong>Skills:</strong>{" "}
