@@ -101,6 +101,7 @@ function SearchResults() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token"),
           },
           body: JSON.stringify({
             username: input.toLowerCase().trim(),
@@ -139,6 +140,7 @@ function SearchResults() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token"),
           },
           body: JSON.stringify({
             skill: input.toLowerCase().trim(),

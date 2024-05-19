@@ -1,4 +1,5 @@
 import PostModel from "../models/post.js";
+import UsersEX from "../models/user.js";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import { Db } from "mongodb";
