@@ -83,6 +83,7 @@ function CheckVerify() {
       progress: undefined,
       theme: "colored",
     });
+    setIsSubmitting(false);
     document.getElementById(certId).style.display = "none";
   };
 
@@ -119,6 +120,7 @@ function CheckVerify() {
       progress: undefined,
       theme: "colored",
     });
+    setIsSubmitting(false);
     document.getElementById(certId).style.display = "none";
   };
 
@@ -174,6 +176,7 @@ function CheckVerify() {
         {results.map((result, id) => {
           return (
             <div
+              id={result._id}
               key={id}
               className={ContentCSS.registerContainer}
               style={{ marginTop: "30px" }}
@@ -199,7 +202,6 @@ function CheckVerify() {
                 <hr style={{ width: "350px" }} />
                 <div>
                   <button
-                    id={result._id}
                     style={{
                       width: "120px",
                       backgroundColor: "green",
@@ -212,7 +214,6 @@ function CheckVerify() {
                     Accept
                   </button>
                   <button
-                    id={result._id}
                     style={{
                       width: "120px",
                       margin: "5px",
