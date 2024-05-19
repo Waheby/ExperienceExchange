@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ContentCSS from "../assets/styles/Content/content.module.css";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
