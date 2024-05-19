@@ -251,7 +251,6 @@ export const userUploadImage = async (req, res) => {
       if (err) {
         res.status(401).json({ message: "Token Error" });
       } else {
-        console.log(decodeToken.username);
         const user = await UsersEX.findOneAndUpdate(
           { username: decodeToken.username },
           { $set: { profileImage: file } }
@@ -274,7 +273,6 @@ export const userAddSkill = async (req, res) => {
   const bodySkills = req.body.skills;
 
   try {
-    console.log(token);
     const decodeToken = jwt.verify(token, "secretkey");
     const user = await UsersEX.findOneAndUpdate(
       { username: decodeToken.username },
@@ -487,7 +485,7 @@ export const requestCreate = async (req, res) => {
             content: req.body.content,
           });
           await exchange.save();
-          console.log(exchange);
+          // console.log(exchange);
           return res.status(200).json(exchange);
         }
       }
@@ -573,7 +571,7 @@ export const requestGet = async (req, res) => {
       if (user.length == 0) {
         res.status(400).json({ message: "No Requests found" });
       } else {
-        console.log(user);
+        // console.log(user);
         res.status(200).json(user);
       }
     });
