@@ -48,7 +48,7 @@ function resetPassword() {
     const data = await response.json();
     console.log(data);
 
-    if (data) {
+    if (data.status == 200) {
       toast.success("Password Resetted successfully", {
         position: "bottom-right",
         autoClose: 2000,
@@ -62,6 +62,17 @@ function resetPassword() {
       setTimeout(() => {
         navigate("/login");
       }, 2000);
+    } else {
+      toast.error("Error with Token", {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 
