@@ -217,7 +217,7 @@ function Profile() {
         className={ContentCSS.postsPageMainContainer}
       >
         <div
-          style={{ height: "580px", width: "900px" }}
+          style={{ height: "680px", width: "900px" }}
           className={ContentCSS.detailedPostContainer}
         >
           <div
