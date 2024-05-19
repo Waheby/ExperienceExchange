@@ -66,16 +66,29 @@ function SuspendUser() {
 
     const data = await response.json();
     console.log(data);
-    toast.success("User Suspended Successfully!", {
-      position: "bottom-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
+    if (data.status === 200) {
+      toast.success("User Suspended Successfully!", {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } else {
+      toast.error(data.message, {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
   };
 
   const reinstateUser = async (e) => {
@@ -98,16 +111,29 @@ function SuspendUser() {
 
     const data = await response.json();
     console.log(data);
-    toast.success("User Reinstated Successfully!", {
-      position: "bottom-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
+    if (data.status === 200) {
+      toast.success("User Suspended Successfully!", {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } else {
+      toast.error(data.message, {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
   };
 
   return (
@@ -136,9 +162,11 @@ function SuspendUser() {
               Confirm Suspension
             </button>
           </form>
-          <h1 style={{ marginTop: "50px", textAlign: "center" }}>
-            Reinstate any user
-          </h1>
+        </div>
+        <h1 style={{ marginTop: "50px", textAlign: "center" }}>
+          Reinstate any user
+        </h1>
+        <div className={ContentCSS.registerContainer}>
           <form
             style={{ marginTop: "10px" }}
             onSubmit={reinstateUser}
