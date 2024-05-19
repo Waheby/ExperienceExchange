@@ -81,7 +81,6 @@ function UploadForm() {
 
       const data = await response.json();
       console.log(data);
-      setIsSubmitting(false);
       toast.success("Submitted Certificate Successfully!", {
         position: "bottom-right",
         autoClose: 2000,
