@@ -10,6 +10,26 @@ function resetPassword() {
   const { id, token } = useParams();
   let navigate = useNavigate();
 
+  //Deny entry to non-authorized users
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const user = jose.decodeJwt(token);
+      setUsername(user.username);
+      setRole(user.role);
+      setImage(user.image);
+      setEmail(user.email);
+      setSkills(user.skill);
+      setRating(user.rating);
+
+      if (!user) {
+        console.log("Unauthorized User");
+        localStorage.removeItem("token");
+        navigate("/login");
+      } else console.log("User Authenticated");
+    } else navigate("/login");
+  });
+
   const reset = async (e) => {
     e.preventDefault();
 
