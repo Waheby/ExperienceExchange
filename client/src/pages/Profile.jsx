@@ -22,7 +22,7 @@ function Profile() {
   const [channel, setChannel] = useState("");
   const [contentInfo, setContentInfo] = useState("");
   const [user, setUser] = useState([""]);
-  const [certificate, setCertificate] = useState([""]);
+  const [certificates, setCertificates] = useState([""]);
 
   // const [rating, setRating] = useState([]);
 
@@ -47,7 +47,7 @@ function Profile() {
 
     const data = await response.json();
     console.log(data);
-    setCertificate(data);
+    setCertificates(data);
     console.log(user);
   };
 
@@ -312,9 +312,7 @@ function Profile() {
                 textAlign: "center",
               }}
             >
-              {certificate[0].skill
-                ? certificate[0].skill.join(", ")
-                : certificate[0].skill}
+              {certificates[0] ? certificates[0].join(", ") : certificates[0]}
             </p>
           </div>
         </div>
