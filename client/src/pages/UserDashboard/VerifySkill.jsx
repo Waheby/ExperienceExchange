@@ -9,10 +9,10 @@ import { Cloudinary } from "@cloudinary/url-gen";
 function UploadForm() {
   let navigate = useNavigate();
   const [username, setUsername] = useState(null);
+  const [skill, setSkill] = useState(null);
   const [description, setDescription] = useState(null);
   const [file, setFile] = useState("");
   const [skillsArray, setSkillsArray] = useState([""]);
-  const [skill, setSkill] = useState(skillsArray[0]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   //Deny entry to non-authorized users
@@ -22,7 +22,6 @@ function UploadForm() {
       const user = jose.decodeJwt(token);
       setUsername(user.username);
       setSkillsArray(user.skill);
-      setSkill(skillsArray[0]);
       console.log(user);
       console.log(skillsArray);
       if (!user) {
@@ -148,6 +147,7 @@ function UploadForm() {
             <label htmlFor="text">Enter the Skill: </label>
 
             <select
+              defaultValue={skillsArray[0]}
               name="skill"
               id="skill"
               required
