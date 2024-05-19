@@ -206,7 +206,17 @@ export const userNewPassword = async (req, res) => {
         await UsersEX.findOneAndUpdate(
           { _id: id },
           { $set: { password: password } }
-        ).then((user) => {
+        ).then(async (user) => {
+          const hash = await bcrypt.hash(req.body.password, 13);
+
+          const newUser = new UsersEX({
+            username: req.body.username,
+            email: req.body.email,
+            password: hash,
+          });
+
+          newUser.save();
+
           return res
             .status(200)
             .json({ status: 200, message: "Update Password Successful" });
