@@ -204,7 +204,19 @@ function PostDetails() {
 
     const data = await response.json();
     console.log(data);
-    navigate("/no-post");
+    toast.success("Post Deleted Successfully!", {
+      position: "bottom-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+    setTimeout(() => {
+      navigate("/no-post");
+    }, 2000);
   };
 
   const deleteComment = async (id) => {

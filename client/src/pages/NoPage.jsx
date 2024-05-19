@@ -5,7 +5,7 @@ import Searchbar from "../components/Searchbar";
 function NoPage() {
   return (
     <>
-      <h1>404</h1>
+      <h1 style={{ textAlign: "center" }}>404 No Page Found</h1>
     </>
   );
 }

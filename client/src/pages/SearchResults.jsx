@@ -298,8 +298,14 @@ function SearchResults() {
         </div>
       </div>
       <div className={ContentCSS.postsPageMainContainer}>
-        {results.map((result, id) => {
-          if (results != null) {
+        {results.length < 1 ? (
+          <div
+            style={{ fontSize: "larger", margin: "auto", marginTop: "150px" }}
+          >
+            No Results Found...
+          </div>
+        ) : (
+          results.map((result, id) => {
             if (searchFor === "user") {
               return (
                 <div key={id}>
@@ -376,8 +382,8 @@ function SearchResults() {
                   </>
                 </div>
               );
-          } else return <div>No Results Found...</div>;
-        })}
+          })
+        )}
       </div>
     </>
   );
