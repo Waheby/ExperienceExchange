@@ -40,7 +40,7 @@ export const uploadCertificate = async (req, res) => {
     const username = decodeToken.username;
     const newCert = new CertificateModel({
       creator: username,
-      certificate: certFile.file,
+      certificate: certFile,
       skill: req.body.skill,
       description: req.body.description,
     });
