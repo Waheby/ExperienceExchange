@@ -27,6 +27,7 @@ function UserDashboard() {
   const [toggle, setToggle] = useState(false);
   const [newRating, setNewRating] = useState(null);
   const [averageRating, setAverageRating] = useState(null);
+  const [certificates, setCertificates] = useState([""]);
 
   const userInfo = useRef([""]);
   let seperatedSkills = "";
@@ -49,6 +50,29 @@ function UserDashboard() {
         navigate("/login");
       } else console.log("User Authenticated");
     } else navigate("/login");
+
+    const getUserCerts = async () => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/certificate/user-cert`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            username: username,
+          }),
+        }
+      ).catch((err) => {
+        console.log(err);
+      });
+
+      const data = await response.json();
+      console.log(data);
+      setCertificates(data);
+      console.log(user);
+    };
 
     const getUser = async () => {
       const response = await fetch(
@@ -128,6 +152,7 @@ function UserDashboard() {
     };
 
     getUser();
+    getUserCerts();
     getRequests();
     getMessages();
     getSessions();
@@ -327,10 +352,10 @@ function UserDashboard() {
                     : userInfo.current[0].skills}
                 </li>
                 <li>
-                  <strong>Skills:</strong>{" "}
-                  {userInfo.current[0].skills
-                    ? userInfo.current[0].skills.join(", ")
-                    : userInfo.current[0].skills}
+                  <strong>Certified Skills:</strong>{" "}
+                  {certificates.map((certificate, id) => {
+                    return <span key={id}>{certificate.skill} - </span>;
+                  })}
                 </li>
                 <li>
                   <strong>Rating:</strong> {calculateAverageRating(rating)}
@@ -824,10 +849,10 @@ function UserDashboard() {
                     : userInfo.current[0].skills}
                 </li>
                 <li>
-                  <strong>Skills:</strong>{" "}
-                  {userInfo.current[0].skills
-                    ? userInfo.current[0].skills.join(", ")
-                    : userInfo.current[0].skills}
+                  <strong>Certified Skills:</strong>{" "}
+                  {certificates.map((certificate, id) => {
+                    return <span key={id}>{certificate.skill} - </span>;
+                  })}
                 </li>
                 <li>
                   <strong>Rating:</strong> {rating}
