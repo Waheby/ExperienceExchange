@@ -207,7 +207,7 @@ export const userNewPassword = async (req, res) => {
           { _id: id },
           { $set: { password: password } }
         ).then(async (user) => {
-          const hash = await bcrypt.hash(req.body.password, 13);
+          const hash = await bcrypt.hash(password, 13);
 
           const newUser = new UsersEX({
             username: req.body.username,
