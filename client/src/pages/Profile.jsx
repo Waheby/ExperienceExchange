@@ -22,13 +22,34 @@ function Profile() {
   const [channel, setChannel] = useState("");
   const [contentInfo, setContentInfo] = useState("");
   const [user, setUser] = useState([""]);
+  const [certificate, setCertificate] = useState([""]);
+
   // const [rating, setRating] = useState([]);
 
   const userID = params.userId;
 
-  // if (token) {
-  //   setUserTokenData(jose.decodeJwt(token));
-  // }
+  const getUserCerts = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/user/get-user`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          username: username,
+        }),
+      }
+    ).catch((err) => {
+      console.log(err);
+    });
+
+    const data = await response.json();
+    console.log(data);
+    setUser(data);
+    console.log(user);
+  };
 
   const getUser = async () => {
     const response = await fetch(
@@ -182,6 +203,7 @@ function Profile() {
       console.log(user);
     }
     getUser();
+    getUserCerts();
   }, []);
   console.log(username);
 
@@ -261,6 +283,28 @@ function Profile() {
               }}
             >
               Skills:
+            </p>
+            <p
+              style={{
+                fontSize: "larger",
+                textAlign: "center",
+              }}
+            >
+              {user[0].skills ? user[0].skills.join(", ") : user[0].skills}
+            </p>
+          </div>
+          <hr style={{ width: "95%" }} />
+          <div
+            style={{ flexDirection: "column" }}
+            className={ContentCSS.detailedPostFooter}
+          >
+            <p
+              style={{
+                fontSize: "larger",
+                textAlign: "center",
+              }}
+            >
+              Certified Skills:
             </p>
             <p
               style={{

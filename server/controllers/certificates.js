@@ -16,6 +16,20 @@ export const getAllCertificates = async (req, res) => {
   }
 };
 
+export const getUserCertificate = async (req, res) => {
+  const username = req.body.username;
+  try {
+    const certificate = await CertificateModel.find({
+      fromUser: username,
+    });
+    console.log(certificate);
+
+    res.status(200).json(certificate);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
 export const uploadCertificate = async (req, res) => {
   const token = req.headers["x-access-token"];
   const certFile = req.body.file;
