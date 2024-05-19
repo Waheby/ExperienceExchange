@@ -25,37 +25,51 @@ function Contact() {
     if (token) {
       if (message.length <= 600 && message.length > 0) {
         if (!filter.isProfane(message)) {
-          const response = await fetch(
-            `${import.meta.env.VITE_REACT_APP_API_URL}/user/contact`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "x-access-token": localStorage.getItem("token"),
-              },
-              body: JSON.stringify({
-                title: title,
-                message: message,
-              }),
-            }
-          ).catch((err) => {
-            console.log(err);
-          });
+          if (!filter.isProfane(title)) {
+            const response = await fetch(
+              `${import.meta.env.VITE_REACT_APP_API_URL}/user/contact`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "x-access-token": localStorage.getItem("token"),
+                },
+                body: JSON.stringify({
+                  title: title,
+                  message: message,
+                }),
+              }
+            ).catch((err) => {
+              console.log(err);
+            });
 
-          const data = await response.json();
-          console.log(data);
-          toast.success("Sent Contact Message Successfully!", {
-            position: "bottom-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
-          setIsSubmitting(false);
-          setMessage("");
+            const data = await response.json();
+            console.log(data);
+            toast.success("Sent Contact Message Successfully!", {
+              position: "bottom-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+            setIsSubmitting(false);
+            setMessage("");
+          } else {
+            toast.error("Title Contains Profanity", {
+              position: "bottom-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+            setIsSubmitting(false);
+          }
         } else {
           toast.error("Message Contains Profanity", {
             position: "bottom-right",
