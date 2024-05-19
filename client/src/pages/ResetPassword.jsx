@@ -15,12 +15,6 @@ function resetPassword() {
     const token = localStorage.getItem("token");
     if (token) {
       const user = jose.decodeJwt(token);
-      setUsername(user.username);
-      setRole(user.role);
-      setImage(user.image);
-      setEmail(user.email);
-      setSkills(user.skill);
-      setRating(user.rating);
 
       if (!user) {
         console.log("Unauthorized User");
