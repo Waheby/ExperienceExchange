@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ContentCSS from "../assets/styles/Content/content.module.css";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import * as jose from "jose";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
