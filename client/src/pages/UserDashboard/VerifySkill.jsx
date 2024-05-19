@@ -22,6 +22,7 @@ function UploadForm() {
       const user = jose.decodeJwt(token);
       setUsername(user.username);
       setSkillsArray(user.skill);
+      setSkill(skillsArray[0]);
       console.log(user);
       console.log(skillsArray);
       if (!user) {
