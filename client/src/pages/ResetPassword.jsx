@@ -34,7 +34,7 @@ function resetPassword() {
     console.log(data);
 
     if (data) {
-      toast.success(data.data, {
+      toast.success("Password Resetted successfully", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
