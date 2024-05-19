@@ -12,18 +12,18 @@ function resetPassword() {
   let navigate = useNavigate();
 
   //Deny entry to non-authorized users
-  useEffect(() => {
-    const newtoken = token;
-    if (newtoken) {
-      const user = jose.decodeJwt(newtoken);
-      console.log(user);
-      if (!user) {
-        console.log("Unauthorized User");
-        // localStorage.removeItem("token");
-        navigate("/login");
-      } else console.log("User Authenticated");
-    } else navigate("/login");
-  });
+  // useEffect(() => {
+  //   const newtoken = token;
+  //   if (newtoken) {
+  //     const user = jose.decodeJwt(newtoken);
+  //     console.log(user);
+  //     if (!user) {
+  //       console.log("Unauthorized User");
+  //       // localStorage.removeItem("token");
+  //       navigate("/login");
+  //     } else console.log("User Authenticated");
+  //   } else navigate("/login");
+  // });
 
   const reset = async (e) => {
     e.preventDefault();
