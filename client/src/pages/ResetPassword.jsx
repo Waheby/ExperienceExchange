@@ -16,7 +16,7 @@ function resetPassword() {
     const token = localStorage.getItem("token");
     if (token) {
       const user = jose.decodeJwt(token);
-
+      console.log(user);
       if (!user) {
         console.log("Unauthorized User");
         localStorage.removeItem("token");
