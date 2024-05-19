@@ -35,7 +35,7 @@ export const uploadCertificate = async (req, res) => {
   const certFile = req.body.file;
   const emptyArr = []; //i need empty arr to use concat
   try {
-    console.log(token);
+    console.log(certFile);
     const decodeToken = jwt.verify(token, "secretkey");
     const username = decodeToken.username;
     const newCert = new CertificateModel({
