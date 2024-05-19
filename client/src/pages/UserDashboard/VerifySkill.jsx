@@ -9,10 +9,10 @@ import { Cloudinary } from "@cloudinary/url-gen";
 function UploadForm() {
   let navigate = useNavigate();
   const [username, setUsername] = useState(null);
-  const [skill, setSkill] = useState(skillsArray[0]);
   const [description, setDescription] = useState(null);
   const [file, setFile] = useState("");
   const [skillsArray, setSkillsArray] = useState([""]);
+  const [skill, setSkill] = useState(skillsArray[0]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   //Deny entry to non-authorized users
