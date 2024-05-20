@@ -35,7 +35,7 @@ function App() {
       <div>
         <BrowserRouter>
           <Navbar></Navbar>
-          <AnnouncementBox></AnnouncementBox>
+          {/* <AnnouncementBox></AnnouncementBox> */}
           <Routes>
             <Route index element={<Home />}></Route>
             <Route path="/home" element={<Home />}></Route>

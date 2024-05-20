@@ -8,8 +8,8 @@ function Infocard() {
         <div className={ContentCSS.leftContainer}>
           <div>
             <Icon
+              icon="iconamoon:profile-circle-fill"
               className={ContentCSS.infoIcon}
-              icon="healthicons:ui-user-profile-outline"
             />
           </div>
           <h1 style={{ fontSize: "25px" }}>Create Your Profile</h1>

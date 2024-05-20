@@ -34,20 +34,27 @@ function AnnouncementBox() {
           width: "100%",
           flexWrap: "wrap",
           justifyContent: "center",
-          margin: "10px",
+          marginTop: "-10px",
+          backgroundColor: "#2c5f8d",
+          color: "white",
         }}
       >
         <div
           style={{
             borderStyle: "solid",
             borderWidth: "2px",
+            width: "100%",
             borderColor: "#273e6e",
-            margin: "10px",
             padding: "5px",
             borderRadius: "5px",
+            textAlign: "center",
+            textWrap: "wrap",
+            overflowWrap: "break-word",
+            backgroundColor: "#2c5f8d",
+            color: "white",
           }}
         >
-          <strong>Announcement: </strong> {result[0].content}
+          ANNOUNCEMENT: {result[0].content}
         </div>
       </div>
     </>

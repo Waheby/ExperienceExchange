@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import NavCSS from "../assets/styles/Navbar/nav.module.css";
+import AnnouncementBox from "./AnnouncementBox";
 import { Link, useNavigate } from "react-router-dom";
 import * as jose from "jose";
 import { ToastContainer, toast } from "react-toastify";
@@ -36,12 +37,20 @@ function Navbar() {
           </div>
           <div className={NavCSS.othersContainer}>
             <div className={NavCSS.othersdiv1}>
-              <Link className={NavCSS.btnLogin} to={`/user/${user.username}`}>
+              <Link
+                style={{ width: "100px" }}
+                className={NavCSS.btnHome}
+                to={`/user/${user.username}`}
+              >
                 My Profile
               </Link>
             </div>
             <div className={NavCSS.othersdiv1}>
-              <Link className={NavCSS.btnLogin} to="/userdashboard">
+              <Link
+                style={{ width: "100px" }}
+                className={NavCSS.btnHome}
+                to="/userdashboard"
+              >
                 Dashboard
               </Link>
             </div>
@@ -69,6 +78,8 @@ function Navbar() {
             </div>
           </div>
         </div>
+        <hr style={{ width: "100%" }} />
+        <AnnouncementBox />
       </>
     );
   } else
@@ -105,6 +116,8 @@ function Navbar() {
             </div>
           </div>
         </div>
+        <hr style={{ width: "100%" }} />
+        <AnnouncementBox />
       </>
     );
 }

@@ -44,14 +44,15 @@
   align-items: center;
   border-style: none;
   border-radius: 20px;
-  background-color: white;
   text-decoration-line: none;
   text-decoration: none;
-  color: black;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
 }
 
 .btnHome:hover {
-  background-color: gray;
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
 }
 
 .btnAbout {
@@ -67,7 +68,7 @@
 }
 
 .btnAbout:hover {
-  background-color: gray;
+  background-color: rgb(0, 0, 0);
 }
 
 .btnLogin {
@@ -80,34 +81,35 @@
   align-items: center;
   border-style: none;
   border-radius: 20px;
-  background-color: white;
-  color: black;
+  background-color: #2c5f8d;
+  color: rgb(255, 255, 255);
   text-decoration-line: none;
   text-decoration: none;
 }
 
 .btnLogin:hover {
-  background-color: gray;
+  background-color: rgb(0, 0, 0);
 }
 
 .btnRegister {
   display: flex;
   margin: auto;
-  height: 40px;
   cursor: pointer;
   border-style: none;
   border-radius: 20px;
-  background-color: white;
+  justify-content: center;
   align-items: center;
-  justify-items: center;
-  color: black;
+  background-color: #2c5f8d;
+  color: rgb(255, 255, 255);
   text-decoration-line: none;
   text-decoration: none;
-  padding: 5px;
+  width: 150px;
+  height: 35px;
+  text-align: center;
 }
 
 .btnRegister:hover {
-  background-color: gray;
+  background-color: rgb(0, 0, 0);
 }
 
 .othersdiv1 {
