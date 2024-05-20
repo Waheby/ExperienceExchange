@@ -141,24 +141,14 @@ function NewPostForm() {
             onSubmit={createPost}
             className={ContentCSS.contactFormContainer}
           >
-            <label htmlFor="text">Title: </label>
-            <input
-              className={ContentCSS.loginInput}
-              type="text"
-              required
-              value={title}
-              maxLength="30"
-              onChange={(event) => {
-                setTitle(event.target.value);
-              }}
-            />
-            <label htmlFor="text">Post: </label>
+            <label htmlFor="text">Type your Post: </label>
             <textarea
               className={ContentCSS.contactMessage}
               name="message"
               id="message"
               cols="40"
               rows="10"
+              maxLength="300"
               required
               value={content}
               onChange={(event) => {
@@ -319,6 +309,15 @@ function NewPostForm() {
                 }}
               >
                 Law
+              </div>
+              <div
+                id="reading"
+                className={ContentCSS.tagButton}
+                onClick={function (e) {
+                  pickTag("reading");
+                }}
+              >
+                Reading
               </div>
             </div>
             <hr style={{ width: "350px" }} />

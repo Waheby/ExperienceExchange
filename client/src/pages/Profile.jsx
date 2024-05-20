@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import NavCSS from "../assets/styles/Navbar/nav.module.css";
+
 import Navbar from "../components/Navbar";
 import Post from "../components/Post";
 import ContentCSS from "../assets/styles/Content/content.module.css";
@@ -12,6 +14,7 @@ import {
 import * as jose from "jose";
 import { Icon } from "@iconify/react";
 import { ToastContainer, toast } from "react-toastify";
+import { Collapse, Modal, Popover } from "antd";
 
 function Profile() {
   let navigate = useNavigate();
@@ -23,8 +26,16 @@ function Profile() {
   const [contentInfo, setContentInfo] = useState("");
   const [user, setUser] = useState([""]);
   const [certificates, setCertificates] = useState([""]);
-
-  // const [rating, setRating] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const userID = params.userId;
 
@@ -138,7 +149,7 @@ function Profile() {
     if (rating != null) {
       const sum = rating.reduce((partialSum, a) => partialSum + a, 0);
       const count = rating.length;
-      const average = sum / count;
+      const average = (sum / count).toFixed(1);
       return average;
     } else return rating;
   };
@@ -209,11 +220,9 @@ function Profile() {
 
   return (
     <>
-      <h1 style={{ textAlign: "center" }}>
-        This is the profile of user: {params.userId}
-      </h1>
+      <h1 style={{ textAlign: "center" }}>Profile Page</h1>
       <div
-        style={{ flexDirection: "row" }}
+        style={{ flexDirection: "row", marginTop: "70px" }}
         className={ContentCSS.postsPageMainContainer}
       >
         <div
@@ -226,7 +235,12 @@ function Profile() {
           >
             {user[0].profileImage ? (
               <img
-                style={{ width: "110px", height: "110px" }}
+                style={{
+                  borderRadius: "150px",
+                  marginTop: "-70px",
+                  width: "150px",
+                  height: "150px",
+                }}
                 className={ContentCSS.detailedPostImg}
                 src={`${import.meta.env.VITE_CLOUDINARY_URL}/${
                   user[0].profileImage
@@ -245,35 +259,22 @@ function Profile() {
             )}
 
             <div
-              style={{ fontSize: "larger", margin: "15px" }}
+              style={{ fontSize: "xxx-large", margin: "15px" }}
               className={ContentCSS.detailedPostUsername}
             >
-              @{user[0].username}
-            </div>
-            <div
-              style={{
-                fontSize: "larger",
-                margin: "15px",
-                fontSize: "larger",
-                textAlign: "center",
-              }}
-            >
-              Rating: {calculateAverageRating(user[0].rating)}/10
+              {user[0].username}
             </div>
           </div>
-          <hr style={{ width: "95%" }} />
           <div
-            style={{ flexDirection: "column" }}
-            className={ContentCSS.detailedPostMid}
+            style={{
+              display: "flex",
+              width: "100%",
+              height: "100%",
+              textAlign: "center",
+              justifyContent: "center",
+              wordBreak: "break-all",
+            }}
           >
-            <p
-              style={{
-                fontSize: "larger",
-                textAlign: "center",
-              }}
-            >
-              Biography:
-            </p>
             <p
               style={{
                 fontSize: "larger",
@@ -283,52 +284,166 @@ function Profile() {
               {user[0].bio}
             </p>
           </div>
-          <hr style={{ width: "95%" }} />
           <div
-            style={{ flexDirection: "column" }}
-            className={ContentCSS.detailedPostFooter}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              textAlign: "center",
+              justifyContent: "center",
+              margin: "auto",
+              width: "50%",
+              marginBottom: "30px",
+            }}
           >
-            <p
-              style={{
-                fontSize: "larger",
-                textAlign: "center",
-              }}
-            >
-              Skills:
-            </p>
-            <p
-              style={{
-                fontSize: "larger",
-                textAlign: "center",
-              }}
-            >
-              {user[0].skills ? user[0].skills.join(" - ") : user[0].skills}
-            </p>
-          </div>
-          <hr style={{ width: "95%" }} />
-          <div
-            style={{ flexDirection: "column" }}
-            className={ContentCSS.detailedPostFooter}
-          >
-            <p
-              style={{
-                fontSize: "larger",
-                textAlign: "center",
-              }}
-            >
-              Certified Skills:
-            </p>
             <div
               style={{
-                fontSize: "larger",
+                display: "flex",
+                flexDirection: "column",
                 textAlign: "center",
+                margin: "auto",
+                width: "200px",
               }}
             >
-              {certificates.map((certificate, id) => {
-                return <span key={id}>{certificate.skill} - </span>;
-              })}
+              <div
+                style={{
+                  fontSize: "xx-large",
+                  fontWeight: "bold",
+                }}
+              >
+                {calculateAverageRating(user[0].rating)}
+              </div>
+              <div
+                style={{
+                  fontSize: "larger",
+                }}
+              >
+                Rating
+              </div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                textAlign: "center",
+                margin: "auto",
+                width: "200px",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: "xx-large",
+                  fontWeight: "bold",
+                }}
+              >
+                {user[0].skills ? user[0].skills.length : 0}
+              </div>
+              <div
+                style={{
+                  fontSize: "larger",
+                }}
+              >
+                Skills
+              </div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                textAlign: "center",
+                margin: "auto",
+                width: "200px",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: "xx-large",
+                  fontWeight: "bold",
+                }}
+              >
+                {certificates.length ? certificates.length : 0}
+              </div>
+              <div
+                style={{
+                  fontSize: "larger",
+                }}
+              >
+                Certified Skills
+              </div>
             </div>
           </div>
+
+          <Collapse
+            accordion
+            style={{ margin: "20px" }}
+            items={[
+              {
+                key: "1",
+                label: "Skills",
+                children: (
+                  <p
+                    style={{
+                      fontSize: "larger",
+                      textAlign: "center",
+                    }}
+                  >
+                    {user[0].skills
+                      ? user[0].skills.join(" - ")
+                      : user[0].skills}
+                  </p>
+                ),
+              },
+              {
+                key: "2",
+                label: "Certified Skills",
+                children: (
+                  <div
+                    style={{
+                      fontSize: "larger",
+                      textAlign: "center",
+                    }}
+                  >
+                    {certificates.map((certificate, id) => {
+                      return <span key={id}>{certificate.skill} - </span>;
+                    })}
+                  </div>
+                ),
+              },
+            ]}
+            defaultActiveKey={["1"]}
+            onChange={(key) => {
+              console.log(key);
+            }}
+          />
+          {username == userID ? (
+            <></>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                textAlign: "center",
+                justifyContent: "center",
+                margin: "auto",
+                width: "40%",
+                marginBottom: "30px",
+              }}
+            >
+              <button
+                style={{ width: "90%", padding: "20px", margin: "20px" }}
+                className={NavCSS.btnLogin}
+                onClick={showModal}
+              >
+                Send Message
+              </button>
+              <button
+                style={{ width: "90%", padding: "20px", margin: "20px" }}
+                className={NavCSS.btnLogin}
+                onClick={showModal}
+              >
+                Send Exchange Request
+              </button>
+            </div>
+          )}
         </div>
         {username == userID ? (
           <></>

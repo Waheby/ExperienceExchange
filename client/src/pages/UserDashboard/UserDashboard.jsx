@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import ReactStars from "react-rating-stars-component";
+import { Button, Drawer, Modal, Popover } from "antd";
 
 function UserDashboard() {
   let navigate = useNavigate();
@@ -22,12 +23,64 @@ function UserDashboard() {
   const [messages, setMessages] = useState([]);
   const [requests, setRequests] = useState([]);
   const [sessions, setSessions] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [sessionToken, setSessionToken] = useState("");
   const [joined, setJoined] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [newRating, setNewRating] = useState(null);
   const [averageRating, setAverageRating] = useState(null);
   const [certificates, setCertificates] = useState([""]);
+  const [openMessage, setOpenMessage] = useState(false);
+  const [openPosts, setOpenPosts] = useState(false);
+  const [openExchange, setOpenExchange] = useState(false);
+  const [openSession, setOpenSession] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const showMessage = () => {
+    setOpenMessage(true);
+    setLoading(true);
+
+    // Simple loading mock. You should add cleanup logic in real world.
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
+  const showExchange = () => {
+    setOpenExchange(true);
+    setLoading(true);
+
+    // Simple loading mock. You should add cleanup logic in real world.
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
+  const showSession = () => {
+    setOpenSession(true);
+    setLoading(true);
+
+    // Simple loading mock. You should add cleanup logic in real world.
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
+  const showPosts = () => {
+    setOpenPosts(true);
+    setLoading(true);
+
+    // Simple loading mock. You should add cleanup logic in real world.
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
 
   const userInfo = useRef([""]);
   let seperatedSkills = "";
@@ -151,11 +204,33 @@ function UserDashboard() {
       console.log(data);
     };
 
+    const getPost = async () => {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/post/history`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+          }),
+        }
+      ).catch((err) => {
+        console.log(err);
+      });
+
+      const data = await response.json();
+      console.log(data);
+      setPosts(data);
+    };
+
     getUser();
     getUserCerts();
     getRequests();
     getMessages();
     getSessions();
+    getPost();
   }, [toggle]);
   console.log(user.image);
   console.log(userInfo.current[0].profileImage);
@@ -236,7 +311,7 @@ function UserDashboard() {
     if (rating != null) {
       const sum = rating.reduce((partialSum, a) => partialSum + a, 0);
       const count = rating.length;
-      const average = sum / count;
+      const average = (sum / count).toFixed(1);
       return average;
     } else return rating;
   };
@@ -249,38 +324,50 @@ function UserDashboard() {
     } else otherUser = toUser;
 
     console.log(otherUser);
+    if (newRating != null) {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/user/rate`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            rating: newRating,
+            user: otherUser,
+          }),
+        }
+      ).catch((err) => {
+        console.log(err);
+      });
 
-    const response = await fetch(
-      `${import.meta.env.VITE_REACT_APP_API_URL}/user/rate`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
-        },
-        body: JSON.stringify({
-          rating: newRating,
-          user: otherUser,
-        }),
-      }
-    ).catch((err) => {
-      console.log(err);
-    });
+      const data = await response.json();
+      console.log(data);
+      toast.success("Rated Successfully!", {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
 
-    const data = await response.json();
-    console.log(data);
-    toast.success("Rated Successfully!", {
-      position: "bottom-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-
-    deleteSession(sessionId);
+      deleteSession(sessionId);
+    } else {
+      toast.error("Rating cannot be empty!", {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
   };
 
   if (role != "admin") {
@@ -290,37 +377,28 @@ function UserDashboard() {
           Hello, <span style={{ color: "#2C5F8D" }}>{username}</span>
         </h1>
 
-        <div
-          style={{
-            display: "flex",
-            margin: "auto",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            padding: "20px",
-            boxShadow: "2px 3px 5px #273e6e",
-          }}
-          className={ContentCSS.generalContainer}
-        >
+        <div className={ContentCSS.generalContainerDashboard}>
           <div
             style={{
-              margin: "auto",
               justifyContent: "center",
             }}
           >
-            <span
+            <div
               style={{
                 color: "#273e6e",
                 fontSize: "larger",
+                textAlign: "center",
               }}
             >
               User Card:
-            </span>
+            </div>
             <div
               className={ContentCSS.generalContainer}
               style={{
                 padding: "30px",
                 marginBottom: "10px",
                 maxWidth: "500px",
+                minWidth: "350px",
               }}
             >
               <ul style={{ overflowWrap: "anywhere", listStyleType: "none" }}>
@@ -383,88 +461,141 @@ function UserDashboard() {
               </ul>
             </div>
           </div>
-          <div style={{ margin: "auto", textAlign: "center" }}>
-            <span style={{ color: "#273e6e", fontSize: "larger" }}>
-              Messages:
-            </span>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                margin: "auto",
-                maxWidth: "460px",
-                width: "100%",
-                height: "360px",
-                minWidth: "260px",
-                overflowWrap: "break-word",
-                overflowY: "scroll",
-              }}
-              className={ContentCSS.generalContainer}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              flexWrap: "wrap",
+              margin: "auto",
+              width: "100%",
+            }}
+          >
+            <div className={ContentCSS.dashboardMainContainer}>
+              <div>
+                <span style={{ color: "#273e6e", fontSize: "larger" }}>
+                  Interactions:
+                </span>
+              </div>
+              <div className={ContentCSS.dashboardMainContainer}>
+                <Button
+                  className={ContentCSS.dashboardContainer}
+                  onClick={showMessage}
+                >
+                  <span style={{ fontSize: "xx-large" }}>
+                    {messages.length ? messages.length : 0}
+                  </span>
+                  <div className={ContentCSS.dashboardText}>Messages</div>
+                </Button>
+                <Button
+                  className={ContentCSS.dashboardContainer}
+                  onClick={showExchange}
+                >
+                  <span style={{ fontSize: "xx-large" }}>
+                    {requests.length ? requests.length : 0}
+                  </span>
+                  <div className={ContentCSS.dashboardText}>
+                    Exchange Requests
+                  </div>
+                </Button>
+                <Button
+                  className={ContentCSS.dashboardContainer}
+                  onClick={showSession}
+                >
+                  <span style={{ fontSize: "xx-large" }}>
+                    {sessions.length ? sessions.length : 0}
+                  </span>
+                  <div className={ContentCSS.dashboardText}>Sessions</div>
+                </Button>
+                <Button
+                  className={ContentCSS.dashboardContainer}
+                  onClick={showPosts}
+                >
+                  <span style={{ fontSize: "xx-large" }}>
+                    {posts.length ? posts.length : 0}
+                  </span>
+                  <div className={ContentCSS.dashboardText}>My Posts</div>
+                </Button>
+              </div>
+            </div>
+            <Drawer
+              closable
+              destroyOnClose
+              title={<p>Messages</p>}
+              placement="right"
+              open={openMessage}
+              loading={loading}
+              onClose={() => setOpenMessage(false)}
             >
               {messages.length > 0
                 ? messages.map((result, id) => {
                     return (
                       <div
-                        key={id}
                         style={{
                           display: "flex",
                           flexDirection: "column",
-                          marginRight: "15px",
+                          margin: "auto",
+                          width: "100%",
+                          overflowWrap: "break-word",
+                          marginBottom: "10px",
                         }}
+                        className={ContentCSS.generalContainer}
                       >
-                        <div>
-                          <span
-                            style={{ cursor: "pointer" }}
-                            onClick={() => {
-                              navigate(`/user/${result.fromUser}`);
-                            }}
-                          >
-                            @{result.fromUser}:{" "}
-                          </span>
-                          <span style={{ fontSize: "smaller" }}>
-                            {result.content}
-                          </span>
-                        </div>
-
-                        <hr
+                        <div
+                          key={id}
                           style={{
-                            minWidth: "260px",
-                            width: "100%",
+                            display: "flex",
+                            flexDirection: "column",
+                            marginLeft: "10px",
+                            padding: "10px",
                           }}
-                        ></hr>
+                        >
+                          <div>
+                            <span
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                navigate(`/user/${result.fromUser}`);
+                              }}
+                            >
+                              @{result.fromUser}:{" "}
+                            </span>
+                            <br />
+                            <span style={{ fontSize: "smaller" }}>
+                              {result.content}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     );
                   })
                 : "No Messages"}
-            </div>
-          </div>
-          <div style={{ margin: "auto", textAlign: "center" }}>
-            <div
-              style={{
-                margin: "10px",
-              }}
+            </Drawer>
+            <Drawer
+              closable
+              destroyOnClose
+              title={<p>Exchanges Requests</p>}
+              placement="right"
+              open={openExchange}
+              loading={loading}
+              onClose={() => setOpenExchange(false)}
             >
-              <span style={{ color: "#273e6e", fontSize: "larger" }}>
-                Exchange Requests:
-              </span>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  margin: "auto",
-                  maxWidth: "460px",
-                  width: "100%",
-                  minWidth: "260px",
-                  minHeight: "100px",
-                  maxHeight: "200px",
-                  overflowWrap: "break-word",
-                  overflowY: "scroll",
-                }}
-                className={ContentCSS.generalContainer}
-              >
-                {requests.length > 0
-                  ? requests.map((result, id) => {
-                      return (
+              {" "}
+              {requests.length > 0
+                ? requests.map((result, id) => {
+                    return (
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          margin: "auto",
+                          maxWidth: "460px",
+                          width: "100%",
+                          minWidth: "260px",
+                          minHeight: "100px",
+                          maxHeight: "200px",
+                          overflowWrap: "break-word",
+                        }}
+                        className={ContentCSS.generalContainer}
+                      >
                         <div
                           key={id}
                           style={{
@@ -515,36 +646,37 @@ function UserDashboard() {
                             }}
                           ></hr>
                         </div>
-                      );
-                    })
-                  : "No requests yet"}
-              </div>
-            </div>
-            <div
-              style={{
-                margin: "10px",
-              }}
+                      </div>
+                    );
+                  })
+                : "No requests yet"}
+            </Drawer>
+            <Drawer
+              closable
+              destroyOnClose
+              title={<p>Sessions Available</p>}
+              placement="right"
+              open={openSession}
+              loading={loading}
+              onClose={() => setOpenSession(false)}
             >
-              <span style={{ color: "#273e6e", fontSize: "larger" }}>
-                Sessions Available:
-              </span>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  margin: "auto",
-                  maxWidth: "460px",
-                  width: "100%",
-                  minWidth: "260px",
-                  maxHeight: "200px",
-                  overflowWrap: "break-word",
-                  overflowY: "scroll",
-                }}
-                className={ContentCSS.generalContainer}
-              >
-                {sessions.length > 0
-                  ? sessions.map((result, id) => {
-                      return (
+              {" "}
+              {sessions.length > 0
+                ? sessions.map((result, id) => {
+                    return (
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          margin: "auto",
+                          maxWidth: "460px",
+                          width: "100%",
+                          minWidth: "260px",
+                          maxHeight: "200px",
+                          overflowWrap: "break-word",
+                        }}
+                        className={ContentCSS.generalContainer}
+                      >
                         <div
                           key={id}
                           style={{
@@ -561,7 +693,7 @@ function UserDashboard() {
                             }}
                           >
                             <span>
-                              You can join a session with @
+                              You have an open session with @
                               {result.fromUser == username
                                 ? result.toUser
                                 : result.fromUser}
@@ -577,224 +709,273 @@ function UserDashboard() {
                                 margin: "auto",
                                 marginLeft: "5px",
                                 borderRadius: "10px",
+                                width: "150px",
+                                height: "45px",
                               }}
                             >
                               Join
                             </button>
-                            <Popup
-                              contentStyle={{
-                                textAlign: "center",
-                                justifyContent: "center",
-                                justifyItems: "center",
-                                alignContent: "center",
-                                alignItems: "center",
-                                borderRadius: "15px",
-                                padding: "30px",
-                              }}
-                              trigger={
-                                <button
-                                  // onClick={() => {
-                                  //   rate(result.toUser, result.fromUser);
-                                  // }}
+
+                            <Popover
+                              content={
+                                <div
                                   style={{
-                                    margin: "auto",
-                                    marginLeft: "5px",
-                                    borderRadius: "10px",
+                                    textAlign: "center",
+                                    justifyContent: "center",
+                                    justifyItems: "center",
+                                    alignContent: "center",
+                                    alignItems: "center",
+                                    borderRadius: "15px",
+                                    padding: "30px",
                                   }}
                                 >
-                                  Rate & Close
-                                </button>
+                                  <span
+                                    style={{
+                                      fontFamily: "DM Sans",
+                                      fontWeight: "bold",
+                                    }}
+                                  >
+                                    {" "}
+                                    Rate the Session{" "}
+                                  </span>
+                                  <div
+                                    style={{
+                                      width: "300px",
+                                      margin: "auto",
+                                    }}
+                                  >
+                                    <ReactStars
+                                      count={10}
+                                      onChange={ratingChanged}
+                                      size={34}
+                                      activeColor="#ffd700"
+                                    />
+                                  </div>
+                                  <br />
+                                  <button
+                                    style={{
+                                      borderRadius: "15px",
+                                      padding: "10px",
+                                    }}
+                                    onClick={() => {
+                                      modifyRating(
+                                        result.toUser,
+                                        result.fromUser,
+                                        result._id
+                                      );
+                                    }}
+                                  >
+                                    Submit Rating
+                                  </button>
+                                </div>
                               }
-                              modal
+                              title=""
+                              trigger="click"
                             >
-                              <span
-                                style={{
-                                  fontFamily: "DM Sans",
-                                  fontWeight: "bold",
-                                }}
-                              >
-                                {" "}
-                                Rate the Session{" "}
-                              </span>
-                              <div
-                                style={{
-                                  width: "300px",
-                                  margin: "auto",
-                                }}
-                              >
-                                <ReactStars
-                                  count={10}
-                                  onChange={ratingChanged}
-                                  size={34}
-                                  activeColor="#ffd700"
-                                />
-                              </div>
-                              <br />
                               <button
+                                onClick={showModal}
                                 style={{
-                                  borderRadius: "15px",
-                                  padding: "10px",
-                                }}
-                                onClick={() => {
-                                  modifyRating(
-                                    result.toUser,
-                                    result.fromUser,
-                                    result._id
-                                  );
+                                  margin: "auto",
+                                  marginLeft: "5px",
+                                  borderRadius: "10px",
+                                  width: "150px",
+                                  height: "45px",
                                 }}
                               >
-                                Submit Rating
+                                End
                               </button>
-                            </Popup>
-
-                            {/* <button
-                              onClick={() => {
-                                deleteSession(result._id);
-                              }}
+                            </Popover>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                : "No Sessions available"}
+            </Drawer>
+            <Drawer
+              closable
+              destroyOnClose
+              title={<p>My Posts History</p>}
+              placement="right"
+              open={openPosts}
+              loading={loading}
+              onClose={() => setOpenPosts(false)}
+            >
+              <div style={{}} className={ContentCSS.postsPageMainContainer}>
+                {posts.map((result, id) => {
+                  return (
+                    <div key={id}>
+                      <>
+                        <div
+                          onClick={() => navigate(`/posts/${result._id}`)}
+                          style={{
+                            cursor: "pointer",
+                            width: "340px",
+                            margin: "auto",
+                          }}
+                          className={ContentCSS.postContainer}
+                        >
+                          <div className={ContentCSS.postTop}>
+                            <div
+                              style={{ textAlign: "center" }}
+                              className={ContentCSS.postUsername}
+                            >
+                              @{result.creator}
+                            </div>
+                          </div>
+                          <div>
+                            <p
                               style={{
-                                margin: "auto",
-                                marginLeft: "5px",
-                                borderRadius: "10px",
+                                margin: "10px",
+                                textAlign: "center",
+                                overflow: "clip",
+                                wordBreak: "break-all",
                               }}
                             >
-                              End
-                            </button> */}
+                              {result.content}
+                            </p>
                           </div>
-                          <hr
-                            style={{
-                              minWidth: "260px",
-                            }}
-                          ></hr>
+
+                          <div
+                            style={{ flexDirection: "column" }}
+                            className={ContentCSS.postFooter}
+                          >
+                            <hr style={{ width: "338px" }} />
+                            <div
+                              style={{ textAlign: "center" }}
+                              className={ContentCSS.postFooterTag}
+                            >
+                              {result.tags.join(", ")}
+                            </div>
+                          </div>
                         </div>
-                      );
-                    })
-                  : "No Sessions available"}
+                      </>
+                    </div>
+                  );
+                })}
+              </div>
+            </Drawer>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                width: "100%",
+                margin: "auto",
+                flexGrow: "1",
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    textAlign: "center",
+                    color: "#273e6e",
+                    fontSize: "larger",
+                  }}
+                >
+                  Actions:
+                </div>
+              </div>
+              <div className={ContentCSS.dashboardMainContainer}>
+                <Link
+                  className={ContentCSS.dashboardContainer}
+                  to={"/userdashboard/skill"}
+                >
+                  <div>
+                    <Icon
+                      className={ContentCSS.dashboardIcon}
+                      icon="icons8:plus"
+                      style={{ color: "#2C5F8D" }}
+                    />
+                  </div>
+                  <div className={ContentCSS.dashboardText}>Add New Skill</div>
+                </Link>
+                <Link
+                  className={ContentCSS.dashboardContainer}
+                  to={"/userdashboard/newpost"}
+                >
+                  <div>
+                    <Icon
+                      className={ContentCSS.dashboardIcon}
+                      icon="material-symbols:post-add"
+                      style={{ color: "#2C5F8D" }}
+                    />
+                  </div>
+                  <div className={ContentCSS.dashboardText}>
+                    Create New Post
+                  </div>
+                </Link>
+                <Link
+                  className={ContentCSS.dashboardContainer}
+                  to={"/userdashboard/bio"}
+                >
+                  <div>
+                    <Icon
+                      className={ContentCSS.dashboardIcon}
+                      icon="fluent:text-description-16-filled"
+                      style={{ color: "#2C5F8D" }}
+                    />
+                  </div>
+                  <div className={ContentCSS.dashboardText}>
+                    Change Biography
+                  </div>
+                </Link>
+                <Link
+                  className={ContentCSS.dashboardContainer}
+                  to={"/userdashboard/upload"}
+                >
+                  <div>
+                    <Icon
+                      className={ContentCSS.dashboardIcon}
+                      icon="iconamoon:profile-circle-duotone"
+                      style={{ color: "#2C5F8D" }}
+                    />
+                  </div>
+                  <div className={ContentCSS.dashboardText}>
+                    Change Profile Picture
+                  </div>
+                </Link>
+                <Link className={ContentCSS.dashboardContainer}>
+                  <div>
+                    <Icon
+                      className={ContentCSS.dashboardIcon}
+                      icon="mdi:email-edit-outline"
+                      style={{ color: "#2C5F8D" }}
+                    />
+                  </div>
+                  <div className={ContentCSS.dashboardText}>Change Email</div>
+                </Link>
+                <Link
+                  className={ContentCSS.dashboardContainer}
+                  // to={"/userdashboard/newpost"}
+                >
+                  <div>
+                    <Icon
+                      className={ContentCSS.dashboardIcon}
+                      icon="carbon:password"
+                      style={{ color: "#2C5F8D" }}
+                    />
+                  </div>
+                  <div className={ContentCSS.dashboardText}>
+                    Change Password
+                  </div>
+                </Link>
+                <Link
+                  className={ContentCSS.dashboardContainer}
+                  to={"/userdashboard/verify"}
+                >
+                  <div>
+                    <Icon
+                      className={ContentCSS.dashboardIcon}
+                      icon="bitcoin-icons:verify-filled"
+                      style={{ color: "#2C5F8D" }}
+                    />
+                  </div>
+                  <div className={ContentCSS.dashboardText}>Verify Skill</div>
+                </Link>
               </div>
             </div>
           </div>
-        </div>
-        <h1 style={{ textAlign: "center" }}>Actions:</h1>
-
-        <div className={ContentCSS.dashboardMainContainer}>
-          <Link
-            className={ContentCSS.dashboardContainer}
-            to={"/userdashboard/skill"}
-          >
-            <div>
-              <Icon
-                className={ContentCSS.dashboardIcon}
-                icon="icons8:plus"
-                style={{ color: "#2C5F8D" }}
-              />
-            </div>
-            <div className={ContentCSS.dashboardText}>Add New Skill</div>
-          </Link>
-          <Link
-            className={ContentCSS.dashboardContainer}
-            to={"/userdashboard/newpost"}
-          >
-            <div>
-              <Icon
-                className={ContentCSS.dashboardIcon}
-                icon="material-symbols:post-add"
-                style={{ color: "#2C5F8D" }}
-              />
-            </div>
-            <div className={ContentCSS.dashboardText}>Create New Post</div>
-          </Link>
-          <Link
-            className={ContentCSS.dashboardContainer}
-            to={"/userdashboard/bio"}
-          >
-            <div>
-              <Icon
-                className={ContentCSS.dashboardIcon}
-                icon="fluent:text-description-16-filled"
-                style={{ color: "#2C5F8D" }}
-              />
-            </div>
-            <div className={ContentCSS.dashboardText}>Change Biography</div>
-          </Link>
-          <Link
-            className={ContentCSS.dashboardContainer}
-            to={"/userdashboard/upload"}
-          >
-            <div>
-              <Icon
-                className={ContentCSS.dashboardIcon}
-                icon="iconamoon:profile-circle-duotone"
-                style={{ color: "#2C5F8D" }}
-              />
-            </div>
-            <div className={ContentCSS.dashboardText}>
-              Change Profile Picture
-            </div>
-          </Link>
-          {/* <Link
-          className={ContentCSS.dashboardContainer}
-          to={"/userdashboard/username"}
-        >
-          <div>
-            <Icon
-              className={ContentCSS.dashboardIcon}
-              icon="mdi:rename-outline"
-              style={{ color: "#2C5F8D" }}
-            />
-          </div>
-          <div className={ContentCSS.dashboardText}>Change Username</div>
-        </Link> */}
-          <Link
-            className={ContentCSS.dashboardContainer}
-            // to={"/userdashboard/newpost"}
-          >
-            <div>
-              <Icon
-                className={ContentCSS.dashboardIcon}
-                icon="mdi:email-edit-outline"
-                style={{ color: "#2C5F8D" }}
-              />
-            </div>
-            <div className={ContentCSS.dashboardText}>Change Email</div>
-          </Link>
-          <Link
-            className={ContentCSS.dashboardContainer}
-            // to={"/userdashboard/newpost"}
-          >
-            <div>
-              <Icon
-                className={ContentCSS.dashboardIcon}
-                icon="carbon:password"
-                style={{ color: "#2C5F8D" }}
-              />
-            </div>
-            <div className={ContentCSS.dashboardText}>Change Password</div>
-          </Link>
-          <Link
-            className={ContentCSS.dashboardContainer}
-            to={"/userdashboard/posts-history"}
-          >
-            <div>
-              <Icon
-                className={ContentCSS.dashboardIcon}
-                icon="solar:posts-carousel-vertical-outline"
-                style={{ color: "#2C5F8D" }}
-              />
-            </div>
-            <div className={ContentCSS.dashboardText}>My Posts History</div>
-          </Link>
-          <Link
-            className={ContentCSS.dashboardContainer}
-            to={"/userdashboard/verify"}
-          >
-            <div>
-              <Icon
-                className={ContentCSS.dashboardIcon}
-                icon="bitcoin-icons:verify-filled"
-                style={{ color: "#2C5F8D" }}
-              />
-            </div>
-            <div className={ContentCSS.dashboardText}>Verify Skill</div>
-          </Link>
         </div>
       </>
     );
@@ -820,6 +1001,7 @@ function UserDashboard() {
   //      / /\ \    / _` | | '_ ` _ \  | | | '_ \
   //     / ____ \  | (_| | | | | | | | | | | | | |
   //    /_/    \_\  \__,_| |_| |_| |_| |_| |_| |_|
+  //
   //==================================================================//
   //==================================================================//
   //==================================================================//
@@ -840,32 +1022,29 @@ function UserDashboard() {
         <h1 style={{ textAlign: "center" }}>
           Hello, <span style={{ color: "#2C5F8D" }}>{username}</span>
         </h1>
-        <div
-          style={{
-            display: "flex",
-            margin: "auto",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            padding: "20px",
-            boxShadow: "2px 3px 5px #273e6e",
-          }}
-          className={ContentCSS.generalContainer}
-        >
-          <div style={{ margin: "auto", justifyContent: "center" }}>
-            <span
+        <div className={ContentCSS.generalContainerDashboard}>
+          <div
+            style={{
+              margin: "auto",
+              justifyContent: "center",
+            }}
+          >
+            <div
               style={{
                 color: "#273e6e",
                 fontSize: "larger",
+                textAlign: "center",
               }}
             >
               User Card:
-            </span>
+            </div>
             <div
               className={ContentCSS.generalContainer}
               style={{
                 padding: "30px",
                 marginBottom: "10px",
                 maxWidth: "500px",
+                minWidth: "350px",
               }}
             >
               <ul style={{ overflowWrap: "anywhere", listStyleType: "none" }}>
@@ -916,7 +1095,7 @@ function UserDashboard() {
                   })}
                 </li>
                 <li>
-                  <strong>Rating:</strong> {rating}
+                  <strong>Rating:</strong> {calculateAverageRating(rating)}
                 </li>
                 <li>
                   <strong>Role:</strong> {role}
@@ -927,379 +1106,511 @@ function UserDashboard() {
               </ul>
             </div>
           </div>
-          <div style={{ margin: "auto", textAlign: "center" }}>
-            <span style={{ color: "#273e6e", fontSize: "larger" }}>
-              Messages:
-            </span>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                margin: "auto",
-                maxWidth: "460px",
-                width: "100%",
-                height: "360px",
-                minWidth: "260px",
-                overflowWrap: "break-word",
-                overflowY: "scroll",
-              }}
-              className={ContentCSS.generalContainer}
-            >
-              {messages.length > 0
-                ? messages.map((result, id) => {
-                    return (
-                      <div
-                        key={id}
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          marginRight: "15px",
-                        }}
-                      >
-                        <div>
-                          <span
-                            style={{ cursor: "pointer" }}
-                            onClick={() => {
-                              navigate(`/user/${result.fromUser}`);
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              flexWrap: "wrap",
+              margin: "auto",
+              width: "100%",
+            }}
+          >
+            <div className={ContentCSS.dashboardMainContainer}>
+              <div>
+                <span style={{ color: "#273e6e", fontSize: "larger" }}>
+                  Stats:
+                </span>
+              </div>
+              <div className={ContentCSS.dashboardMainContainer}>
+                <Button
+                  className={ContentCSS.dashboardContainer}
+                  onClick={showMessage}
+                >
+                  <span style={{ fontSize: "xx-large" }}>
+                    {messages.length ? messages.length : 0}
+                  </span>
+                  <div className={ContentCSS.dashboardText}>Messages</div>
+                </Button>
+                <Button
+                  className={ContentCSS.dashboardContainer}
+                  onClick={showExchange}
+                >
+                  <span style={{ fontSize: "xx-large" }}>
+                    {requests.length ? requests.length : 0}
+                  </span>
+                  <div className={ContentCSS.dashboardText}>
+                    Exchange Requests
+                  </div>
+                </Button>
+                <Button
+                  className={ContentCSS.dashboardContainer}
+                  onClick={showSession}
+                >
+                  <span style={{ fontSize: "xx-large" }}>
+                    {sessions.length ? sessions.length : 0}
+                  </span>
+                  <div className={ContentCSS.dashboardText}>Open Sessions</div>
+                </Button>
+                <Button
+                  className={ContentCSS.dashboardContainer}
+                  onClick={showPosts}
+                >
+                  <span style={{ fontSize: "xx-large" }}>
+                    {posts.length ? posts.length : 0}
+                  </span>
+                  <div className={ContentCSS.dashboardText}>My Posts</div>
+                </Button>
+              </div>
+              <Drawer
+                closable
+                destroyOnClose
+                title={<p>Messages</p>}
+                placement="right"
+                open={openMessage}
+                loading={loading}
+                onClose={() => setOpenMessage(false)}
+              >
+                {messages.length > 0
+                  ? messages.map((result, id) => {
+                      return (
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            margin: "auto",
+                            width: "100%",
+                            overflowWrap: "break-word",
+                            marginBottom: "10px",
+                          }}
+                          className={ContentCSS.generalContainer}
+                        >
+                          <div
+                            key={id}
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              marginLeft: "10px",
+                              padding: "10px",
                             }}
                           >
-                            @{result.fromUser}:{" "}
-                          </span>
-                          <span style={{ fontSize: "smaller" }}>
-                            {result.content}
-                          </span>
+                            <div>
+                              <span
+                                style={{ cursor: "pointer" }}
+                                onClick={() => {
+                                  navigate(`/user/${result.fromUser}`);
+                                }}
+                              >
+                                @{result.fromUser}:{" "}
+                              </span>
+                              <br />
+                              <span style={{ fontSize: "smaller" }}>
+                                {result.content}
+                              </span>
+                            </div>
+                          </div>
                         </div>
-
-                        <hr
-                          style={{
-                            minWidth: "260px",
-                            width: "100%",
-                          }}
-                        ></hr>
-                      </div>
-                    );
-                  })
-                : "No Messages"}
-            </div>
-          </div>
-          <div style={{ margin: "auto", textAlign: "center" }}>
-            <div
-              style={{
-                margin: "10px",
-              }}
-            >
-              <span style={{ color: "#273e6e", fontSize: "larger" }}>
-                Exchange Requests:
-              </span>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  margin: "auto",
-                  maxWidth: "460px",
-                  width: "100%",
-                  minWidth: "260px",
-                  minHeight: "100px",
-                  maxHeight: "200px",
-                  overflowWrap: "break-word",
-                  overflowY: "scroll",
-                }}
-                className={ContentCSS.generalContainer}
+                      );
+                    })
+                  : "No Messages"}
+              </Drawer>
+              <Drawer
+                closable
+                destroyOnClose
+                title={<p>Exchanges Requests</p>}
+                placement="right"
+                open={openExchange}
+                loading={loading}
+                onClose={() => setOpenExchange(false)}
               >
+                {" "}
                 {requests.length > 0
                   ? requests.map((result, id) => {
                       return (
                         <div
-                          key={id}
                           style={{
                             display: "flex",
                             flexDirection: "column",
-                            padding: "10px",
-                            marginRight: "15px",
+                            margin: "auto",
+                            maxWidth: "460px",
+                            width: "100%",
+                            minWidth: "260px",
+                            minHeight: "100px",
+                            maxHeight: "200px",
+                            overflowWrap: "break-word",
                           }}
+                          className={ContentCSS.generalContainer}
                         >
                           <div
+                            key={id}
                             style={{
                               display: "flex",
-                              flexDirection: "row",
+                              flexDirection: "column",
                               padding: "10px",
+                              marginRight: "15px",
                             }}
                           >
-                            <span>
-                              @{result.fromUser} sent you an exchange request
-                            </span>
-                            <button
-                              onClick={() => {
-                                modifyRequest(result._id, "accept");
-                              }}
+                            <div
                               style={{
-                                margin: "auto",
-                                marginLeft: "5px",
-                                marginRight: "5px",
-                                borderRadius: "10px",
+                                display: "flex",
+                                flexDirection: "row",
+                                padding: "10px",
                               }}
                             >
-                              Accept
-                            </button>
-                            <button
-                              onClick={() => {
-                                modifyRequest(result._id, "deny");
-                              }}
+                              <span>
+                                @{result.fromUser} sent you an exchange request
+                              </span>
+                              <button
+                                onClick={() => {
+                                  modifyRequest(result._id, "accept");
+                                }}
+                                style={{
+                                  margin: "auto",
+                                  marginLeft: "5px",
+                                  marginRight: "5px",
+                                  borderRadius: "10px",
+                                }}
+                              >
+                                Accept
+                              </button>
+                              <button
+                                onClick={() => {
+                                  modifyRequest(result._id, "deny");
+                                }}
+                                style={{
+                                  margin: "auto",
+                                  borderRadius: "10px",
+                                }}
+                              >
+                                Deny
+                              </button>
+                            </div>
+                            <hr
                               style={{
-                                margin: "auto",
-                                borderRadius: "10px",
+                                minWidth: "260px",
                               }}
-                            >
-                              Deny
-                            </button>
+                            ></hr>
                           </div>
-                          <hr
-                            style={{
-                              minWidth: "260px",
-                            }}
-                          ></hr>
                         </div>
                       );
                     })
                   : "No requests yet"}
-              </div>
-            </div>
-            <div
-              style={{
-                margin: "10px",
-              }}
-            >
-              <span style={{ color: "#273e6e", fontSize: "larger" }}>
-                Sessions Available:
-              </span>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  margin: "auto",
-                  maxWidth: "460px",
-                  width: "100%",
-                  minWidth: "260px",
-                  maxHeight: "200px",
-                  overflowWrap: "break-word",
-                  overflowY: "scroll",
-                }}
-                className={ContentCSS.generalContainer}
+              </Drawer>
+              <Drawer
+                closable
+                destroyOnClose
+                title={<p>Sessions Available</p>}
+                placement="right"
+                open={openSession}
+                loading={loading}
+                onClose={() => setOpenSession(false)}
               >
+                {" "}
                 {sessions.length > 0
                   ? sessions.map((result, id) => {
                       return (
                         <div
-                          key={id}
                           style={{
                             display: "flex",
                             flexDirection: "column",
-                            padding: "10px",
-                            marginRight: "15px",
+                            margin: "auto",
+                            maxWidth: "460px",
+                            width: "100%",
+                            minWidth: "260px",
+                            maxHeight: "200px",
+                            overflowWrap: "break-word",
                           }}
+                          className={ContentCSS.generalContainer}
                         >
                           <div
+                            key={id}
                             style={{
                               display: "flex",
-                              flexDirection: "row",
+                              flexDirection: "column",
+                              padding: "10px",
+                              marginRight: "15px",
                             }}
                           >
-                            <span>
-                              You can join a session with @
-                              {result.fromUser == username
-                                ? result.toUser
-                                : result.fromUser}
-                            </span>
-                            <button
-                              onClick={() => {
-                                joinSession(
-                                  result.channelToken,
-                                  result.channel
-                                );
-                              }}
+                            <div
                               style={{
-                                margin: "auto",
-                                marginLeft: "5px",
-                                borderRadius: "10px",
+                                display: "flex",
+                                flexDirection: "row",
                               }}
                             >
-                              Join
-                            </button>
-                            <Popup
-                              contentStyle={{
-                                textAlign: "center",
-                                justifyContent: "center",
-                                justifyItems: "center",
-                                alignContent: "center",
-                                alignItems: "center",
-                                borderRadius: "15px",
-                                padding: "30px",
-                              }}
-                              trigger={
+                              <span>
+                                You have an open session with @
+                                {result.fromUser == username
+                                  ? result.toUser
+                                  : result.fromUser}
+                              </span>
+                              <button
+                                onClick={() => {
+                                  joinSession(
+                                    result.channelToken,
+                                    result.channel
+                                  );
+                                }}
+                                style={{
+                                  margin: "auto",
+                                  marginLeft: "5px",
+                                  borderRadius: "10px",
+                                  width: "150px",
+                                  height: "45px",
+                                }}
+                              >
+                                Join
+                              </button>
+
+                              <Popover
+                                content={
+                                  <div
+                                    style={{
+                                      textAlign: "center",
+                                      justifyContent: "center",
+                                      justifyItems: "center",
+                                      alignContent: "center",
+                                      alignItems: "center",
+                                      borderRadius: "15px",
+                                      padding: "30px",
+                                    }}
+                                  >
+                                    <span
+                                      style={{
+                                        fontFamily: "DM Sans",
+                                        fontWeight: "bold",
+                                      }}
+                                    >
+                                      {" "}
+                                      Rate the Session{" "}
+                                    </span>
+                                    <div
+                                      style={{
+                                        width: "300px",
+                                        margin: "auto",
+                                      }}
+                                    >
+                                      <ReactStars
+                                        count={10}
+                                        onChange={ratingChanged}
+                                        size={34}
+                                        activeColor="#ffd700"
+                                      />
+                                    </div>
+                                    <br />
+                                    <button
+                                      style={{
+                                        borderRadius: "15px",
+                                        padding: "10px",
+                                      }}
+                                      onClick={() => {
+                                        modifyRating(
+                                          result.toUser,
+                                          result.fromUser,
+                                          result._id
+                                        );
+                                      }}
+                                    >
+                                      Submit Rating
+                                    </button>
+                                  </div>
+                                }
+                                title=""
+                                trigger="click"
+                              >
                                 <button
-                                  // onClick={() => {
-                                  //   rate(result.toUser, result.fromUser);
-                                  // }}
+                                  onClick={showModal}
                                   style={{
                                     margin: "auto",
                                     marginLeft: "5px",
                                     borderRadius: "10px",
+                                    width: "150px",
+                                    height: "45px",
                                   }}
                                 >
-                                  Rate
+                                  End
                                 </button>
-                              }
-                              modal
-                            >
-                              <span
-                                style={{
-                                  fontFamily: "DM Sans",
-                                  fontWeight: "bold",
-                                }}
-                              >
-                                {" "}
-                                Rate the Session{" "}
-                              </span>
-                              <div
-                                style={{
-                                  width: "300px",
-                                  margin: "auto",
-                                }}
-                              >
-                                <ReactStars
-                                  count={10}
-                                  onChange={ratingChanged}
-                                  size={34}
-                                  activeColor="#ffd700"
-                                />
-                              </div>
-                              <br />
-                              <button
-                                style={{
-                                  borderRadius: "15px",
-                                  padding: "10px",
-                                }}
-                                onClick={() => {
-                                  modifyRating(
-                                    result.toUser,
-                                    result.fromUser,
-                                    result._id
-                                  );
-                                }}
-                              >
-                                Submit Rating
-                              </button>
-                            </Popup>
-                            {/* <button
-                              onClick={() => {
-                                deleteSession(result._id);
-                              }}
-                              style={{
-                                margin: "auto",
-                                marginLeft: "5px",
-                                borderRadius: "10px",
-                              }}
-                            >
-                              End
-                            </button> */}
+                              </Popover>
+                            </div>
                           </div>
-                          <hr
-                            style={{
-                              minWidth: "260px",
-                            }}
-                          ></hr>
                         </div>
                       );
                     })
                   : "No Sessions available"}
-              </div>
-            </div>
-          </div>
-        </div>
-        <h1 style={{ textAlign: "center" }}>Actions:</h1>
-        <div className={ContentCSS.dashboardMainContainer}>
-          <Link
-            className={ContentCSS.dashboardContainer}
-            to={"/userdashboard/check-verify"}
-          >
-            <div>
-              <Icon
-                className={ContentCSS.dashboardIcon}
-                icon="bitcoin-icons:verify-filled"
-                style={{ color: "#2C5F8D" }}
-              />
-            </div>
-            <div className={ContentCSS.dashboardText}>Verify User Skills</div>
-          </Link>
-          <Link
-            className={ContentCSS.dashboardContainer}
-            to={"/userdashboard/suspend"}
-          >
-            <div>
-              <Icon
-                className={ContentCSS.dashboardIcon}
-                icon="mdi:person-block"
-                style={{ color: "#2C5F8D" }}
-              />
-            </div>
-            <div className={ContentCSS.dashboardText}>Suspend a User</div>
-          </Link>
+              </Drawer>
+              <Drawer
+                closable
+                destroyOnClose
+                title={<p>My Posts History</p>}
+                placement="right"
+                open={openPosts}
+                loading={loading}
+                onClose={() => setOpenPosts(false)}
+              >
+                <div style={{}} className={ContentCSS.postsPageMainContainer}>
+                  {posts.map((result, id) => {
+                    return (
+                      <div key={id}>
+                        <>
+                          <div
+                            onClick={() => navigate(`/posts/${result._id}`)}
+                            style={{
+                              cursor: "pointer",
+                              width: "340px",
+                              margin: "auto",
+                            }}
+                            className={ContentCSS.postContainer}
+                          >
+                            <div className={ContentCSS.postTop}>
+                              <div
+                                style={{ textAlign: "center" }}
+                                className={ContentCSS.postUsername}
+                              >
+                                @{result.creator}
+                              </div>
+                            </div>
+                            <div>
+                              <p
+                                style={{
+                                  margin: "10px",
+                                  textAlign: "center",
+                                  overflow: "clip",
+                                  wordBreak: "break-all",
+                                }}
+                              >
+                                {result.content}
+                              </p>
+                            </div>
 
-          <Link
-            className={ContentCSS.dashboardContainer}
-            to={"/userdashboard/announcement"}
-          >
-            <div>
-              <Icon
-                className={ContentCSS.dashboardIcon}
-                icon="grommet-icons:announce"
-                style={{ color: "#2C5F8D" }}
-              />
-            </div>
-            <div className={ContentCSS.dashboardText}>Publish Announcement</div>
-          </Link>
-          <Link
-            className={ContentCSS.dashboardContainer}
-            to={"/userdashboard/newpost"}
-          >
-            <div>
-              <Icon
-                className={ContentCSS.dashboardIcon}
-                icon="material-symbols:post-add"
-                style={{ color: "#2C5F8D" }}
-              />
-            </div>
-            <div className={ContentCSS.dashboardText}>Create New Posts</div>
-          </Link>
-          <Link
-            className={ContentCSS.dashboardContainer}
-            to={"/userdashboard/bio"}
-          >
-            <div>
-              <Icon
-                className={ContentCSS.dashboardIcon}
-                icon="fluent:text-description-16-filled"
-                style={{ color: "#2C5F8D" }}
-              />
-            </div>
-            <div className={ContentCSS.dashboardText}>Change Biography</div>
-          </Link>
-          <Link
-            className={ContentCSS.dashboardContainer}
-            to={"/userdashboard/upload"}
-          >
-            <div>
-              <Icon
-                className={ContentCSS.dashboardIcon}
-                icon="iconamoon:profile-circle-duotone"
-                style={{ color: "#2C5F8D" }}
-              />
-            </div>
-            <div className={ContentCSS.dashboardText}>
-              Change Profile Picture
-            </div>
-          </Link>
-          {/* <Link
+                            <div
+                              style={{ flexDirection: "column" }}
+                              className={ContentCSS.postFooter}
+                            >
+                              <hr style={{ width: "338px" }} />
+                              <div
+                                style={{ textAlign: "center" }}
+                                className={ContentCSS.postFooterTag}
+                              >
+                                {result.tags.join(", ")}
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      </div>
+                    );
+                  })}
+                </div>
+              </Drawer>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  width: "100%",
+                  margin: "auto",
+                  flexGrow: "1",
+                }}
+              >
+                <div>
+                  <div
+                    style={{
+                      textAlign: "center",
+                      color: "#273e6e",
+                      fontSize: "larger",
+                    }}
+                  >
+                    Actions:
+                  </div>
+                </div>
+                <div className={ContentCSS.dashboardMainContainer}>
+                  <Link
+                    className={ContentCSS.dashboardContainer}
+                    to={"/userdashboard/check-verify"}
+                  >
+                    <div>
+                      <Icon
+                        className={ContentCSS.dashboardIcon}
+                        icon="bitcoin-icons:verify-filled"
+                        style={{ color: "#2C5F8D" }}
+                      />
+                    </div>
+                    <div className={ContentCSS.dashboardText}>
+                      Verify User Skills
+                    </div>
+                  </Link>
+                  <Link
+                    className={ContentCSS.dashboardContainer}
+                    to={"/userdashboard/suspend"}
+                  >
+                    <div>
+                      <Icon
+                        className={ContentCSS.dashboardIcon}
+                        icon="mdi:person-block"
+                        style={{ color: "#2C5F8D" }}
+                      />
+                    </div>
+                    <div className={ContentCSS.dashboardText}>
+                      Suspend a User
+                    </div>
+                  </Link>
+
+                  <Link
+                    className={ContentCSS.dashboardContainer}
+                    to={"/userdashboard/announcement"}
+                  >
+                    <div>
+                      <Icon
+                        className={ContentCSS.dashboardIcon}
+                        icon="grommet-icons:announce"
+                        style={{ color: "#2C5F8D" }}
+                      />
+                    </div>
+                    <div className={ContentCSS.dashboardText}>Announcement</div>
+                  </Link>
+                  <Link
+                    className={ContentCSS.dashboardContainer}
+                    to={"/userdashboard/newpost"}
+                  >
+                    <div>
+                      <Icon
+                        className={ContentCSS.dashboardIcon}
+                        icon="material-symbols:post-add"
+                        style={{ color: "#2C5F8D" }}
+                      />
+                    </div>
+                    <div className={ContentCSS.dashboardText}>
+                      Create New Posts
+                    </div>
+                  </Link>
+                  <Link
+                    className={ContentCSS.dashboardContainer}
+                    to={"/userdashboard/bio"}
+                  >
+                    <div>
+                      <Icon
+                        className={ContentCSS.dashboardIcon}
+                        icon="fluent:text-description-16-filled"
+                        style={{ color: "#2C5F8D" }}
+                      />
+                    </div>
+                    <div className={ContentCSS.dashboardText}>
+                      Change Biography
+                    </div>
+                  </Link>
+                  <Link
+                    className={ContentCSS.dashboardContainer}
+                    to={"/userdashboard/upload"}
+                  >
+                    <div>
+                      <Icon
+                        className={ContentCSS.dashboardIcon}
+                        icon="iconamoon:profile-circle-duotone"
+                        style={{ color: "#2C5F8D" }}
+                      />
+                    </div>
+                    <div className={ContentCSS.dashboardText}>
+                      Change Profile Picture
+                    </div>
+                  </Link>
+                  {/* <Link
             className={ContentCSS.dashboardContainer}
             to={"/userdashboard/username"}
           >
@@ -1312,45 +1623,38 @@ function UserDashboard() {
             </div>
             <div className={ContentCSS.dashboardText}>Change Username</div>
           </Link> */}
-          <Link
-            className={ContentCSS.dashboardContainer}
-            // to={"/userdashboard/newpost"}
-          >
-            <div>
-              <Icon
-                className={ContentCSS.dashboardIcon}
-                icon="mdi:email-edit-outline"
-                style={{ color: "#2C5F8D" }}
-              />
+                  <Link
+                    className={ContentCSS.dashboardContainer}
+                    // to={"/userdashboard/newpost"}
+                  >
+                    <div>
+                      <Icon
+                        className={ContentCSS.dashboardIcon}
+                        icon="mdi:email-edit-outline"
+                        style={{ color: "#2C5F8D" }}
+                      />
+                    </div>
+                    <div className={ContentCSS.dashboardText}>Change Email</div>
+                  </Link>
+                  <Link
+                    className={ContentCSS.dashboardContainer}
+                    // to={"/userdashboard/newpost"}
+                  >
+                    <div>
+                      <Icon
+                        className={ContentCSS.dashboardIcon}
+                        icon="carbon:password"
+                        style={{ color: "#2C5F8D" }}
+                      />
+                    </div>
+                    <div className={ContentCSS.dashboardText}>
+                      Change Password
+                    </div>
+                  </Link>
+                </div>
+              </div>
             </div>
-            <div className={ContentCSS.dashboardText}>Change Email</div>
-          </Link>
-          <Link
-            className={ContentCSS.dashboardContainer}
-            // to={"/userdashboard/newpost"}
-          >
-            <div>
-              <Icon
-                className={ContentCSS.dashboardIcon}
-                icon="carbon:password"
-                style={{ color: "#2C5F8D" }}
-              />
-            </div>
-            <div className={ContentCSS.dashboardText}>Change Password</div>
-          </Link>
-          <Link
-            className={ContentCSS.dashboardContainer}
-            to={"/userdashboard/posts-history"}
-          >
-            <div>
-              <Icon
-                className={ContentCSS.dashboardIcon}
-                icon="solar:posts-carousel-vertical-outline"
-                style={{ color: "#2C5F8D" }}
-              />
-            </div>
-            <div className={ContentCSS.dashboardText}>My Posts History</div>
-          </Link>
+          </div>
         </div>
       </>
     );
