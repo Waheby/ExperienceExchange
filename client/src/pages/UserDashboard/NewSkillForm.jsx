@@ -4,6 +4,7 @@ import ContentCSS from "../../assets/styles/Content/content.module.css";
 import { Icon } from "@iconify/react";
 import * as jose from "jose";
 import { ToastContainer, toast } from "react-toastify";
+import { Select } from "antd";
 
 function NewSkillForm() {
   let navigate = useNavigate();

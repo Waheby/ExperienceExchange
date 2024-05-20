@@ -322,17 +322,31 @@ function SearchResults() {
                         className={ContentCSS.postTop}
                       >
                         <div>
-                          <img
-                            style={{
-                              width: "70px",
-                              height: "70px",
-                              borderStyle: "solid",
-                              borderWidth: "1px",
-                            }}
-                            className={ContentCSS.postImg}
-                            src={`/profile/${result.profileImage}`}
-                            alt="profile pic"
-                          />
+                          {result.profileImage ? (
+                            <img
+                              style={{
+                                width: "70px",
+                                height: "70px",
+                                borderStyle: "solid",
+                                borderWidth: "1px",
+                              }}
+                              className={ContentCSS.postImg}
+                              src={`/profile/${result.profileImage}`}
+                              alt="profile pic"
+                            />
+                          ) : (
+                            <img
+                              style={{
+                                width: "70px",
+                                height: "70px",
+                                borderStyle: "solid",
+                                borderWidth: "1px",
+                              }}
+                              className={ContentCSS.postImg}
+                              src={`/profile/DefaultProfile.svg`}
+                              alt="profile pic"
+                            />
+                          )}
                         </div>
                       </div>
                       <div>
