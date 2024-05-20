@@ -224,14 +224,26 @@ function Profile() {
             style={{ marginTop: "15px" }}
             className={ContentCSS.detailedPostTop}
           >
-            <img
-              style={{ width: "110px", height: "110px" }}
-              className={ContentCSS.detailedPostImg}
-              src={`${import.meta.env.VITE_CLOUDINARY_URL}/${
-                user[0].profileImage
-              }`}
-              alt="profile pic"
-            />
+            {user[0].profileImage ? (
+              <img
+                style={{ width: "110px", height: "110px" }}
+                className={ContentCSS.detailedPostImg}
+                src={`${import.meta.env.VITE_CLOUDINARY_URL}/${
+                  user[0].profileImage
+                }`}
+                alt="profile pic"
+              />
+            ) : (
+              <img
+                style={{ width: "110px", height: "110px" }}
+                className={ContentCSS.detailedPostImg}
+                src={`${
+                  import.meta.env.VITE_CLOUDINARY_URL
+                }/DefaultProfile.svg`}
+                alt="profile pic"
+              />
+            )}
+
             <div
               style={{ fontSize: "larger", margin: "15px" }}
               className={ContentCSS.detailedPostUsername}

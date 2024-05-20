@@ -3,6 +3,7 @@ import ContentCSS from "../assets/styles/Content/content.module.css";
 import { Icon } from "@iconify/react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { Empty } from "antd";
 
 function SearchResults() {
   let navigate = useNavigate();
@@ -303,7 +304,7 @@ function SearchResults() {
           <div
             style={{ fontSize: "larger", margin: "auto", marginTop: "150px" }}
           >
-            No Results Found...
+            <Empty />
           </div>
         ) : (
           results.map((result, id) => {

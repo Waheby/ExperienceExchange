@@ -287,8 +287,7 @@ function UserDashboard() {
     return (
       <>
         <h1 style={{ textAlign: "center" }}>
-          This is Your User Dashboard{" "}
-          <span style={{ color: "#2C5F8D" }}>{username}</span>
+          Hello, <span style={{ color: "#2C5F8D" }}>{username}</span>
         </h1>
 
         <div
@@ -325,17 +324,32 @@ function UserDashboard() {
               }}
             >
               <ul style={{ overflowWrap: "anywhere", listStyleType: "none" }}>
-                <img
-                  style={{
-                    width: "70px",
-                    height: "70px",
-                    borderRadius: "50px",
-                  }}
-                  src={`${import.meta.env.VITE_CLOUDINARY_URL}/${
-                    userInfo.current[0].profileImage
-                  }`}
-                  alt="user profile picture"
-                />
+                {userInfo.current[0].profileImage ? (
+                  <img
+                    style={{
+                      width: "70px",
+                      height: "70px",
+                      borderRadius: "50px",
+                    }}
+                    src={`${import.meta.env.VITE_CLOUDINARY_URL}/${
+                      userInfo.current[0].profileImage
+                    }`}
+                    alt="user profile picture"
+                  />
+                ) : (
+                  <img
+                    style={{
+                      width: "70px",
+                      height: "70px",
+                      borderRadius: "50px",
+                    }}
+                    src={`${
+                      import.meta.env.VITE_CLOUDINARY_URL
+                    }/DefaultProfile.svg`}
+                    alt="user profile picture"
+                  />
+                )}
+
                 <li>
                   <strong>Username:</strong> {username}
                 </li>
@@ -785,13 +799,46 @@ function UserDashboard() {
       </>
     );
   }
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //                    _               _
+  //        /\         | |             (_)
+  //       /  \      __| |  _ __ ___    _   _ __
+  //      / /\ \    / _` | | '_ ` _ \  | | | '_ \
+  //     / ____ \  | (_| | | | | | | | | | | | | |
+  //    /_/    \_\  \__,_| |_| |_| |_| |_| |_| |_|
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
+  //==================================================================//
 
   if (role === "admin") {
     return (
       <>
         <h1 style={{ textAlign: "center" }}>
-          Welcome to Your Admin Dashboard{" "}
-          <span style={{ color: "#2C5F8D" }}>{username}</span>
+          Hello, <span style={{ color: "#2C5F8D" }}>{username}</span>
         </h1>
         <div
           style={{
@@ -822,17 +869,31 @@ function UserDashboard() {
               }}
             >
               <ul style={{ overflowWrap: "anywhere", listStyleType: "none" }}>
-                <img
-                  style={{
-                    width: "70px",
-                    height: "70px",
-                    borderRadius: "50px",
-                  }}
-                  src={`${import.meta.env.VITE_CLOUDINARY_URL}/${
-                    userInfo.current[0].profileImage
-                  }`}
-                  alt="user profile picture"
-                />
+                {userInfo.current[0].profileImage ? (
+                  <img
+                    style={{
+                      width: "70px",
+                      height: "70px",
+                      borderRadius: "50px",
+                    }}
+                    src={`${import.meta.env.VITE_CLOUDINARY_URL}/${
+                      userInfo.current[0].profileImage
+                    }`}
+                    alt="user profile picture"
+                  />
+                ) : (
+                  <img
+                    style={{
+                      width: "70px",
+                      height: "70px",
+                      borderRadius: "50px",
+                    }}
+                    src={`${
+                      import.meta.env.VITE_CLOUDINARY_URL
+                    }/DefaultProfile.svg`}
+                    alt="user profile picture"
+                  />
+                )}
                 <li>
                   <strong>Username:</strong> {username}
                 </li>
