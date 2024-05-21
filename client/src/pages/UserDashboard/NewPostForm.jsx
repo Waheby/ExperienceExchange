@@ -148,13 +148,15 @@ function NewPostForm() {
               id="message"
               cols="40"
               rows="10"
-              maxLength="300"
               required
               value={content}
               onChange={(event) => {
                 setContent(event.target.value);
               }}
             ></textarea>
+            <div style={{ fontSize: "small", color: "grey" }}>
+              Text Length: {content.length}/300
+            </div>
             <label htmlFor="text">Pick relevant tags: </label>
             <div className={ContentCSS.tagsContainer}>
               <div

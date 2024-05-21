@@ -132,6 +132,9 @@ function ChangeBio() {
                 setBio(event.target.value);
               }}
             />
+            <div style={{ fontSize: "small", color: "grey" }}>
+              Text Length: {bio.length}/150
+            </div>
             <hr style={{ width: "350px" }} />
             <button className={ContentCSS.loginButton} disabled={isSubmitting}>
               Confirm & Change Biography

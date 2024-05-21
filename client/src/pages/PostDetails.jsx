@@ -607,6 +607,15 @@ function PostDetails() {
                   setContent(event.target.value);
                 }}
               ></textarea>
+              <div
+                style={{
+                  textAlign: "center",
+                  fontSize: "small",
+                  color: "grey",
+                }}
+              >
+                Text Length: {content.length}/200
+              </div>
               <button
                 onClick={() => {
                   createComment();

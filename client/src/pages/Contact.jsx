@@ -136,13 +136,15 @@ function Contact() {
             id="message"
             cols="40"
             rows="10"
-            maxLength="600"
             required
             value={message}
             onChange={(event) => {
               setMessage(event.target.value);
             }}
           ></textarea>
+          <div style={{ fontSize: "small", color: "grey" }}>
+            Text Length: {message.length}/600
+          </div>
           <hr style={{ width: "350px" }} />
           <button className={ContentCSS.loginButton} disabled={isSubmitting}>
             Send Message

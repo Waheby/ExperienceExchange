@@ -47,7 +47,7 @@ function NewAnnouncement() {
   const CreateAnnouncement = async (e) => {
     e.preventDefault();
 
-    if (input.length <= 50 && input.length > 0) {
+    if (input.length <= 150 && input.length > 0) {
       const response = await fetch(
         `${import.meta.env.VITE_REACT_APP_API_URL}/admin/announcement`,
         {
@@ -114,6 +114,9 @@ function NewAnnouncement() {
                 setInput(event.target.value);
               }}
             />
+            <div style={{ fontSize: "small", color: "grey" }}>
+              Text Length: {input.length}/150
+            </div>
             <hr style={{ width: "350px" }} />
             <button
               style={{ backgroundColor: "green", color: "white" }}

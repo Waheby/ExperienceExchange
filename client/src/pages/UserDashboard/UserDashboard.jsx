@@ -640,6 +640,24 @@ function UserDashboard() {
                               minWidth: "260px",
                             }}
                           ></hr>
+                          <div>
+                            <div
+                              style={{
+                                margin: "auto",
+                                textAlign: "center",
+                              }}
+                            >
+                              Additional Info:
+                            </div>
+                            <div
+                              style={{
+                                margin: "auto",
+                                width: "100%",
+                              }}
+                            >
+                              {result.content}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     );
@@ -1233,7 +1251,6 @@ function UserDashboard() {
                             width: "100%",
                             minWidth: "260px",
                             minHeight: "100px",
-                            maxHeight: "200px",
                             overflowWrap: "break-word",
                           }}
                           className={ContentCSS.generalContainer}
@@ -1287,6 +1304,24 @@ function UserDashboard() {
                                 minWidth: "260px",
                               }}
                             ></hr>
+                            <div>
+                              <div
+                                style={{
+                                  margin: "auto",
+                                  textAlign: "center",
+                                }}
+                              >
+                                Additional Info:
+                              </div>
+                              <div
+                                style={{
+                                  margin: "auto",
+                                  width: "100%",
+                                }}
+                              >
+                                {result.content}
+                              </div>
+                            </div>
                           </div>
                         </div>
                       );

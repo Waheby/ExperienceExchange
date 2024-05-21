@@ -471,6 +471,11 @@ function Profile() {
                         setContent(e.target.value);
                       }}
                     ></textarea>
+                    <div style={{ fontSize: "small", color: "grey" }}>
+                      Text Length: {content.length}/400
+                    </div>
+                    <hr style={{ width: "350px" }} />
+
                     <button
                       style={{ width: "60%" }}
                       className={ContentCSS.loginButton}
@@ -523,6 +528,9 @@ function Profile() {
                         setContentInfo(e.target.value);
                       }}
                     ></textarea>
+                    <div style={{ fontSize: "small", color: "grey" }}>
+                      Text Length: {contentInfo.length}/400
+                    </div>
                     <hr style={{ width: "350px" }} />
                     <button
                       style={{ width: "60%" }}
