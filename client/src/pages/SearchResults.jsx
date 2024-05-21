@@ -331,7 +331,9 @@ function SearchResults() {
                                 borderWidth: "1px",
                               }}
                               className={ContentCSS.postImg}
-                              src={`/profile/${result.profileImage}`}
+                              src={`${import.meta.env.VITE_CLOUDINARY_URL}/${
+                                result.profileImage
+                              }`}
                               alt="profile pic"
                             />
                           ) : (
@@ -343,7 +345,9 @@ function SearchResults() {
                                 borderWidth: "1px",
                               }}
                               className={ContentCSS.postImg}
-                              src={`/profile/DefaultProfile.svg`}
+                              src={`${
+                                import.meta.env.VITE_CLOUDINARY_URL
+                              }/DefaultProfile.svg`}
                               alt="profile pic"
                             />
                           )}

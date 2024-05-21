@@ -270,7 +270,12 @@ function Profile() {
               />
             ) : (
               <img
-                style={{ width: "110px", height: "110px" }}
+                style={{
+                  borderRadius: "150px",
+                  marginTop: "-70px",
+                  width: "150px",
+                  height: "150px",
+                }}
                 className={ContentCSS.detailedPostImg}
                 src={`${
                   import.meta.env.VITE_CLOUDINARY_URL
