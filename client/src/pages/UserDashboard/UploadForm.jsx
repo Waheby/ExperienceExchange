@@ -35,7 +35,7 @@ function UploadForm() {
     const formData1 = new FormData();
     formData1.append("file", file);
     formData1.append("upload_preset", "experienceexchange");
-    console.log(file.name.includes(".jpg"));
+    // console.log(file.name.includes(".jpg"));
     if (
       file.name.includes(".jpg") ||
       file.name.includes(".png") ||

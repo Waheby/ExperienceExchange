@@ -26,16 +26,9 @@ function Profile() {
   const [contentInfo, setContentInfo] = useState("");
   const [user, setUser] = useState([""]);
   const [certificates, setCertificates] = useState([""]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  const [openMessage, setOpenMessage] = useState(false);
+  const [openExchange, setOpenExchange] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
 
   const userID = params.userId;
 
@@ -217,6 +210,34 @@ function Profile() {
     getUserCerts();
   }, []);
   // console.log(username);
+
+  const showModalMessage = () => {
+    setOpenMessage(true);
+  };
+  const showModalExchange = () => {
+    setOpenExchange(true);
+  };
+  const handleOkMessage = () => {
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setOpenMessage(false);
+      setOpenExchange(false);
+      setConfirmLoading(false);
+    }, 2000);
+  };
+  const handleOkExchange = () => {
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setOpenMessage(false);
+      setOpenExchange(false);
+      setConfirmLoading(false);
+    }, 2000);
+  };
+  const handleCancel = () => {
+    console.log("Clicked cancel button");
+    setOpenMessage(false);
+    setOpenExchange(false);
+  };
 
   return (
     <>
@@ -428,20 +449,100 @@ function Profile() {
                 marginBottom: "30px",
               }}
             >
-              <button
-                style={{ width: "90%", padding: "20px", margin: "20px" }}
-                className={NavCSS.btnLogin}
-                onClick={showModal}
+              <Popover
+                content={
+                  <form
+                    onSubmit={sendMessage}
+                    className={ContentCSS.contactFormContainer}
+                    style={{ boxShadow: "none" }}
+                  >
+                    <label htmlFor="text">Type your message: </label>
+                    <textarea
+                      className={ContentCSS.contactMessage}
+                      name="message"
+                      id="message"
+                      cols="40"
+                      rows="10"
+                      required
+                      maxLength="400"
+                      style={{ resize: "none" }}
+                      value={content}
+                      onChange={(e) => {
+                        setContent(e.target.value);
+                      }}
+                    ></textarea>
+                    <button
+                      style={{ width: "60%" }}
+                      className={ContentCSS.loginButton}
+                    >
+                      Confirm Message to {user[0].username}
+                    </button>
+                  </form>
+                }
+                title=""
+                trigger="click"
               >
-                Send Message
-              </button>
-              <button
-                style={{ width: "90%", padding: "20px", margin: "20px" }}
-                className={NavCSS.btnLogin}
-                onClick={showModal}
+                <button
+                  style={{ width: "90%", padding: "20px", margin: "20px" }}
+                  className={NavCSS.btnLogin}
+                  onClick={showModalMessage}
+                >
+                  Send Message
+                </button>
+              </Popover>
+              <Popover
+                content={
+                  <form
+                    onSubmit={sendRequest}
+                    className={ContentCSS.contactFormContainer}
+                    style={{ boxShadow: "none" }}
+                  >
+                    <label htmlFor="text">Channel name: </label>
+                    <input
+                      className={ContentCSS.loginInput}
+                      type="text"
+                      required
+                      maxLength="10"
+                      value={channel}
+                      onChange={(e) => {
+                        setChannel(e.target.value);
+                      }}
+                    />
+                    <label htmlFor="text">Additonal Information: </label>
+                    <textarea
+                      className={ContentCSS.contactMessage}
+                      name="message"
+                      id="message"
+                      cols="40"
+                      rows="10"
+                      required
+                      maxLength="400"
+                      style={{ resize: "none" }}
+                      value={contentInfo}
+                      onChange={(e) => {
+                        setContentInfo(e.target.value);
+                      }}
+                    ></textarea>
+                    <hr style={{ width: "350px" }} />
+                    <button
+                      style={{ width: "60%" }}
+                      className={ContentCSS.loginButton}
+                    >
+                      Send Exchange Session
+                    </button>
+                  </form>
+                }
+                title=""
+                trigger="click"
               >
-                Send Exchange Request
-              </button>
+                <button
+                  style={{ width: "90%", padding: "20px", margin: "20px" }}
+                  className={NavCSS.btnLogin}
+                  onClick={showModalExchange}
+                >
+                  Send Exchange Request
+                </button>
+              </Popover>
             </div>
           )}
         </div>
@@ -452,73 +553,7 @@ function Profile() {
             style={{ width: "100%" }}
             className={ContentCSS.registerContainer}
           >
-            <div style={{ margin: "20px" }}>
-              <form
-                onSubmit={sendMessage}
-                className={ContentCSS.contactFormContainer}
-              >
-                <label htmlFor="text">Type your message: </label>
-                <textarea
-                  className={ContentCSS.contactMessage}
-                  name="message"
-                  id="message"
-                  cols="40"
-                  rows="10"
-                  required
-                  maxLength="400"
-                  value={content}
-                  onChange={(e) => {
-                    setContent(e.target.value);
-                  }}
-                ></textarea>
-                <hr style={{ width: "350px" }} />
-                <button
-                  style={{ width: "60%" }}
-                  className={ContentCSS.loginButton}
-                >
-                  Send Message to {user[0].username}
-                </button>
-              </form>
-            </div>
-            <div style={{ margin: "20px" }}>
-              <form
-                onSubmit={sendRequest}
-                className={ContentCSS.contactFormContainer}
-              >
-                <label htmlFor="text">Channel name: </label>
-                <input
-                  className={ContentCSS.loginInput}
-                  type="text"
-                  required
-                  maxLength="10"
-                  value={channel}
-                  onChange={(e) => {
-                    setChannel(e.target.value);
-                  }}
-                />
-                <label htmlFor="text">Additonal Information: </label>
-                <textarea
-                  className={ContentCSS.contactMessage}
-                  name="message"
-                  id="message"
-                  cols="40"
-                  rows="10"
-                  required
-                  maxLength="400"
-                  value={contentInfo}
-                  onChange={(e) => {
-                    setContentInfo(e.target.value);
-                  }}
-                ></textarea>
-                <hr style={{ width: "350px" }} />
-                <button
-                  style={{ width: "60%" }}
-                  className={ContentCSS.loginButton}
-                >
-                  Send Exchange Session
-                </button>
-              </form>
-            </div>
+            <div style={{ margin: "20px" }}></div>
           </div>
         )}
       </div>

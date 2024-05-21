@@ -225,7 +225,7 @@ export const userNewPassword = async (req, res) => {
 export const userUploadImage = async (req, res) => {
   const token = req.headers["x-access-token"];
   const file = req.body.file;
-
+  const updatedFileName = file.split(" ").join("_");
   // cloudinary.config({
   //   cloud_name: "dpsa9tlr5",
   //   api_key: "472164376875152",
@@ -247,7 +247,7 @@ export const userUploadImage = async (req, res) => {
       } else {
         const user = await UsersEX.findOneAndUpdate(
           { username: decodeToken.username },
-          { $set: { profileImage: file } }
+          { $set: { profileImage: updatedFileName } }
         );
         if (!user) {
           res.status(400).json({ message: "User Dont Exist" });
