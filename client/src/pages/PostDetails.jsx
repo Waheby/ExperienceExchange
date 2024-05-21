@@ -546,6 +546,47 @@ function PostDetails() {
             </div>
           </div>
         </div>
+        <h1 style={{ textAlign: "center" }}>Similar Posts </h1>
+        <div className={ContentCSS.postsPageMainContainer}>
+          {resultsSimilar.map((result, id) => {
+            return (
+              <div key={id}>
+                <>
+                  <div
+                    className={ContentCSS.postContainer}
+                    onClick={() => {
+                      navigate(`/posts/${result._id}`);
+                      location.reload();
+                    }}
+                  >
+                    <div className={ContentCSS.postTop}>
+                      <div
+                        style={{ textAlign: "center" }}
+                        className={ContentCSS.postUsername}
+                      >
+                        @{result.creator}
+                      </div>
+                    </div>
+                    <hr style={{ width: "95%" }} />
+                    <div style={{ overflow: "hidden", height: "150px" }}>
+                      <p style={{ textAlign: "center" }}>{result.content}</p>
+                    </div>
+                    <hr style={{ width: "370px" }} />
+                    <div className={ContentCSS.postFooter}>
+                      <span
+                        style={{ textAlign: "center" }}
+                        className={ContentCSS.postFooterShowComments}
+                      >
+                        {result.tags ? result.tags.join(", ") : null}
+                      </span>
+                    </div>
+                  </div>
+                </>
+              </div>
+            );
+          })}
+        </div>
+        <div></div>
         <div>
           <h1 style={{ textAlign: "center" }}>Comments Section:</h1>
           <div className={ContentCSS.postsPageMainContainer}>
