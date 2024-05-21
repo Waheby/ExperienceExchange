@@ -225,7 +225,13 @@ export const userNewPassword = async (req, res) => {
 export const userUploadImage = async (req, res) => {
   const token = req.headers["x-access-token"];
   const file = req.body.file;
-  const updatedFileName = file.split(" ").join("_");
+  const updatedFileName = file
+    .split(" ")
+    .join("_")
+    .split("(")
+    .join("")
+    .split(")")
+    .join("");
   // cloudinary.config({
   //   cloud_name: "dpsa9tlr5",
   //   api_key: "472164376875152",
