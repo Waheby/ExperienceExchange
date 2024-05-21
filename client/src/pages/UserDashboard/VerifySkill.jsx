@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ContentCSS from "../../assets/styles/Content/content.module.css";
 import { Icon } from "@iconify/react";
@@ -14,6 +14,29 @@ function UploadForm() {
   const [file, setFile] = useState("");
   const [skillsArray, setSkillsArray] = useState([""]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const userInfo = useRef([""]);
+
+  const getUser = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/user/get-user`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          username: username,
+        }),
+      }
+    ).catch((err) => {
+      console.log(err);
+    });
+
+    const data = await response.json();
+    userInfo.current = data;
+    console.log(userInfo.current[0].skills);
+  };
 
   //Deny entry to non-authorized users
   useEffect(() => {
@@ -30,6 +53,8 @@ function UploadForm() {
         navigate("/login");
       } else console.log("User Authenticated");
     } else navigate("/login");
+
+    getUser();
   }, []);
 
   const uploadFile = async (e) => {
@@ -147,7 +172,6 @@ function UploadForm() {
             <label htmlFor="text">Enter the Skill: </label>
 
             <select
-              defaultValue={skillsArray[0]}
               name="skill"
               id="skill"
               required
@@ -159,13 +183,17 @@ function UploadForm() {
               }}
             >
               <option>{""}</option>
-              {skillsArray.map((skill, id) => {
-                return (
-                  <option key={id} value={skill}>
-                    {skill}
-                  </option>
-                );
-              })}
+              {userInfo.current[0].skills ? (
+                userInfo.current[0].skills.map((skill, id) => {
+                  return (
+                    <option key={id} value={skill}>
+                      {skill}
+                    </option>
+                  );
+                })
+              ) : (
+                <></>
+              )}
             </select>
             <label htmlFor="text">Additional Information: </label>
             <textarea
