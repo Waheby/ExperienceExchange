@@ -930,7 +930,10 @@ function UserDashboard() {
                     Change Profile Picture
                   </div>
                 </Link>
-                <Link className={ContentCSS.dashboardContainer}>
+                <Link
+                  className={ContentCSS.dashboardContainer}
+                  to={"/userdashboard/change-email"}
+                >
                   <div>
                     <Icon
                       className={ContentCSS.dashboardIcon}
@@ -942,7 +945,7 @@ function UserDashboard() {
                 </Link>
                 <Link
                   className={ContentCSS.dashboardContainer}
-                  // to={"/userdashboard/newpost"}
+                  to={"/userdashboard/change-password"}
                 >
                   <div>
                     <Icon
@@ -1441,57 +1444,59 @@ function UserDashboard() {
                 onClose={() => setOpenPosts(false)}
               >
                 <div style={{}} className={ContentCSS.postsPageMainContainer}>
-                  {posts.map((result, id) => {
-                    return (
-                      <div key={id}>
-                        <>
-                          <div
-                            onClick={() => navigate(`/posts/${result._id}`)}
-                            style={{
-                              cursor: "pointer",
-                              width: "340px",
-                              margin: "auto",
-                            }}
-                            className={ContentCSS.postContainer}
-                          >
-                            <div className={ContentCSS.postTop}>
+                  {posts.length > 0
+                    ? posts.map((result, id) => {
+                        return (
+                          <div key={id}>
+                            <>
                               <div
-                                style={{ textAlign: "center" }}
-                                className={ContentCSS.postUsername}
-                              >
-                                @{result.creator}
-                              </div>
-                            </div>
-                            <div>
-                              <p
+                                onClick={() => navigate(`/posts/${result._id}`)}
                                 style={{
-                                  margin: "10px",
-                                  textAlign: "center",
-                                  overflow: "clip",
-                                  wordBreak: "break-all",
+                                  cursor: "pointer",
+                                  width: "340px",
+                                  margin: "auto",
                                 }}
+                                className={ContentCSS.postContainer}
                               >
-                                {result.content}
-                              </p>
-                            </div>
+                                <div className={ContentCSS.postTop}>
+                                  <div
+                                    style={{ textAlign: "center" }}
+                                    className={ContentCSS.postUsername}
+                                  >
+                                    @{result.creator}
+                                  </div>
+                                </div>
+                                <div>
+                                  <p
+                                    style={{
+                                      margin: "10px",
+                                      textAlign: "center",
+                                      overflow: "clip",
+                                      wordBreak: "break-all",
+                                    }}
+                                  >
+                                    {result.content}
+                                  </p>
+                                </div>
 
-                            <div
-                              style={{ flexDirection: "column" }}
-                              className={ContentCSS.postFooter}
-                            >
-                              <hr style={{ width: "338px" }} />
-                              <div
-                                style={{ textAlign: "center" }}
-                                className={ContentCSS.postFooterTag}
-                              >
-                                {result.tags.join(", ")}
+                                <div
+                                  style={{ flexDirection: "column" }}
+                                  className={ContentCSS.postFooter}
+                                >
+                                  <hr style={{ width: "338px" }} />
+                                  <div
+                                    style={{ textAlign: "center" }}
+                                    className={ContentCSS.postFooterTag}
+                                  >
+                                    {result.tags.join(", ")}
+                                  </div>
+                                </div>
                               </div>
-                            </div>
+                            </>
                           </div>
-                        </>
-                      </div>
-                    );
-                  })}
+                        );
+                      })
+                    : "No Posts yet"}
                 </div>
               </Drawer>
               <div
@@ -1620,7 +1625,7 @@ function UserDashboard() {
           </Link> */}
                   <Link
                     className={ContentCSS.dashboardContainer}
-                    // to={"/userdashboard/newpost"}
+                    to={"/userdashboard/change-email"}
                   >
                     <div>
                       <Icon
@@ -1633,7 +1638,7 @@ function UserDashboard() {
                   </Link>
                   <Link
                     className={ContentCSS.dashboardContainer}
-                    // to={"/userdashboard/newpost"}
+                    to={"/userdashboard/change-password"}
                   >
                     <div>
                       <Icon

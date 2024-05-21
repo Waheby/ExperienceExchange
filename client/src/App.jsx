@@ -26,6 +26,9 @@ import CheckVerify from "./pages/UserDashboard/CheckVerify";
 import SuspendUser from "./pages/UserDashboard/SuspendUser";
 import NewAnnouncement from "./pages/UserDashboard/NewAnnouncement";
 import PostsHistory from "./pages/UserDashboard/PostsHistory";
+import ChangeEmail from "./pages/UserDashboard/ChangeEmail";
+import ChangePassword from "./pages/UserDashboard/ChangePassword";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -35,7 +38,6 @@ function App() {
       <div>
         <BrowserRouter>
           <Navbar></Navbar>
-          {/* <AnnouncementBox></AnnouncementBox> */}
           <Routes>
             <Route index element={<Home />}></Route>
             <Route path="/home" element={<Home />}></Route>
@@ -83,6 +85,14 @@ function App() {
             <Route
               path="/userdashboard/posts-history"
               element={<PostsHistory />}
+            ></Route>
+            <Route
+              path="/userdashboard/change-email"
+              element={<ChangeEmail />}
+            ></Route>
+            <Route
+              path="/userdashboard/change-password"
+              element={<ChangePassword />}
             ></Route>
             <Route path="*" element={<NoPage />}></Route>
           </Routes>
