@@ -2,17 +2,19 @@ import { useEffect, useState } from "react";
 import ContentCSS from "../../assets/styles/Content/content.module.css";
 import * as jose from "jose";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function PostsHistory() {
+  const userStore = useSelector((state) => state.user);
   let navigate = useNavigate();
-  const token = localStorage.getItem("token");
-  const user = jose.decodeJwt(token);
+  const token = userStore?.token?.token || localStorage.getItem("token");
+  // const user = jose.decodeJwt(token);
   const url = "http://localhost:5000";
   const [results, setResult] = useState([]);
-  const [username, setUsername] = useState(user.username);
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = userStore?.token?.token || localStorage.getItem("token");
     if (token) {
       const user = jose.decodeJwt(token);
       setUsername(user.username);

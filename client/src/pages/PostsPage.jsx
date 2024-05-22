@@ -4,13 +4,15 @@ import Post from "../components/Post";
 import ContentCSS from "../assets/styles/Content/content.module.css";
 import * as jose from "jose";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function PostsPage() {
+  const userStore = useSelector((state) => state.user);
   let navigate = useNavigate();
   const [results, setResult] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = userStore?.token?.token || localStorage.getItem("token");
     if (token) {
       const user = jose.decodeJwt(token);
       if (!user) {

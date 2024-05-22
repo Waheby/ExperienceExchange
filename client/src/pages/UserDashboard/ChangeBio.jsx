@@ -5,8 +5,10 @@ import { Icon } from "@iconify/react";
 import * as jose from "jose";
 import { ToastContainer, toast } from "react-toastify";
 import Filter from "bad-words";
+import { useSelector } from "react-redux";
 
 function ChangeBio() {
+  const userStore = useSelector((state) => state.user);
   let navigate = useNavigate();
   var filter = new Filter();
   filter.addWords("badword", "kill", "Badword", "loser");
@@ -16,7 +18,7 @@ function ChangeBio() {
 
   //Deny entry to non-authorized users OR get user info
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = userStore?.token?.token || localStorage.getItem("token");
     if (token) {
       const user = jose.decodeJwt(token);
       setUsername(user.username);
@@ -36,7 +38,7 @@ function ChangeBio() {
         {
           method: "POST",
           headers: {
-            "x-access-token": localStorage.getItem("token"),
+            "x-access-token": token,
           },
         }
       ).catch((err) => {
@@ -60,7 +62,8 @@ function ChangeBio() {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "x-access-token": localStorage.getItem("token"),
+              "x-access-token":
+                userStore?.token?.token || localStorage.getItem("token"),
             },
             body: JSON.stringify({
               bio: bio,

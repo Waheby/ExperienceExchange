@@ -1,5 +1,6 @@
 import ContentCSS from "../assets/styles/Content/content.module.css";
 import { Icon } from "@iconify/react";
+import { useSelector } from "react-redux";
 
 function Infocard() {
   return (

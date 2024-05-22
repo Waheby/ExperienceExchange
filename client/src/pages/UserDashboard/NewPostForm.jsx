@@ -5,8 +5,10 @@ import { Icon } from "@iconify/react";
 import * as jose from "jose";
 import { ToastContainer, toast } from "react-toastify";
 import Filter from "bad-words";
+import { useSelector } from "react-redux";
 
 function NewPostForm() {
+  const userStore = useSelector((state) => state.user);
   let navigate = useNavigate();
   const url = "http://localhost:5000";
   var filter = new Filter();
@@ -21,7 +23,7 @@ function NewPostForm() {
 
   //Deny entry to non-authorized users
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = userStore?.token?.token || localStorage.getItem("token");
     if (token) {
       const user = jose.decodeJwt(token);
       setUsername(user.username);
@@ -46,7 +48,8 @@ function NewPostForm() {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                "x-access-token": localStorage.getItem("token"),
+                "x-access-token":
+                  userStore?.token?.token || localStorage.getItem("token"),
               },
               body: JSON.stringify({
                 content: content,

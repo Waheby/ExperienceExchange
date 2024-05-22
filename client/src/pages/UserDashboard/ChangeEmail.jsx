@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Navbar from "../../components/Navbar";
 import Searchbar from "../../components/Searchbar";
+import { useSelector } from "react-redux";
 
 function ChangeEmail() {
   return (

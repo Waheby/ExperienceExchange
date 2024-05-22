@@ -5,8 +5,10 @@ import { Icon } from "@iconify/react";
 import * as jose from "jose";
 import { ToastContainer, toast } from "react-toastify";
 import { Cloudinary } from "@cloudinary/url-gen";
+import { useSelector } from "react-redux";
 
 function UploadForm() {
+  const userStore = useSelector((state) => state.user);
   let navigate = useNavigate();
   const [username, setUsername] = useState(null);
   const [skill, setSkill] = useState(null);
@@ -40,7 +42,7 @@ function UploadForm() {
 
   //Deny entry to non-authorized users
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = userStore?.token?.token || localStorage.getItem("token");
     if (token) {
       const user = jose.decodeJwt(token);
       setUsername(user.username);
@@ -94,7 +96,8 @@ function UploadForm() {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "x-access-token": localStorage.getItem("token"),
+              "x-access-token":
+                userStore?.token?.token || localStorage.getItem("token"),
             },
             body: JSON.stringify({
               file: file.name,

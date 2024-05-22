@@ -4,14 +4,16 @@ import ContentCSS from "../../assets/styles/Content/content.module.css";
 import { Icon } from "@iconify/react";
 import * as jose from "jose";
 import { ToastContainer, toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 function NewAnnouncement() {
+  const userStore = useSelector((state) => state.user);
   let navigate = useNavigate();
   const [input, setInput] = useState("");
   const [username, setUsername] = useState("");
   //Deny entry to non-authorized users OR get user info
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = userStore?.token?.token || localStorage.getItem("token");
     if (token) {
       const user = jose.decodeJwt(token);
       setUsername(user.username);
@@ -31,7 +33,8 @@ function NewAnnouncement() {
         {
           method: "GET",
           headers: {
-            "x-access-token": localStorage.getItem("token"),
+            "x-access-token":
+              userStore?.token?.token || localStorage.getItem("token"),
           },
         }
       ).catch((err) => {
@@ -54,7 +57,8 @@ function NewAnnouncement() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-access-token": localStorage.getItem("token"),
+            "x-access-token":
+              userStore?.token?.token || localStorage.getItem("token"),
           },
           body: JSON.stringify({
             content: input,

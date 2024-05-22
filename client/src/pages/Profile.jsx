@@ -15,11 +15,14 @@ import * as jose from "jose";
 import { Icon } from "@iconify/react";
 import { ToastContainer, toast } from "react-toastify";
 import { Collapse, Modal, Popover } from "antd";
+import { useSelector } from "react-redux";
 
 function Profile() {
+  const userStore = useSelector((state) => state.user);
+
   let navigate = useNavigate();
   const params = useParams();
-  const token = localStorage.getItem("token");
+  const token = userStore?.token?.token || localStorage.getItem("token");
   const [username, setUsername] = useState("");
   const [content, setContent] = useState("");
   const [channel, setChannel] = useState("");
@@ -39,7 +42,7 @@ function Profile() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
+          "x-access-token": token,
         },
         body: JSON.stringify({
           username: userID,
@@ -62,7 +65,7 @@ function Profile() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
+          "x-access-token": token,
         },
         body: JSON.stringify({
           username: userID,
@@ -87,7 +90,7 @@ function Profile() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
+          "x-access-token": token,
         },
         body: JSON.stringify({
           toUser: userID,
@@ -156,7 +159,7 @@ function Profile() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
+          "x-access-token": token,
         },
         body: JSON.stringify({
           toUser: userID,
@@ -199,7 +202,7 @@ function Profile() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = userStore?.token?.token || localStorage.getItem("token");
     if (token) {
       const user = jose.decodeJwt(token);
       setUsername(user.username);

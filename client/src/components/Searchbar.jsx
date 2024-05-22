@@ -2,6 +2,7 @@ import { useState } from "react";
 import ContentCSS from "../assets/styles/Content/content.module.css";
 import { Icon } from "@iconify/react";
 import { Navigate, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Searchbar() {
   const [input, setInput] = useState("");

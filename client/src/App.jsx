@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, redirect } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AnnouncementBox from "./components/AnnouncementBox";
 import Home from "./pages/Home";
@@ -31,8 +31,12 @@ import ChangePassword from "./pages/UserDashboard/ChangePassword";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "./state/user/userSlice";
 
 function App() {
+  const userStore = useSelector((state) => state.user);
+  console.log(userStore);
   return (
     <>
       <div>

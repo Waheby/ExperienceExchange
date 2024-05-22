@@ -7,8 +7,10 @@ import { ToastContainer, toast } from "react-toastify";
 import { Icon } from "@iconify/react";
 import * as jose from "jose";
 import Filter from "bad-words";
+import { useSelector } from "react-redux";
 
 function Contact() {
+  const userStore = useSelector((state) => state.user);
   let navigate = useNavigate();
   var filter = new Filter();
   filter.addWords("badword", "kill", "Badword", "loser");
@@ -16,7 +18,7 @@ function Contact() {
   const [message, setMessage] = useState("");
   const [title, setTitle] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const token = localStorage.getItem("token");
+  const token = userStore?.token?.token || localStorage.getItem("token");
 
   const sendContactMessage = async (e) => {
     e.preventDefault();
@@ -32,7 +34,7 @@ function Contact() {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
-                  "x-access-token": localStorage.getItem("token"),
+                  "x-access-token": token,
                 },
                 body: JSON.stringify({
                   title: title,

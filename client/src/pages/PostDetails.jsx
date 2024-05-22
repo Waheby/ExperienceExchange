@@ -13,8 +13,10 @@ import * as jose from "jose";
 import { Icon } from "@iconify/react";
 import { ToastContainer, toast } from "react-toastify";
 import Filter from "bad-words";
+import { useSelector } from "react-redux";
 
 function PostDetails() {
+  const userStore = useSelector((state) => state.user);
   let navigate = useNavigate();
   const params = useParams();
   var filter = new Filter();
@@ -29,7 +31,7 @@ function PostDetails() {
   const postID = params.postId;
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = userStore?.token?.token || localStorage.getItem("token");
     if (token) {
       const user = jose.decodeJwt(token);
       setUsername(user.username);
@@ -107,7 +109,8 @@ function PostDetails() {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "x-access-token": localStorage.getItem("token"),
+              "x-access-token":
+                userStore?.token?.token || localStorage.getItem("token"),
             },
             body: JSON.stringify({
               postID: postID,
@@ -192,7 +195,8 @@ function PostDetails() {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
+          "x-access-token":
+            userStore?.token?.token || localStorage.getItem("token"),
         },
         body: JSON.stringify({
           postId: post._id,
@@ -226,7 +230,8 @@ function PostDetails() {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
+          "x-access-token":
+            userStore?.token?.token || localStorage.getItem("token"),
         },
         body: JSON.stringify({
           postId: id,

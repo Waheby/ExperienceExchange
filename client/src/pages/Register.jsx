@@ -5,20 +5,78 @@ import ContentCSS from "../assets/styles/Content/content.module.css";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import * as Yup from "yup";
 function Register() {
   let navigate = useNavigate();
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmpassword, setConfirmpassword] = useState("");
+  // const [username, setUsername] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [confirmpassword, setConfirmpassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState("");
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmpassword: "",
+  });
+
+  const validationSchema = Yup.object({
+    username: Yup.string().required("Username is Required"),
+    email: Yup.string()
+      .required("Email is Required")
+      .email("Wrong Email Format"),
+    password: Yup.string()
+      .required("Password is Required")
+      .min(8, "Password must be be atleast 8 characters long")
+      .matches(
+        /[!@#$%^&*(),.?":{}]/,
+        "Password must contain at least one symbol"
+      )
+      .matches(/[0-9]/, "Password must contain at least one number")
+      .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+      .matches(/[a-z]/, "Password must contain at least one lowercase letter"),
+    confirmpassword: Yup.string()
+      .required("Password is Required")
+      .oneOf([Yup.ref("password")], "Password doesn't match"),
+  });
+
+  const yupValidate = async () => {
+    try {
+      await validationSchema.validate(formData, { abortEarly: false });
+      console.log("Form Validated successfully");
+      return true;
+    } catch (error) {
+      console.log(error.inner);
+      setIsSubmitting(false);
+      toast.error(error.inner[0].message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      setIsSubmitting(false);
+
+      return false;
+    }
+  };
+  console.log(formData);
 
   const register = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    if (password == confirmpassword) {
+
+    const isValid = await yupValidate();
+    console.log(errors);
+
+    console.log(isValid);
+
+    if (isValid) {
       const response = await fetch(
         `${import.meta.env.VITE_REACT_APP_API_URL}/user/register`,
         {
@@ -27,10 +85,10 @@ function Register() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username: username,
-            email: email,
-            password: password,
-            confpass: confirmpassword,
+            username: formData.username,
+            email: formData.email,
+            password: formData.password,
+            confpass: formData.confirmpassword,
           }),
         }
       ).catch((err) => {
@@ -70,17 +128,17 @@ function Register() {
         setIsSubmitting(false);
       }
     } else {
-      toast.error("Passwords doesn't match!", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      setIsSubmitting(false);
+      // toast.error(errors, {
+      //   position: "top-right",
+      //   autoClose: 2000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   theme: "colored",
+      // });
+      // setIsSubmitting(false);
     }
   };
 
@@ -93,44 +151,42 @@ function Register() {
           <input
             className={ContentCSS.loginInput}
             type="text"
-            required
             maxLength="15"
-            value={username}
+            value={formData.username}
             onChange={(event) => {
-              setUsername(event.target.value);
+              setFormData({ ...formData, ["username"]: event.target.value });
             }}
           />
           <label htmlFor="text">Email: </label>
           <input
             className={ContentCSS.loginInput}
-            type="email"
-            required
+            type="text"
             maxLength="40"
-            value={email}
+            value={formData.email}
             onChange={(event) => {
-              setEmail(event.target.value);
+              setFormData({ ...formData, ["email"]: event.target.value });
             }}
           />
           <label htmlFor="text">Password: </label>
           <input
             className={ContentCSS.loginInput}
             type="password"
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
             title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
-            required
-            value={password}
+            value={formData.password}
             onChange={(event) => {
-              setPassword(event.target.value);
+              setFormData({ ...formData, ["password"]: event.target.value });
             }}
           />
           <label htmlFor="text">Confirm Password: </label>
           <input
             className={ContentCSS.loginInput}
             type="password"
-            required
-            value={confirmpassword}
+            value={formData.confirmpassword}
             onChange={(event) => {
-              setConfirmpassword(event.target.value);
+              setFormData({
+                ...formData,
+                ["confirmpassword"]: event.target.value,
+              });
             }}
           />
 

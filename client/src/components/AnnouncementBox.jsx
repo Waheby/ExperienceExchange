@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import NavCSS from "../assets/styles/Navbar/nav.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import * as jose from "jose";
+import { useSelector } from "react-redux";
 
 function AnnouncementBox() {
   let navigate = useNavigate();
-  const token = localStorage.getItem("token");
   const [result, setResult] = useState([""]);
 
   useEffect(() => {

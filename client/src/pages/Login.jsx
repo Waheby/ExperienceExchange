@@ -4,15 +4,31 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@iconify/react";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, setToken } from "../state/user/userSlice";
+import { redirect, useNavigate } from "react-router-dom";
 
 function Login() {
+  const userStore = useSelector((state) => state.user);
+  let navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const dispatch = useDispatch(); //to input data into state using reducer
+
   const login = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    dispatch(
+      setUser({
+        name: username,
+        password: password,
+        loggedIn: true,
+      })
+    );
 
     const response = await fetch(
       `${import.meta.env.VITE_REACT_APP_API_URL}/user/login`,
@@ -34,6 +50,11 @@ function Login() {
     console.log(data);
 
     if (data.token) {
+      dispatch(
+        setToken({
+          token: data.token,
+        })
+      );
       localStorage.setItem("token", data.token);
       console.log("Login Successful");
       toast.success("Login Success!", {
@@ -47,7 +68,8 @@ function Login() {
         theme: "colored",
       });
       setTimeout(() => {
-        window.location.href = "/userdashboard";
+        // window.location.href = "/userdashboard";
+        navigate("/userdashboard"); //i use this cuz it doesnt reload the whole page therefore redux store doesnt reset
       }, 2000);
     } else {
       console.log();

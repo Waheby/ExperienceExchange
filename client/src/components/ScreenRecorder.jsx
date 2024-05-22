@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Row, Col, Button, Badge } from "antd";
 import { useReactMediaRecorder } from "react-media-recorder";
 import Text from "antd/lib/typography/Text";
+import { useSelector } from "react-redux";
+
 const ScreenRecording = ({
   screen,
   audio,

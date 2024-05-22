@@ -4,8 +4,11 @@ import { Icon } from "@iconify/react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { Empty } from "antd";
+import { useSelector } from "react-redux";
 
 function SearchResults() {
+  const userStore = useSelector((state) => state.user);
+
   let navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const searchTerm = searchParams.get("skill");
@@ -14,7 +17,7 @@ function SearchResults() {
   const [searchBy, setSearchBy] = useState("username");
   const [sortByNewest, setSortByNewest] = useState(true);
   const [searchFor, setSearchFor] = useState("user");
-  const token = localStorage.getItem("token");
+  const token = userStore?.token?.token || localStorage.getItem("token");
 
   const searchUserbySkill = async (input, sort) => {
     if (token) {
@@ -24,7 +27,7 @@ function SearchResults() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-access-token": localStorage.getItem("token"),
+            "x-access-token": token,
           },
           body: JSON.stringify({
             skill: input.toLowerCase().trim(),
@@ -63,7 +66,7 @@ function SearchResults() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-access-token": localStorage.getItem("token"),
+            "x-access-token": token,
           },
           body: JSON.stringify({
             username: input.toLowerCase().trim(),
@@ -102,7 +105,7 @@ function SearchResults() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-access-token": localStorage.getItem("token"),
+            "x-access-token": token,
           },
           body: JSON.stringify({
             username: input.toLowerCase().trim(),
@@ -141,7 +144,7 @@ function SearchResults() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-access-token": localStorage.getItem("token"),
+            "x-access-token": token,
           },
           body: JSON.stringify({
             skill: input.toLowerCase().trim(),

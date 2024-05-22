@@ -9,12 +9,19 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import ReactStars from "react-rating-stars-component";
 import { Button, Drawer, Modal, Popover } from "antd";
+import { useSelector } from "react-redux";
+import {
+  selectCurrentUser,
+  selectCurrentToken,
+} from "../../state/user/userSlice";
 
 function UserDashboard() {
+  const userStore = useSelector((state) => state.user);
+
   let navigate = useNavigate();
-  const token = localStorage.getItem("token");
-  const user = jose.decodeJwt(token);
-  const [username, setUsername] = useState(user.username);
+  const token = userStore?.token?.token || localStorage.getItem("token");
+  // const user = jose.decodeJwt(token);
+  const [username, setUsername] = useState("");
   const [role, setRole] = useState(null);
   const [image, setImage] = useState(null);
   const [skills, setSkills] = useState(null);
@@ -82,7 +89,8 @@ function UserDashboard() {
 
   //Deny entry to non-authorized users
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = userStore?.token?.token || localStorage.getItem("token");
+
     if (token) {
       const user = jose.decodeJwt(token);
       setUsername(user.username);
@@ -106,7 +114,7 @@ function UserDashboard() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-access-token": localStorage.getItem("token"),
+            "x-access-token": token,
           },
           body: JSON.stringify({
             username: username,
@@ -119,7 +127,7 @@ function UserDashboard() {
       const data = await response.json();
       console.log(data);
       setCertificates(data);
-      console.log(user);
+      // console.log(user);
     };
 
     const getUser = async () => {
@@ -129,7 +137,7 @@ function UserDashboard() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-access-token": localStorage.getItem("token"),
+            "x-access-token": token,
           },
           body: JSON.stringify({
             username: username,
@@ -151,7 +159,7 @@ function UserDashboard() {
         {
           method: "GET",
           headers: {
-            "x-access-token": localStorage.getItem("token"),
+            "x-access-token": token,
           },
         }
       ).catch((err) => {
@@ -169,7 +177,7 @@ function UserDashboard() {
         {
           method: "GET",
           headers: {
-            "x-access-token": localStorage.getItem("token"),
+            "x-access-token": token,
           },
         }
       ).catch((err) => {
@@ -187,7 +195,7 @@ function UserDashboard() {
         {
           method: "GET",
           headers: {
-            "x-access-token": localStorage.getItem("token"),
+            "x-access-token": token,
           },
         }
       ).catch((err) => {
@@ -227,7 +235,7 @@ function UserDashboard() {
     getSessions();
     getPost();
   }, [toggle]);
-  console.log(user.image);
+  // console.log(user.image);
   console.log(userInfo.current[0].profileImage);
   // const createSession = async () => {
   //   const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/generate-token`, {
@@ -253,7 +261,7 @@ function UserDashboard() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
+          "x-access-token": token,
         },
         body: JSON.stringify({
           id: requestID,
@@ -277,7 +285,7 @@ function UserDashboard() {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
+          "x-access-token": token,
         },
         body: JSON.stringify({
           id: id,
@@ -326,7 +334,7 @@ function UserDashboard() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-access-token": localStorage.getItem("token"),
+            "x-access-token": token,
           },
           body: JSON.stringify({
             rating: newRating,

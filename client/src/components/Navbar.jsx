@@ -5,13 +5,39 @@ import { Link, useNavigate } from "react-router-dom";
 import * as jose from "jose";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { logOut } from "../state/user/userSlice";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { selectCurrentUser, selectCurrentToken } from "../state/user/userSlice";
 
 function Navbar() {
+  const userStore = useSelector(selectCurrentToken);
+
   const [mounted, setMounted] = useState(false);
   let navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const token = userStore?.token?.token || localStorage.getItem("token");
   const userInfo = useRef("");
   let isAdmin = false;
+  const dispatch = useDispatch(); //to input data into state using reducer
+
+  //testing for redux not complete yet
+  const logout = async (e) => {
+    e.preventDefault();
+    dispatch(logOut());
+    localStorage.removeItem("token");
+
+    toast.success("Logged out Successfully!", {
+      position: "bottom-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+    navigate("/login");
+  };
 
   if (token) {
     const user = jose.decodeJwt(token);
@@ -59,18 +85,9 @@ function Navbar() {
                 className={NavCSS.btnLogin}
                 style={{ backgroundColor: "red", color: "white" }}
                 to="/home"
-                onClick={() => {
-                  localStorage.removeItem("token");
-                  toast.success("Logged out Successfully!", {
-                    position: "bottom-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                  });
+                onClick={(e) => {
+                  logout(e);
+                  // localStorage.removeItem("token");
                 }}
               >
                 Logout
