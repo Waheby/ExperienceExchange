@@ -7,10 +7,12 @@ import {
   postSearchSkills,
   deletePost,
   getUserPosts,
+  getRecommendedPosts,
 } from "../controllers/posts.js";
 const router = express.Router();
 
 router.get("/all", getPosts);
+router.post("/recommended", getRecommendedPosts);
 router.post("/post", getPost);
 router.post("/new", createPost);
 router.delete("/delete", deletePost);

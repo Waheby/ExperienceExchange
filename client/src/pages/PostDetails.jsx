@@ -38,7 +38,6 @@ function PostDetails() {
       setRole(user.role);
       console.log(user);
     }
-    getSimilarPost();
     getPost();
     getComment();
   }, []);
@@ -62,13 +61,20 @@ function PostDetails() {
     const data = await response.json();
     console.log(data);
     setPost(data);
+    getRecommendation(data);
   };
 
-  const getSimilarPost = async () => {
+  const getSimilarPost = async (posts) => {
     const response = await fetch(
-      `${import.meta.env.VITE_REACT_APP_API_URL}/post/all`,
+      `${import.meta.env.VITE_REACT_APP_API_URL}/post/recommended`,
       {
-        method: "GET",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          posts: posts,
+        }),
       }
     ).catch((err) => {
       console.log(err);
@@ -221,6 +227,25 @@ function PostDetails() {
     setTimeout(() => {
       navigate("/no-post");
     }, 2000);
+  };
+
+  const getRecommendation = async (post) => {
+    const response = await fetch(`http://localhost:5000/recommend`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token":
+          userStore?.token?.token || localStorage.getItem("token"),
+      },
+      body: JSON.stringify({
+        content: post.content,
+      }),
+    }).catch((err) => {
+      console.log(err);
+    });
+    const data = await response.json();
+    console.log(data["Recommendation"]);
+    getSimilarPost(data["Recommendation"]);
   };
 
   const deleteComment = async (id) => {

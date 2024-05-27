@@ -28,6 +28,21 @@ export const getUserPosts = async (req, res) => {
   }
 };
 
+export const getRecommendedPosts = async (req, res) => {
+  const listOfIds = req.body.posts;
+
+  try {
+    const Post = await PostModel.find({
+      _id: { $in: [listOfIds] },
+    });
+    console.log(req.body.username);
+
+    res.status(200).json(Post);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
 export const deletePost = async (req, res) => {
   try {
     const Post = await PostModel.findOneAndDelete({
