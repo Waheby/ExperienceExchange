@@ -25,7 +25,7 @@ function PostsPage() {
 
     const getRecommendation = async (user) => {
       const response = await fetch(
-        `${import.meta.env.FLASK_WAITRESS_APP_URL}/recommend-users`,
+        `https://experienceexchangerecommendersystem.onrender.com/recommend-users`,
         {
           method: "POST",
           headers: {
