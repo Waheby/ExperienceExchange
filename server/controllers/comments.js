@@ -8,7 +8,7 @@ export const getComments = async (req, res) => {
     const Comment = await CommentModel.find({
       postId: req.body.postID,
     });
-    console.log(Comment);
+    // console.log(Comment);
 
     res.status(200).json(Comment);
   } catch (error) {
@@ -20,7 +20,7 @@ export const createComment = async (req, res) => {
   const token = req.headers["x-access-token"];
 
   try {
-    console.log(token);
+    // console.log(token);
     const decodeToken = jwt.verify(token, "secretkey");
     const username = decodeToken.username;
     const newComment = new CommentModel({
@@ -44,7 +44,7 @@ export const deleteComment = async (req, res) => {
     const Comment = await CommentModel.findOneAndDelete({
       _id: req.body.postId,
     });
-    console.log(req.body.postId);
+    // console.log(req.body.postId);
 
     res.status(200).json({ status: 200, message: "Comment Delete Successful" });
   } catch (error) {

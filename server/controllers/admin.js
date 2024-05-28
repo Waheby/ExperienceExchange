@@ -68,7 +68,7 @@ export const reinstateUser = async (req, res) => {
       { username: req.body.username },
       { $set: { status: "active" } }
     );
-    console.log(user);
+    // console.log(user);
     if (!user) {
       return res.status(400).json({ message: "User Doesn't Exist" });
     } else {
@@ -93,7 +93,7 @@ export const deletePost = async (req, res) => {
       { username: username },
       { $set: { status: status } }
     );
-    console.log(cert);
+    // console.log(cert);
     await cert.save();
 
     return res

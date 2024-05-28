@@ -13,6 +13,7 @@ function PostsPage() {
 
   useEffect(() => {
     const token = userStore?.token?.token || localStorage.getItem("token");
+    const user = jose.decodeJwt(token);
     if (token) {
       const user = jose.decodeJwt(token);
       if (!user) {
@@ -22,22 +23,50 @@ function PostsPage() {
       } else console.log("User Authenticated");
     } else navigate("/login");
 
-    const getPost = async () => {
+    const getRecommendation = async (user) => {
       const response = await fetch(
-        `${import.meta.env.VITE_REACT_APP_API_URL}/post/all`,
+        `${import.meta.env.FLASK_WAITRESS_APP_URL}/recommend-users`,
         {
-          method: "GET",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token":
+              userStore?.token?.token || localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            content: user.username,
+          }),
         }
       ).catch((err) => {
         console.log(err);
       });
-
       const data = await response.json();
-      console.log(data);
-      setResult(data);
+      console.log(user);
+      getSimilarPost(data["User Recommendation"]);
     };
-    getPost();
+    getRecommendation(user);
   }, []);
+
+  const getSimilarPost = async (users) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/user/recommended`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          users: users,
+        }),
+      }
+    ).catch((err) => {
+      console.log(err);
+    });
+
+    const data = await response.json();
+    console.log(data);
+    setResult(data);
+  };
 
   return (
     <>
@@ -50,29 +79,55 @@ function PostsPage() {
             <div key={id}>
               <>
                 <div
+                  onClick={() => navigate(`/user/${result.username}`)}
+                  style={{ cursor: "pointer" }}
                   className={ContentCSS.postContainer}
-                  onClick={() => navigate(`/posts/${result._id}`)}
                 >
-                  <div className={ContentCSS.postTop}>
-                    <div
-                      style={{ textAlign: "center" }}
-                      className={ContentCSS.postUsername}
-                    >
-                      @{result.creator}
+                  <div
+                    style={{ justifyContent: "center" }}
+                    className={ContentCSS.postTop}
+                  >
+                    <div>
+                      {result.profileImage ? (
+                        <img
+                          style={{
+                            width: "70px",
+                            height: "70px",
+                            borderStyle: "solid",
+                            borderWidth: "1px",
+                          }}
+                          className={ContentCSS.postImg}
+                          src={`${import.meta.env.VITE_CLOUDINARY_URL}/${
+                            result.profileImage
+                          }`}
+                          alt="profile pic"
+                        />
+                      ) : (
+                        <img
+                          style={{
+                            width: "70px",
+                            height: "70px",
+                            borderStyle: "solid",
+                            borderWidth: "1px",
+                          }}
+                          className={ContentCSS.postImg}
+                          src={`${
+                            import.meta.env.VITE_CLOUDINARY_URL
+                          }/DefaultProfile.svg`}
+                          alt="profile pic"
+                        />
+                      )}
                     </div>
                   </div>
-                  <hr style={{ width: "95%" }} />
-                  <div style={{ overflow: "hidden", height: "150px" }}>
-                    <p style={{ textAlign: "center" }}>{result.content}</p>
+                  <div>
+                    <p style={{ textAlign: "center" }}>@{result.username}</p>
                   </div>
-                  <hr style={{ width: "370px" }} />
-                  <div className={ContentCSS.postFooter}>
-                    <span
-                      style={{ textAlign: "center" }}
-                      className={ContentCSS.postFooterShowComments}
-                    >
-                      {result.tags ? result.tags.join(", ") : null}
-                    </span>
+                  <hr style={{ width: "350px" }} />
+                  <div
+                    className={ContentCSS.postFooter}
+                    style={{ justifyContent: "center" }}
+                  >
+                    <p>{result.skills ? result.skills.join(", ") : null}</p>
                   </div>
                 </div>
               </>

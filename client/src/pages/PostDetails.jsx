@@ -230,17 +230,20 @@ function PostDetails() {
   };
 
   const getRecommendation = async (post) => {
-    const response = await fetch(`http://localhost:5000/recommend`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token":
-          userStore?.token?.token || localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        content: post.content,
-      }),
-    }).catch((err) => {
+    const response = await fetch(
+      `${import.meta.env.FLASK_WAITRESS_APP_URL}/recommend`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token":
+            userStore?.token?.token || localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          content: post._id,
+        }),
+      }
+    ).catch((err) => {
       console.log(err);
     });
     const data = await response.json();

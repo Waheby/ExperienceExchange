@@ -260,7 +260,7 @@ export const userUploadImage = async (req, res) => {
         } else {
           res.status(200).json({ message: "Update Image Successful" });
         }
-        console.log(user);
+        // console.log(user);
       }
     });
   } catch (error) {
@@ -294,7 +294,7 @@ export const userBio = async (req, res) => {
   const bio = req.body.bio;
 
   try {
-    console.log(token);
+    // console.log(token);
     const decodeToken = jwt.verify(token, "secretkey");
     const user = await UsersEX.findOneAndUpdate(
       { username: decodeToken.username },
@@ -337,7 +337,7 @@ export const userSearchUsername = async (req, res) => {
         username: { $regex: req.body.username },
       }).sort({ createdAt: -1 });
 
-      console.log(User);
+      // console.log(User);
       await addSearchTermToUser.save();
       res.status(200).json(User);
     } catch (error) {
@@ -377,7 +377,7 @@ export const userSearchSkills = async (req, res) => {
       const User = await UsersEX.find({
         skills: { $regex: req.body.skill },
       }).sort({ createdAt: -1 });
-      console.log(req.body);
+      // console.log(req.body);
 
       await addSearchTermToUser.save();
       res.status(200).json(User);
@@ -394,7 +394,7 @@ export const userSearchSkills = async (req, res) => {
       const User = await UsersEX.find({
         skills: { $regex: req.body.skill },
       }).sort({ createdAt: 1 });
-      console.log(req.body);
+      // console.log(req.body);
 
       await addSearchTermToUser.save();
       res.status(200).json(User);
@@ -442,7 +442,7 @@ export const messageCreate = async (req, res) => {
           content: req.body.content,
         });
         await message.save();
-        console.log(message);
+        // console.log(message);
         return res.status(200).json(message);
       }
     });
@@ -595,9 +595,9 @@ export const acceptedSessions = async (req, res) => {
     }).then((user) => {
       if (user.length == 0) {
         res.status(400).json({ message: "No Accepted Sessions found" });
-        console.log(user);
+        // console.log(user);
       } else {
-        console.log(user);
+        // console.log(user);
         res.status(200).json(user);
       }
     });
@@ -683,7 +683,7 @@ export const userRatingChange = async (req, res) => {
   const username = req.body.user;
 
   try {
-    console.log(token);
+    // console.log(token);
     const decodeToken = jwt.verify(token, "secretkey");
 
     const user = await UsersEX.findOneAndUpdate(
@@ -728,7 +728,7 @@ export const userSendContact = async (req, res) => {
 
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
-        console.log(error);
+        // console.log(error);
       } else {
         return res
           .status(200)
@@ -737,5 +737,20 @@ export const userSendContact = async (req, res) => {
     });
   } catch (error) {
     res.status(401).json({ message: error.message });
+  }
+};
+
+export const getRecommendedPosts = async (req, res) => {
+  const listOfUsers = req.body.users;
+  console.log(listOfUsers);
+
+  try {
+    const Users = await UsersEX.find({
+      username: { $in: listOfUsers },
+    });
+
+    res.status(200).json(Users);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
   }
 };

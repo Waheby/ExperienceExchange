@@ -7,7 +7,7 @@ import { Db } from "mongodb";
 export const getPosts = async (req, res) => {
   try {
     const Post = await PostModel.find();
-    console.log(Post);
+    // console.log(Post);
 
     res.status(200).json(Post);
   } catch (error) {
@@ -20,7 +20,7 @@ export const getUserPosts = async (req, res) => {
     const Post = await PostModel.find({
       creator: req.body.username,
     });
-    console.log(req.body.username);
+    // console.log(req.body.username);
 
     res.status(200).json(Post);
   } catch (error) {
@@ -30,12 +30,12 @@ export const getUserPosts = async (req, res) => {
 
 export const getRecommendedPosts = async (req, res) => {
   const listOfIds = req.body.posts;
+  console.log(listOfIds);
 
   try {
     const Post = await PostModel.find({
-      _id: { $in: [listOfIds] },
+      _id: { $in: listOfIds },
     });
-    console.log(req.body.username);
 
     res.status(200).json(Post);
   } catch (error) {
@@ -48,7 +48,7 @@ export const deletePost = async (req, res) => {
     const Post = await PostModel.findOneAndDelete({
       _id: req.body.postId,
     });
-    console.log(req.body.postId);
+    // console.log(req.body.postId);
 
     res.status(200).json({ status: 200, message: "Post Delete Successful" });
   } catch (error) {
@@ -61,7 +61,7 @@ export const createPost = async (req, res) => {
   const bodyTags = req.body.tags;
   const emptyArr = []; //i need empty arr to use concat
   try {
-    console.log(token);
+    // console.log(token);
     const decodeToken = jwt.verify(token, "secretkey");
     const username = decodeToken.username;
     const newPost = new PostModel({
@@ -85,7 +85,7 @@ export const getPost = async (req, res) => {
     const Post = await PostModel.findOne({
       _id: req.body.postID,
     });
-    console.log(Post);
+    // console.log(Post);
 
     res.status(200).json(Post);
   } catch (error) {
@@ -108,7 +108,7 @@ export const postSearchUsername = async (req, res) => {
         creator: { $regex: req.body.username },
       }).sort({ createdAt: -1 });
 
-      console.log(Post);
+      // console.log(Post);
       await addSearchTermToUser.save();
       res.status(200).json(Post);
     } catch (error) {
@@ -125,7 +125,7 @@ export const postSearchUsername = async (req, res) => {
         creator: { $regex: req.body.username },
       }).sort({ createdAt: 1 });
 
-      console.log(Post);
+      // console.log(Post);
       await addSearchTermToUser.save();
 
       res.status(200).json(Post);
@@ -150,7 +150,7 @@ export const postSearchSkills = async (req, res) => {
       const Post = await PostModel.find({
         tags: { $regex: req.body.skill },
       }).sort({ createdAt: -1 });
-      console.log(Post);
+      // console.log(Post);
       await addSearchTermToUser.save();
       res.status(200).json(Post);
     } catch (error) {
@@ -167,7 +167,7 @@ export const postSearchSkills = async (req, res) => {
       const Post = await PostModel.find({
         tags: { $regex: req.body.skill },
       }).sort({ createdAt: 1 });
-      console.log(Post);
+      // console.log(Post);
       await addSearchTermToUser.save();
 
       res.status(200).json(Post);

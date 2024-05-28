@@ -8,7 +8,7 @@ export const getAllCertificates = async (req, res) => {
     const certificate = await CertificateModel.find({
       status: "ongoing",
     });
-    console.log(certificate);
+    // console.log(certificate);
 
     res.status(200).json(certificate);
   } catch (error) {
@@ -18,7 +18,7 @@ export const getAllCertificates = async (req, res) => {
 
 export const getUserCertificate = async (req, res) => {
   const username = req.body.username;
-  console.log(username);
+  // console.log(username);
   try {
     const certificate = await CertificateModel.find({
       $and: [
@@ -30,7 +30,7 @@ export const getUserCertificate = async (req, res) => {
         },
       ],
     });
-    console.log(certificate);
+    // console.log(certificate);
 
     res.status(200).json(certificate);
   } catch (error) {
@@ -43,7 +43,7 @@ export const uploadCertificate = async (req, res) => {
   const certFile = req.body.file;
   const emptyArr = []; //i need empty arr to use concat
   try {
-    console.log(certFile);
+    // console.log(certFile);
     const decodeToken = jwt.verify(token, "secretkey");
     const username = decodeToken.username;
     const newCert = new CertificateModel({
@@ -74,7 +74,7 @@ export const modifyCertificate = async (req, res) => {
       { _id: certId },
       { $set: { status: status } }
     );
-    console.log(certId);
+    // console.log(certId);
     await cert.save();
 
     return res

@@ -50,7 +50,7 @@ app.use("/comment", CommentModel);
 const CONNECTION_URL =
   "mongodb+srv://AdminExEx:donthackme22@atlascluster.wzsvziu.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster";
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5500;
 
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);
