@@ -32,13 +32,16 @@ function PostDetails() {
 
   useEffect(() => {
     const token = userStore?.token?.token || localStorage.getItem("token");
+
     if (token) {
       const user = jose.decodeJwt(token);
       setUsername(user.username);
       setRole(user.role);
       console.log(user);
     }
+
     getPost();
+
     getComment();
   }, []);
 
