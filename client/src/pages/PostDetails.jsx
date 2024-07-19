@@ -64,6 +64,28 @@ function PostDetails() {
     getRecommendation(data);
   };
 
+  const getRecommendation = async (post) => {
+    const response = await fetch(
+      `https://experienceexchangerecommendersystem.onrender.com/recommend`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token":
+            userStore?.token?.token || localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          content: post._id,
+        }),
+      }
+    ).catch((err) => {
+      console.log(err);
+    });
+    const data = await response.json();
+    console.log(data["Recommendation"]);
+    getSimilarPost(data["Recommendation"]);
+  };
+
   const getSimilarPost = async (posts) => {
     const response = await fetch(
       `${import.meta.env.VITE_REACT_APP_API_URL}/post/recommended`,
@@ -227,28 +249,6 @@ function PostDetails() {
     setTimeout(() => {
       navigate("/no-post");
     }, 2000);
-  };
-
-  const getRecommendation = async (post) => {
-    const response = await fetch(
-      `https://experienceexchangerecommendersystem.onrender.com/recommend`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token":
-            userStore?.token?.token || localStorage.getItem("token"),
-        },
-        body: JSON.stringify({
-          content: post._id,
-        }),
-      }
-    ).catch((err) => {
-      console.log(err);
-    });
-    const data = await response.json();
-    console.log(data["Recommendation"]);
-    getSimilarPost(data["Recommendation"]);
   };
 
   const deleteComment = async (id) => {
