@@ -63,6 +63,7 @@ function PostDetails() {
 
     const data = await response.json();
     console.log(data);
+
     setPost(data);
     getRecommendation(data);
   };
@@ -84,8 +85,10 @@ function PostDetails() {
     ).catch((err) => {
       console.log(err);
     });
+
     const data = await response.json();
     console.log(data["Recommendation"]);
+
     getSimilarPost(data["Recommendation"]);
   };
 
@@ -107,6 +110,7 @@ function PostDetails() {
 
     const data = await response.json();
     console.log(data);
+
     setResultsSimilar(data);
   };
 
