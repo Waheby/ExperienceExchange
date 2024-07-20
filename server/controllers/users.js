@@ -740,7 +740,7 @@ export const userSendContact = async (req, res) => {
   }
 };
 
-export const getRecommendedPosts = async (req, res) => {
+export const getRecommendedUsers = async (req, res) => {
   const listOfUsers = req.body.users;
   console.log(listOfUsers);
 

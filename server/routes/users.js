@@ -27,7 +27,7 @@ import {
   sessionDelete,
   userRatingChange,
   userSendContact,
-  getRecommendedPosts,
+  getRecommendedUsers,
 } from "../controllers/users.js";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -69,7 +69,7 @@ router.post("/new-password/:id/:token", userNewPassword);
 router.post("/upload", userUploadImage);
 router.post("/skill", userAddSkill);
 router.post("/bio", userBio);
-router.post("/recommended", getRecommendedPosts);
+router.post("/recommended", getRecommendedUsers);
 router.post("/search-username", userSearchUsername);
 router.post("/search-skill", userSearchSkills);
 router.get("/get-messages", messageGet);

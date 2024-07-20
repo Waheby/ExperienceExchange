@@ -23,7 +23,7 @@ function PostsPage() {
       } else console.log("User Authenticated");
     } else navigate("/login");
 
-    const getRecommendation = async (user) => {
+    const getRecommendedUsers = async (user) => {
       const response = await fetch(
         `https://experienceexchangerecommendersystem.onrender.com/recommend-users`,
         {
@@ -42,12 +42,12 @@ function PostsPage() {
       });
       const data = await response.json();
       console.log(user);
-      getSimilarPost(data["User Recommendation"]);
+      getSimilarUsers(data["User Recommendation"]);
     };
-    getRecommendation(user);
+    getRecommendedUsers(user);
   }, []);
 
-  const getSimilarPost = async (users) => {
+  const getSimilarUsers = async (users) => {
     const response = await fetch(
       `${import.meta.env.VITE_REACT_APP_API_URL}/user/recommended`,
       {
