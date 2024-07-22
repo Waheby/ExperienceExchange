@@ -38,6 +38,21 @@ export const getUserCertificate = async (req, res) => {
   }
 };
 
+export const getAllUserCertificate = async (req, res) => {
+  const username = req.body.username;
+  // console.log(username);
+  try {
+    const certificate = await CertificateModel.find({
+      creator: username,
+    });
+    // console.log(certificate);
+
+    res.status(200).json(certificate);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
 export const uploadCertificate = async (req, res) => {
   const token = req.headers["x-access-token"];
   const certFile = req.body.file;
@@ -51,6 +66,7 @@ export const uploadCertificate = async (req, res) => {
       certificate: certFile,
       skill: req.body.skill,
       description: req.body.description,
+      status: req.body.status,
     });
 
     await newCert.save();

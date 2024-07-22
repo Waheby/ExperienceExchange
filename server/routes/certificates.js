@@ -6,6 +6,7 @@ import {
   uploadCertificate,
   modifyCertificate,
   getUserCertificate,
+  getAllUserCertificate,
 } from "../controllers/certificates.js";
 const router = express.Router();
 
@@ -24,6 +25,7 @@ const router = express.Router();
 
 router.get("/all", getAllCertificates);
 router.post("/user-cert", getUserCertificate);
+router.post("/all-user-cert", getAllUserCertificate);
 router.post("/new", uploadCertificate);
 router.post("/modify", modifyCertificate);
 
