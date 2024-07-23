@@ -32,7 +32,6 @@ function Profile() {
   const [openMessage, setOpenMessage] = useState(false);
   const [openExchange, setOpenExchange] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [results, setResult] = useState([]);
   const [resultsSimilar, setResultsSimilar] = useState([]);
 
   const userID = params.userId;
@@ -81,6 +80,50 @@ function Profile() {
     console.log(data);
     setUser(data);
     console.log(user);
+    getRecommendedUsers(data);
+  };
+
+  const getRecommendedUsers = async (user) => {
+    const response = await fetch(
+      `https://experienceexchangerecommendersystem.onrender.com/recommend-users`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token":
+            userStore?.token?.token || localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          content: user[0].username,
+        }),
+      }
+    ).catch((err) => {
+      console.log(err);
+    });
+    const data = await response.json();
+    console.log(user);
+    getSimilarUsers(data["User Recommendation"]);
+  };
+
+  const getSimilarUsers = async (users) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/user/recommended`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          users: users,
+        }),
+      }
+    ).catch((err) => {
+      console.log(err);
+    });
+
+    const data = await response.json();
+    console.log(data);
+    setResultsSimilar(data);
   };
 
   const sendMessage = async (e) => {
@@ -213,52 +256,8 @@ function Profile() {
     }
     getUser();
     getUserCerts();
-
-    const getRecommendedUsers = async (user) => {
-      const response = await fetch(
-        `https://experienceexchangerecommendersystem.onrender.com/recommend-users`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token":
-              userStore?.token?.token || localStorage.getItem("token"),
-          },
-          body: JSON.stringify({
-            content: user.username,
-          }),
-        }
-      ).catch((err) => {
-        console.log(err);
-      });
-      const data = await response.json();
-      console.log(user);
-      getSimilarUsers(data["User Recommendation"]);
-    };
-    getRecommendedUsers(user);
   }, []);
-
-  const getSimilarUsers = async (users) => {
-    const response = await fetch(
-      `${import.meta.env.VITE_REACT_APP_API_URL}/user/recommended`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          users: users,
-        }),
-      }
-    ).catch((err) => {
-      console.log(err);
-    });
-
-    const data = await response.json();
-    console.log(data);
-    setResult(data);
-    setResultsSimilar(data);
-  };
+  // console.log(username);
 
   const showModalMessage = () => {
     setOpenMessage(true);
@@ -611,54 +610,79 @@ function Profile() {
         {username == userID ? (
           <></>
         ) : (
-          <div
-            style={{ width: "100%" }}
-            className={ContentCSS.registerContainer}
-          >
-            <h1 style={{ textAlign: "center" }}>Similar Users </h1>
+          <>
             <div className={ContentCSS.postsPageMainContainer}>
-              {resultsSimilar.map((result, id) => {
-                return (
-                  <div key={id}>
-                    <>
-                      <div
-                        className={ContentCSS.postContainer}
-                        onClick={() => {
-                          navigate(`/posts/${result._id}`);
-                          location.reload();
-                        }}
-                      >
-                        <div className={ContentCSS.postTop}>
+              {" "}
+              <h1 style={{ textAlign: "center" }}>Similar Users </h1>
+              <div className={ContentCSS.postsPageMainContainer}>
+                {resultsSimilar.map((result, id) => {
+                  return (
+                    <div key={id}>
+                      <>
+                        <div
+                          onClick={() => navigate(`/user/${result.username}`)}
+                          style={{ cursor: "pointer" }}
+                          className={ContentCSS.postContainer}
+                        >
                           <div
-                            style={{ textAlign: "center" }}
-                            className={ContentCSS.postUsername}
+                            style={{ justifyContent: "center" }}
+                            className={ContentCSS.postTop}
                           >
-                            @{result.creator}
+                            <div>
+                              {result.profileImage ? (
+                                <img
+                                  style={{
+                                    width: "70px",
+                                    height: "70px",
+                                    borderStyle: "solid",
+                                    borderWidth: "1px",
+                                  }}
+                                  className={ContentCSS.postImg}
+                                  src={`${
+                                    import.meta.env.VITE_CLOUDINARY_URL
+                                  }/${result.profileImage}`}
+                                  alt="profile pic"
+                                />
+                              ) : (
+                                <img
+                                  style={{
+                                    width: "70px",
+                                    height: "70px",
+                                    borderStyle: "solid",
+                                    borderWidth: "1px",
+                                  }}
+                                  className={ContentCSS.postImg}
+                                  src={`${
+                                    import.meta.env.VITE_CLOUDINARY_URL
+                                  }/DefaultProfile.svg`}
+                                  alt="profile pic"
+                                />
+                              )}
+                            </div>
+                          </div>
+                          <div>
+                            <p style={{ textAlign: "center" }}>
+                              @{result.username}
+                            </p>
+                          </div>
+                          <hr style={{ width: "350px" }} />
+                          <div
+                            className={ContentCSS.postFooter}
+                            style={{ justifyContent: "center" }}
+                          >
+                            <p>
+                              {result.skills ? result.skills.join(", ") : null}
+                            </p>
                           </div>
                         </div>
-                        <hr style={{ width: "95%" }} />
-                        <div style={{ overflow: "hidden", height: "150px" }}>
-                          <p style={{ textAlign: "center" }}>
-                            {result.content}
-                          </p>
-                        </div>
-                        <hr style={{ width: "370px" }} />
-                        <div className={ContentCSS.postFooter}>
-                          <span
-                            style={{ textAlign: "center" }}
-                            className={ContentCSS.postFooterShowComments}
-                          >
-                            {result.tags ? result.tags.join(", ") : null}
-                          </span>
-                        </div>
-                      </div>
-                    </>
-                  </div>
-                );
-              })}
+                      </>
+                    </div>
+                  );
+                })}
+              </div>
+              <div style={{ margin: "20px" }}></div>
             </div>
-            <div style={{ margin: "20px" }}></div>
-          </div>
+          </>
         )}
       </div>
     </>
