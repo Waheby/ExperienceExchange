@@ -166,6 +166,7 @@ function UploadForm() {
               data: `${import.meta.env.VITE_CLOUDINARY_URL}/${
                 dataCloudinary.public_id
               }`,
+              isFileExported: "false",
             }),
           }
         ).catch((err) => {

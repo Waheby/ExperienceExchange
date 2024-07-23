@@ -12,6 +12,12 @@ function CheckVerify() {
   const [username, setUsername] = useState(null);
   const [results, setResult] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isAIVerified, setIsAIVerified] = useState(false);
+  const [currentCertID, setCurrentCertID] = useState("");
+  const [url, setURL] = useState("");
+  const [isTextValid, setIsTextValid] = useState("");
+  const [isObjectValid, setIsObjectValid] = useState("");
+  const [pendingVerification, setPendingVerification] = useState(false);
 
   const certsInfo = useRef("");
 
@@ -129,28 +135,76 @@ function CheckVerify() {
     document.getElementById(certId).style.display = "none";
   };
 
-  const autoVerify = async (e, certs) => {
+  const autoVerify = async (e, cert, id) => {
     e.preventDefault();
-    console.log(certs);
+    console.log(cert);
+    setCurrentCertID(id);
+    setIsAIVerified(false);
+    setPendingVerification(true);
 
-    // const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/certificate/modify`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "x-access-token": localStorage.getItem("token"),
-    //   },
-    //   body: JSON.stringify({
-    //     status: "accept",
-    //     id: certId,
-    //   }),
-    // }).catch((err) => {
-    //   console.log(err);
-    // });
+    //OCR AI certificate verification
+    const responseOCR = await fetch(
+      `${import.meta.env.VITE_OCR_APP_URL}/validate`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token":
+            userStore?.token?.token || localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          data: `${import.meta.env.VITE_CLOUDINARY_URL}/${cert}`,
+        }),
+      }
+    ).catch((err) => {
+      console.log(err);
+      setIsSubmitting(false);
+    });
 
-    // const data = await response.json();
-    // console.log(data);
+    const dataOCR = await responseOCR.json();
+    console.log(dataOCR.ocrPrediction);
 
-    toast.success("AI Verification is Running!", {
+    //ObjectDetection AI certificate verification
+    const responseObjectDetection = await fetch(
+      `${import.meta.env.VITE_OBJECT_DETECTION_APP_URL}/validate`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token":
+            userStore?.token?.token || localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          data: `${import.meta.env.VITE_CLOUDINARY_URL}/${cert}`,
+          is_export: "True",
+        }),
+      }
+    ).catch((err) => {
+      console.log(err);
+      setIsSubmitting(false);
+    });
+
+    const dataObjectDetection = await responseObjectDetection.json();
+    console.log(dataObjectDetection.yoloPrediction);
+    console.log(dataObjectDetection.url);
+
+    if (!dataOCR.ocrPrediction) {
+      setIsTextValid(false);
+    } else {
+      setIsTextValid(true);
+    }
+
+    if (!dataObjectDetection.yoloPrediction) {
+      setIsObjectValid(false);
+    } else {
+      setIsObjectValid(true);
+    }
+
+    setURL(dataObjectDetection.url);
+    setIsAIVerified(true);
+    setPendingVerification(false);
+
+    toast.success("AI Verification is Done!", {
       position: "bottom-right",
       autoClose: 2000,
       hideProgressBar: false,
@@ -166,18 +220,7 @@ function CheckVerify() {
     <>
       <div className={ContentCSS.mainContainer}>
         <h1>Verify Certificates Manually or Automate it using AI</h1>
-        <button
-          style={{
-            width: "180px",
-            backgroundColor: "rgb(39, 62, 110)",
-            fontSize: "large",
-            color: "white",
-          }}
-          className={ContentCSS.loginButton}
-          onClick={(e) => autoVerify(e, results)}
-        >
-          Auto Verification
-        </button>
+
         {results.map((result, id) => {
           return (
             <div
@@ -204,7 +247,7 @@ function CheckVerify() {
                   }`}
                 />
 
-                <hr style={{ width: "350px" }} />
+                <hr style={{ width: "550px" }} />
                 <div>
                   <button
                     style={{
@@ -232,7 +275,145 @@ function CheckVerify() {
                     Deny
                   </button>
                 </div>
+                <button
+                  style={{
+                    width: "180px",
+                    backgroundColor: "rgb(39, 62, 110)",
+                    fontSize: "medium",
+                    color: "white",
+                  }}
+                  className={ContentCSS.loginButton}
+                  onClick={(e) => autoVerify(e, result.certificate, result._id)}
+                >
+                  AI Assistant
+                </button>
               </form>
+              {isAIVerified && currentCertID == result._id ? (
+                <>
+                  <div
+                    style={{ width: "600px" }}
+                    className={ContentCSS.contactFormContainer}
+                  >
+                    <label>AI Assistant:</label>
+                    <img
+                      style={{
+                        margin: "20px",
+                        alignSelf: "center",
+                        width: "600px",
+                      }}
+                      src={`${url}`}
+                    />
+                    <hr style={{ width: "550px" }} />
+                    <div>
+                      {isTextValid && isObjectValid ? (
+                        <>
+                          <p style={{ color: "green" }}>
+                            Texts: Good Chance of being a certificate{" "}
+                            <Icon
+                              icon="mdi:tick-outline"
+                              style={{ color: "green" }}
+                            />
+                          </p>
+                          <p style={{ color: "green" }}>
+                            Objects: Good Chance of being a certificate{" "}
+                            <Icon
+                              icon="mdi:tick-outline"
+                              style={{ color: "green" }}
+                            />
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          {isTextValid && !isObjectValid ? (
+                            <>
+                              <p style={{ color: "green" }}>
+                                Texts: Good Chance of being a certificate{" "}
+                                <Icon
+                                  icon="mdi:tick-outline"
+                                  style={{ color: "green" }}
+                                />
+                              </p>
+                              <p style={{ color: "orange" }}>
+                                Objects: Very Low Chance of being a certificate{" "}
+                                <Icon
+                                  icon="mdi:warning-outline"
+                                  style={{ color: "orange" }}
+                                />
+                              </p>
+                            </>
+                          ) : (
+                            <>
+                              {!isTextValid && isObjectValid ? (
+                                <>
+                                  <p style={{ color: "orange" }}>
+                                    Texts: Very Low Chance of being a
+                                    certificate{" "}
+                                    <Icon
+                                      icon="mdi:warning-outline"
+                                      style={{ color: "orange" }}
+                                    />
+                                  </p>
+                                  <p style={{ color: "green" }}>
+                                    Objects: Good Chance of being a certificate{" "}
+                                    <Icon
+                                      icon="mdi:tick-outline"
+                                      style={{ color: "green" }}
+                                    />
+                                  </p>
+                                </>
+                              ) : (
+                                <>
+                                  <p style={{ color: "red" }}>
+                                    Texts: No chance of being a certificate{" "}
+                                    <Icon
+                                      icon="zondicons:block"
+                                      style={{ color: "red" }}
+                                    />
+                                  </p>
+                                  <p style={{ color: "red" }}>
+                                    Objects: No chance of being a certificate{" "}
+                                    <Icon
+                                      icon="zondicons:block"
+                                      style={{ color: "red" }}
+                                    />
+                                  </p>
+                                </>
+                              )}
+                            </>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {pendingVerification && currentCertID == result._id ? (
+                    <>
+                      <div
+                        style={{
+                          width: "600px",
+                          placeContent: "center",
+                          justifyContent: "center",
+                        }}
+                        className={ContentCSS.contactFormContainer}
+                      >
+                        <Icon
+                          icon="line-md:loading-loop"
+                          style={{
+                            color: "#2C5F8D",
+                            width: "150px",
+                            height: "150px",
+                            margin: "auto",
+                          }}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              )}
             </div>
           );
         })}
