@@ -479,7 +479,6 @@ function UploadForm() {
                         textAlign: "center",
                         margin: "5px",
                         placeContent: "center",
-                        margin: "auto",
                       }}
                     >
                       <div
@@ -488,7 +487,6 @@ function UploadForm() {
                           margin: "5px",
                           fontWeight: "bold",
                           placeContent: "center",
-                          margin: "auto",
                         }}
                       >
                         Status:

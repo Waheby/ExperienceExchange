@@ -2,15 +2,16 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
-
 import PostModel from "./routes/posts.js";
 import UsersModel from "./routes/users.js";
 import CertsModel from "./routes/certificates.js";
 import AdminModel from "./routes/admin.js";
 import CommentModel from "./routes/comments.js";
-
 import path from "path";
 import { fileURLToPath } from "url";
+// import fileUpload from "express-fileupload";
+// import * as faceapi from "face-api.js";
+
 // import serverless from "serverless-http";
 // resolving dirname for ES module
 // const __filename = fileURLToPath(import.meta.url);
@@ -35,10 +36,9 @@ app.use("/user", UsersModel);
 app.use("/certificate", CertsModel);
 app.use("/admin", AdminModel);
 app.use("/comment", CommentModel);
-
+// app.use(fileUpload({ useTempFiles: true }));
 // //use client app
 // app.use(express.static(path.join(__dirname, "/client/dist")));
-
 // // render client for any path
 // app.get("*", (req, res) =>
 //   res.sendFile(path.join(__dirname, "/client/dist/index.html"))

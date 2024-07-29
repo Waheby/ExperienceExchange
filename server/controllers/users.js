@@ -8,6 +8,9 @@ import multer from "multer";
 import agora from "agora-access-token";
 import bcrypt from "bcryptjs";
 import { v2 as cloudinary } from "cloudinary";
+import * as canvas from "canvas";
+import fileUpload from "express-fileupload";
+import * as faceapi from "face-api.js";
 
 const { RtcTokenBuilder, RtcRole } = agora;
 
@@ -752,5 +755,171 @@ export const getRecommendedUsers = async (req, res) => {
     res.status(200).json(Users);
   } catch (error) {
     res.status(404).json({ message: error.message });
+  }
+};
+
+export const userUploadFace = async (req, res) => {
+  const token = req.headers["x-access-token"];
+
+  const uploadedFace = req.body.uploadedFace;
+  const faceLabel = req.body.label;
+  let images = [uploadedFace];
+
+  try {
+    const decodeToken = jwt.verify(token, "secretkey");
+    const username = decodeToken.username;
+
+    const faceDescriptions = [];
+    // loop the images
+    for (let index = 0; index < images.length; index++) {
+      // const image = await canvas.loadImage(images[index]);
+
+      // receive face description and add to array
+      // const detections = await faceapi
+      //   .detectSingleFace(image)
+      //   .withFaceLandmarks()
+      //   .withFaceDescriptor();
+      faceDescriptions.push(uploadedFace);
+    }
+
+    console.log(faceDescriptions);
+
+    // save face label and description
+    const newUserFace = await UsersEX.findOneAndUpdate(
+      { username: username },
+      { $set: { faceLabel: faceLabel, faceDescriptions: faceDescriptions } }
+    );
+
+    await newUserFace.save();
+    res.status(200).json(newUserFace);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const userGetMatchingFace = async (req, res) => {
+  const uploadedFaceDescriptions = req.body.uploadedFace;
+  const faceLabel = req.body.label;
+  // console.log(uploadedFaceDescriptions);
+
+  try {
+    // retrieve all faces from mongodb
+    let allFaces = await UsersEX.find({
+      faceDescriptions: { $exists: true },
+    });
+
+    for (let index = 0; index < allFaces.length; index++) {
+      //  convert description types to Float32Array
+      for (
+        let index2 = 0;
+        index2 < allFaces[index].faceDescriptions.length;
+        index2++
+      ) {
+        allFaces[index].faceDescriptions[index2] = new Float32Array(
+          Object.values(allFaces[index].faceDescriptions[index2])
+        );
+      }
+
+      allFaces[index] = new faceapi.LabeledFaceDescriptors(
+        allFaces[index].faceLabel,
+        allFaces[index].faceDescriptions
+      );
+    }
+
+    // const descriptorsFace = [
+    //   new Float32Array(Object.values(allFaces[0].faceDescriptions[0])),
+    // ];
+
+    // for (let index = 0; index < allFaces.length; index++) {
+    //  for (let indexDescription = 0; indexDescription < allFaces[index].faceDescriptions[indexDescription].length; indexDescription++) {
+    //   const
+    //  }
+    // }
+
+    const uploadedDescriptorsFace = new Float32Array(
+      Object.values(uploadedFaceDescriptions.descriptor)
+    );
+    console.log(uploadedDescriptorsFace);
+
+    // console.log(descriptorsFace);
+
+    // const labeledDescriptors = new faceapi.LabeledFaceDescriptors(
+    //   allFaces.faceLabel,
+    //   descriptorsFace
+    // );
+
+    // console.log(
+    //   faceapi.euclideanDistance(
+    //     descriptorsFace,
+    //     uploadedFaceDescriptions.descriptor
+    //   )
+    // );
+    // console.log(labeledDescriptors);
+    // console.log(descriptorsFace);
+
+    // let descriptionNumArray = Array.from(descriptorsFace);
+    // let descriptionJSON = JSON.stringify(descriptionNumArray);
+    // let descriptionParseJSON = JSON.parse(descriptionJSON);
+    // let descriptionFloat32Array = new Float32Array(descriptionParseJSON);
+    // }
+
+    // setup the face matcher to find faces with 0.6 matching
+    const faceMatcher = new faceapi.FaceMatcher(allFaces, 0.6);
+
+    // // use canvas to load the images
+    // const img = await canvas.loadImage(file1);
+    // let temp = faceapi.createCanvasFromMedia(img);
+
+    // //  now prepare image for the model
+    // const displaySize = { width: img.width, height: img.height };
+    // faceapi.matchDimensions(temp, displaySize);
+
+    // // finally find any matching face
+    // const detections = await faceapi
+    //   .detectAllFaces(img)
+    //   .withFaceLandmarks()
+    //   .withFaceDescriptors();
+    // const resizedDetections = faceapi.resizeResults(detections, displaySize);
+    // console.log(faceMatcher);
+    const results = faceMatcher.findBestMatch(uploadedDescriptorsFace);
+    console.log(results);
+    res.status(200).json(results);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const userFaceLogin = async (req, res) => {
+  try {
+    const checkUser = await UsersEX.findOne({
+      username: req.body.username,
+    });
+
+    console.log(checkUser);
+
+    if (checkUser != null) {
+      if (checkUser.status != "suspended") {
+        const token = jwt.sign(
+          {
+            username: checkUser.username,
+            role: checkUser.role,
+            image: checkUser.profileImage,
+            email: checkUser.email,
+            rating: checkUser.rating,
+            skill: checkUser.skills,
+          },
+          "secretkey"
+        );
+        return res.status(200).json({ status: 200, token: token });
+      } else {
+        return res.status(401).json({ status: 401, data: "User is Suspended" });
+      }
+    } else {
+      return res
+        .status(401)
+        .json({ status: 401, data: "No Users with matching face found" });
+    }
+  } catch (error) {
+    res.status(401).json({ message: error.message });
   }
 };

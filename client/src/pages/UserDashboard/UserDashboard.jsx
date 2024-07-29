@@ -997,6 +997,21 @@ function UserDashboard() {
                   </div>
                   <div className={ContentCSS.dashboardText}>Verify Skill</div>
                 </Link>
+                <Link
+                  className={ContentCSS.dashboardContainer}
+                  to={"/userdashboard/face-recognition"}
+                >
+                  <div>
+                    <Icon
+                      className={ContentCSS.dashboardIcon}
+                      icon="teenyicons:face-id-outline"
+                      style={{ color: "#2C5F8D" }}
+                    />
+                  </div>
+                  <div className={ContentCSS.dashboardText}>
+                    Face Recognition
+                  </div>
+                </Link>
               </div>
             </div>
           </div>

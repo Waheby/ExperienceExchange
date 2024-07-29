@@ -14,6 +14,8 @@ const userSchema = mongoose.Schema({
   skills: [String],
   rating: [Number],
   searches: [String],
+  faceLabel: { type: String },
+  faceDescriptions: { type: Array, default: "Empty" },
   createdAt: {
     type: Date,
     default: new Date(),

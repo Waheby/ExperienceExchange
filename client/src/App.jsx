@@ -28,6 +28,7 @@ import NewAnnouncement from "./pages/UserDashboard/NewAnnouncement";
 import PostsHistory from "./pages/UserDashboard/PostsHistory";
 import ChangeEmail from "./pages/UserDashboard/ChangeEmail";
 import ChangePassword from "./pages/UserDashboard/ChangePassword";
+import FaceRecognition from "./pages/UserDashboard/FaceRecognition";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -97,6 +98,10 @@ function App() {
             <Route
               path="/userdashboard/change-password"
               element={<ChangePassword />}
+            ></Route>
+            <Route
+              path="/userdashboard/face-recognition"
+              element={<FaceRecognition />}
             ></Route>
             <Route path="*" element={<NoPage />}></Route>
           </Routes>

@@ -28,6 +28,9 @@ import {
   userRatingChange,
   userSendContact,
   getRecommendedUsers,
+  userUploadFace,
+  userGetMatchingFace,
+  userFaceLogin,
 } from "../controllers/users.js";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -82,4 +85,7 @@ router.post("/modify-session", sessionModify);
 router.delete("/delete-request", sessionDelete);
 router.post("/rate", userRatingChange);
 router.post("/contact", userSendContact);
+router.post("/upload-face", userUploadFace);
+router.post("/face-match", userGetMatchingFace);
+router.post("/face-login", userFaceLogin);
 export default router;
