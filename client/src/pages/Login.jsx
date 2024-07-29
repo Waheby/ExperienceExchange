@@ -144,8 +144,6 @@ function Login() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    await faceMatch();
-
     dispatch(
       setUser({
         name: username,

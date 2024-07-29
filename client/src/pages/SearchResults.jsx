@@ -5,6 +5,10 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { Empty } from "antd";
 import { useSelector } from "react-redux";
+import "regenerator-runtime";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 
 function SearchResults() {
   const userStore = useSelector((state) => state.user);
@@ -17,9 +21,22 @@ function SearchResults() {
   const [searchBy, setSearchBy] = useState("username");
   const [sortByNewest, setSortByNewest] = useState(true);
   const [searchFor, setSearchFor] = useState("user");
+  const [isVoiceSearch, setIsVoiceSearch] = useState(false);
   const token = userStore?.token?.token || localStorage.getItem("token");
 
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+
   const searchUserbySkill = async (input, sort) => {
+    console.log(transcript);
+    if (transcript != null) {
+      setInput(transcript);
+    }
+
     if (token) {
       const response = await fetch(
         `${import.meta.env.VITE_REACT_APP_API_URL}/user/search-skill`,
@@ -30,7 +47,8 @@ function SearchResults() {
             "x-access-token": token,
           },
           body: JSON.stringify({
-            skill: input.toLowerCase().trim(),
+            skill:
+              transcript.toLowerCase().trim() || input.toLowerCase().trim(),
             sortByNewest: sort,
           }),
         }
@@ -69,7 +87,7 @@ function SearchResults() {
             "x-access-token": token,
           },
           body: JSON.stringify({
-            username: input.toLowerCase().trim(),
+            username: transcript || input.toLowerCase().trim(),
             sortByNewest: sort,
           }),
         }
@@ -98,6 +116,10 @@ function SearchResults() {
   };
 
   const searchPostbyUsername = async (sort) => {
+    if (transcript != null) {
+      setInput(transcript);
+    }
+
     if (token) {
       const response = await fetch(
         `${import.meta.env.VITE_REACT_APP_API_URL}/post/search-username`,
@@ -108,7 +130,8 @@ function SearchResults() {
             "x-access-token": token,
           },
           body: JSON.stringify({
-            username: input.toLowerCase().trim(),
+            username:
+              transcript.toLowerCase().trim() || input.toLowerCase().trim(),
             sortByNewest: sort,
           }),
         }
@@ -137,6 +160,10 @@ function SearchResults() {
   };
 
   const searchPostbyTag = async (sort) => {
+    if (transcript != null) {
+      setInput(transcript);
+    }
+
     if (token) {
       const response = await fetch(
         `${import.meta.env.VITE_REACT_APP_API_URL}/post/search-skill`,
@@ -147,7 +174,8 @@ function SearchResults() {
             "x-access-token": token,
           },
           body: JSON.stringify({
-            skill: input.toLowerCase().trim(),
+            skill:
+              transcript.toLowerCase().trim() || input.toLowerCase().trim(),
             sortByNewest: sort,
           }),
         }
@@ -204,24 +232,68 @@ function SearchResults() {
           height: "200px",
         }}
       >
-        <div className={ContentCSS.searchContainer}>
-          <Icon
-            icon="icon-park-solid:voice"
-            className={ContentCSS.voiceSearchIcon}
-          />
-          <input
-            className={ContentCSS.searchBar}
-            type="text"
-            placeholder="Search for a skill to start learning..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
-          <Icon
-            className={ContentCSS.searchIcon}
-            icon="material-symbols:search"
-            onClick={handleSearch}
-          />
-        </div>
+        {isVoiceSearch ? (
+          <>
+            <div className={ContentCSS.searchContainer}>
+              <Icon
+                icon="icon-park-solid:voice"
+                className={ContentCSS.voiceSearchIcon}
+                style={{ backgroundColor: "red", color: "white" }}
+                onClick={() => {
+                  setIsVoiceSearch(false);
+                  SpeechRecognition.stopListening();
+                  setInput("");
+                }}
+              />
+              <input
+                className={ContentCSS.searchBar}
+                type="text"
+                placeholder="Speak to start searching"
+                value={transcript}
+                onChange={(e) => setInput(transcript)}
+              />
+              <Icon
+                className={ContentCSS.searchIcon}
+                icon="material-symbols:search"
+                onClick={() => {
+                  handleSearch();
+                  resetTranscript();
+                  setIsVoiceSearch(false);
+                }}
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={ContentCSS.searchContainer}>
+              <Icon
+                icon="icon-park-solid:voice"
+                className={ContentCSS.voiceSearchIcon}
+                onClick={() => {
+                  setIsVoiceSearch(true);
+                  SpeechRecognition.startListening();
+                  setInput("");
+                }}
+              />
+              <input
+                className={ContentCSS.searchBar}
+                type="text"
+                placeholder="Search for a skill to start learning..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+              />
+              <Icon
+                className={ContentCSS.searchIcon}
+                icon="material-symbols:search"
+                onClick={() => {
+                  handleSearch();
+                  resetTranscript();
+                  setIsVoiceSearch(false);
+                }}
+              />
+            </div>
+          </>
+        )}
 
         <span>Search for: </span>
         <div>
