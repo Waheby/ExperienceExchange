@@ -187,7 +187,7 @@ function Profile() {
 
   const calculateAverageRating = (rating) => {
     // console.log(rating);
-    if (rating != null) {
+    if (rating > 0) {
       const sum = rating.reduce((partialSum, a) => partialSum + a, 0);
       const count = rating.length;
       const average = (sum / count).toFixed(1);
@@ -384,7 +384,9 @@ function Profile() {
                   fontWeight: "bold",
                 }}
               >
-                {calculateAverageRating(user[0].rating)}
+                {user[0].rating > 0
+                  ? calculateAverageRating(user[0].rating)
+                  : 0.0}
               </div>
               <div
                 style={{
@@ -620,7 +622,10 @@ function Profile() {
                     <div key={id}>
                       <>
                         <div
-                          onClick={() => navigate(`/user/${result.username}`)}
+                          onClick={() => {
+                            navigate(`/user/${result.username}`);
+                            location.reload();
+                          }}
                           style={{ cursor: "pointer" }}
                           className={ContentCSS.postContainer}
                         >
