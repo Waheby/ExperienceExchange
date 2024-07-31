@@ -327,6 +327,7 @@ function UserDashboard() {
     } else otherUser = toUser;
 
     console.log(otherUser);
+
     if (newRating != null) {
       const response = await fetch(
         `${import.meta.env.VITE_REACT_APP_API_URL}/user/rate`,
@@ -360,7 +361,8 @@ function UserDashboard() {
 
       deleteSession(sessionId);
     } else {
-      toast.error("Rating cannot be empty!", {
+      deleteSession(sessionId);
+      toast.warning("Session Terminated Without Rating !", {
         position: "bottom-right",
         autoClose: 2000,
         hideProgressBar: false,
