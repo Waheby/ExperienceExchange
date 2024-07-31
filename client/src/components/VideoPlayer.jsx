@@ -21,7 +21,7 @@ function VideoPLayer(
     token,
   }
 ) {
-  const { AppID, channelName, token } = props;
+  const { channelName, AppID, token } = props;
   const { isLoading: isLoadingMic, localMicrophoneTrack } =
     useLocalMicrophoneTrack(true);
   const { isLoading: isLoadingCam, localCameraTrack } =
@@ -79,6 +79,7 @@ const styles = {
     display: "grid",
     borderStyle: "solid",
     borderWidth: "1px",
+    margin: "auto",
   },
   gridCell: { height: "100%", width: "100%" },
   container: {

@@ -31,7 +31,7 @@ function VideoForm(props) {
   } = props;
   return (
     <div style={{ textAlign: "center" }}>
-      <p>Enter your AppID and Channel Name</p>
+      <p>Lobby Information</p>
       <label htmlFor="appid">Agora App ID: </label>
       <input
         id="appid"
@@ -62,18 +62,48 @@ function VideoForm(props) {
       />
       <br />
       <br />
-      <button
-        onClick={() =>
-          AppID && channelName
-            ? setInCall(true)
-            : alert("Please enter the App ID and Channel Name")
-        }
+      <div
+        style={{
+          width: "200px",
+          display: "flex",
+          flexDirection: "row",
+          margin: "auto",
+        }}
       >
-        Join
-      </button>
-      <button onClick={() => navigate(`/userdashboard`)}>
-        Exit to Dashboard
-      </button>
+        <button
+          style={{
+            width: "100px",
+            height: "50px",
+            borderRadius: "15px",
+            backgroundColor: "#2C5F8D",
+            color: "white",
+            justifySelf: "center",
+            marginRight: "10px",
+            cursor: "pointer",
+          }}
+          onClick={() =>
+            AppID && channelName
+              ? setInCall(true)
+              : alert("Please enter the App ID and Channel Name")
+          }
+        >
+          Join
+        </button>
+        <button
+          style={{
+            width: "100px",
+            height: "50px",
+            borderRadius: "15px",
+            backgroundColor: "#2C5F8D",
+            color: "white",
+            justifySelf: "center",
+            cursor: "pointer",
+          }}
+          onClick={() => navigate(`/userdashboard`)}
+        >
+          Exit to Dashboard
+        </button>
+      </div>
     </div>
   );
 }

@@ -134,10 +134,17 @@ function Session() {
                   textAlign: "center",
                   margin: "auto",
                   alignContent: "center",
+                  width: "100px",
+                  height: "50px",
+                  borderRadius: "15px",
+                  backgroundColor: "#2C5F8D",
+                  color: "white",
+                  justifySelf: "center",
+                  cursor: "pointer",
                 }}
                 onClick={() => endSession()}
               >
-                End Call
+                Leave Call
               </button>
             </div>
           </AgoraRTCProvider>

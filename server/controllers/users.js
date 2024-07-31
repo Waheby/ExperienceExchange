@@ -507,20 +507,24 @@ export const requestModify = async (req, res) => {
     const decodeToken = jwt.verify(token, "secretkey");
 
     if (status === "deny") {
-      const request = await ExchangeModel.findOneAndUpdate(
+      const exchangeRequest = await ExchangeModel.findOneAndUpdate(
         { _id: id },
         { $set: { status: status } }
       );
-      await request.save();
+
+      await exchangeRequest.save();
       return res
         .status(200)
         .json({ status: 200, message: "Deny Request Successful" });
     } else if (status === "accept") {
+      const exchangeRequest = await ExchangeModel.findOne({ _id: id });
+      const channelName = exchangeRequest.channel;
+
       const APP_ID = "7a26c47116cf4606a08da84ce7d9cb47";
       const APP_CERTIFICATE = "7dfa56d42b0e41ec95328e403a8f0c01";
+      console.log(exchangeRequest.channel);
 
       //define channel name
-      const channelName = "test";
       if (!channelName) {
         return res.status(500).json({ error: "channel is required" });
       }
@@ -551,7 +555,7 @@ export const requestModify = async (req, res) => {
         { $set: { channelToken: token, status: status } }
       );
       await request.save();
-
+      console.log("token = ", token);
       //return token
       return res.status(200).json({ token: token });
     }
