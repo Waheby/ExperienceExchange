@@ -289,9 +289,23 @@ function Profile() {
 
   return (
     <>
-      <h1 style={{ textAlign: "center" }}>Profile Page</h1>
+      <img
+        style={{
+          width: "100%",
+          minWidth: "1440px",
+          maxWidth: "1900px",
+          minHeight: "800px",
+          zIndex: "-1",
+          position: "absolute",
+          marginTop: "-35px",
+        }}
+        src={`${
+          import.meta.env.VITE_CLOUDINARY_URL
+        }/v1729110997/blob-scene-haikei_4_ogxvvr.svg`}
+        alt=""
+      />
       <div
-        style={{ flexDirection: "row", marginTop: "70px" }}
+        style={{ flexDirection: "row", marginTop: "200px" }}
         className={ContentCSS.postsPageMainContainer}
       >
         <div

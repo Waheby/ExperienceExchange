@@ -236,10 +236,12 @@ function SearchResults() {
         }}
         src={`${
           import.meta.env.VITE_CLOUDINARY_URL
-        }/v1729095996/blob-scene-haikei_4_nzxgvj.svg`}
+        }/v1729110997/blob-scene-haikei_4_ogxvvr.svg`}
         alt=""
       />
-      <h1 style={{ textAlign: "center", marginTop: "200px" }}>Search Page</h1>
+      <h1 style={{ textAlign: "center", marginTop: "120px" }}>
+        Search for your Interests
+      </h1>
       <div
         className={ContentCSS.checkBoxContainer}
         style={{

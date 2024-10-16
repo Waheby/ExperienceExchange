@@ -137,6 +137,21 @@ function NewPostForm() {
 
   return (
     <>
+      <img
+        style={{
+          width: "100%",
+          minWidth: "1440px",
+          maxWidth: "1900px",
+          minHeight: "800px",
+          zIndex: "-1",
+          position: "absolute",
+          marginTop: "-35px",
+        }}
+        src={`${
+          import.meta.env.VITE_CLOUDINARY_URL
+        }/v1729095996/blob-scene-haikei_4_nzxgvj.svg`}
+        alt=""
+      />
       <div className={ContentCSS.mainContainer}>
         <h1>Share a New Post with the Community</h1>
         <div className={ContentCSS.registerContainer}>

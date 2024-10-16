@@ -70,7 +70,22 @@ function PostsPage() {
 
   return (
     <>
-      <h1 style={{ textAlign: "center" }}>
+      <img
+        style={{
+          width: "100%",
+          minWidth: "1440px",
+          maxWidth: "1900px",
+          minHeight: "800px",
+          zIndex: "-1",
+          position: "absolute",
+          marginTop: "-35px",
+        }}
+        src={`${
+          import.meta.env.VITE_CLOUDINARY_URL
+        }/v1729110997/blob-scene-haikei_4_ogxvvr.svg`}
+        alt=""
+      />
+      <h1 style={{ textAlign: "center", marginTop: "120px" }}>
         Recommended Posts and Users for you
       </h1>
       <div className={ContentCSS.postsPageMainContainer}>
