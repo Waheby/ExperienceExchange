@@ -32,13 +32,82 @@ function Home() {
     <>
       <div>
         <div className={ContentCSS.mainContainer}>
-          <h1>
-            Unlock Your Potential in Experience Exchange Where Talent Meets
-            Opportunity
-          </h1>
-          <Searchbar></Searchbar>
-          <Infocard />
-          <h1>Check the Latest Posts </h1>
+          {/* FIRST SECTION================================================================ */}
+          <div
+            style={{
+              width: "100%",
+              height: "400px",
+              alignContent: "center",
+              textAlign: "center",
+              position: "relative",
+            }}
+          >
+            <img
+              style={{
+                width: "100%",
+                minWidth: "1400px",
+                marginTop: "-70px",
+              }}
+              src={`${
+                import.meta.env.VITE_CLOUDINARY_URL
+              }/wave-haikei_3_xapk26.svg`}
+              alt=""
+            />
+            <div
+              style={{
+                width: "100%",
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <h1>
+                Unlock Your Potential in Experience Exchange Where Talent Meets
+                Opportunity
+              </h1>
+              <Searchbar></Searchbar>
+            </div>
+          </div>
+
+          {/* SECOND SECTION================================================================ */}
+          <div
+            style={{
+              width: "100%",
+              alignContent: "center",
+              textAlign: "center",
+              margin: "auto",
+              position: "relative",
+            }}
+          >
+            <img
+              style={{
+                width: "100%",
+                minWidth: "1400px",
+                marginTop: "120px",
+              }}
+              src={`${
+                import.meta.env.VITE_CLOUDINARY_URL
+              }/wave-haikei_2_w9u4ri.svg`}
+              alt=""
+            />
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                marginTop: "-100px",
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <Infocard />
+            </div>
+          </div>
+          <div style={{ marginTop: "080px" }}>
+            <h1>Check the Latest Posts </h1>
+          </div>
         </div>
       </div>
       <div className={ContentCSS.postsPageMainContainer}>

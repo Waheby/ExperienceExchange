@@ -958,7 +958,7 @@ function UserDashboard() {
                     Change Profile Picture
                   </div>
                 </Link>
-                <Link
+                {/* <Link
                   className={ContentCSS.dashboardContainer}
                   to={"/userdashboard/change-email"}
                 >
@@ -970,7 +970,7 @@ function UserDashboard() {
                     />
                   </div>
                   <div className={ContentCSS.dashboardText}>Change Email</div>
-                </Link>
+                </Link> */}
                 <Link
                   className={ContentCSS.dashboardContainer}
                   to={"/userdashboard/change-password"}
@@ -1683,7 +1683,7 @@ function UserDashboard() {
             </div>
             <div className={ContentCSS.dashboardText}>Change Username</div>
           </Link> */}
-                  <Link
+                  {/* <Link
                     className={ContentCSS.dashboardContainer}
                     to={"/userdashboard/change-email"}
                   >
@@ -1695,7 +1695,7 @@ function UserDashboard() {
                       />
                     </div>
                     <div className={ContentCSS.dashboardText}>Change Email</div>
-                  </Link>
+                  </Link> */}
                   <Link
                     className={ContentCSS.dashboardContainer}
                     to={"/userdashboard/change-password"}
