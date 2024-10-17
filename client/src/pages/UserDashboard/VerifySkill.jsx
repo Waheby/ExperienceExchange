@@ -340,6 +340,21 @@ function UploadForm() {
 
   return (
     <>
+      <img
+        style={{
+          width: "100%",
+          minWidth: "1440px",
+          maxWidth: "1900px",
+          minHeight: "800px",
+          zIndex: "-1",
+          position: "absolute",
+          marginTop: "-35px",
+        }}
+        src={`${
+          import.meta.env.VITE_CLOUDINARY_URL
+        }/v1729110997/blob-scene-haikei_4_ogxvvr.svg`}
+        alt=""
+      />
       <div className={ContentCSS.mainContainer}>
         <h1>Upload a certificate relevant to your skill</h1>
         <br />
