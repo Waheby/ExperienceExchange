@@ -143,26 +143,26 @@ function CheckVerify() {
     setPendingVerification(true);
 
     //OCR AI certificate verification
-    const responseOCR = await fetch(
-      `${import.meta.env.VITE_OCR_APP_URL}/validate`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token":
-            userStore?.token?.token || localStorage.getItem("token"),
-        },
-        body: JSON.stringify({
-          data: `${import.meta.env.VITE_CLOUDINARY_URL}/${cert}`,
-        }),
-      }
-    ).catch((err) => {
-      console.log(err);
-      setIsSubmitting(false);
-    });
+    // const responseOCR = await fetch(
+    //   `${import.meta.env.VITE_OCR_APP_URL}/validate`,
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "x-access-token":
+    //         userStore?.token?.token || localStorage.getItem("token"),
+    //     },
+    //     body: JSON.stringify({
+    //       data: `${import.meta.env.VITE_CLOUDINARY_URL}/${cert}`,
+    //     }),
+    //   }
+    // ).catch((err) => {
+    //   console.log(err);
+    //   setIsSubmitting(false);
+    // });
 
-    const dataOCR = await responseOCR.json();
-    console.log(dataOCR.ocrPrediction);
+    // const dataOCR = await responseOCR.json();
+    // console.log(dataOCR.ocrPrediction);
 
     //ObjectDetection AI certificate verification
     const responseObjectDetection = await fetch(
@@ -188,11 +188,11 @@ function CheckVerify() {
     console.log(dataObjectDetection.yoloPrediction);
     console.log(dataObjectDetection.url);
 
-    if (!dataOCR.ocrPrediction) {
-      setIsTextValid(false);
-    } else {
-      setIsTextValid(true);
-    }
+    // if (!dataOCR.ocrPrediction) {
+    //   setIsTextValid(false);
+    // } else {
+    //   setIsTextValid(true);
+    // }
 
     if (!dataObjectDetection.yoloPrediction) {
       setIsObjectValid(false);
@@ -310,20 +310,21 @@ function CheckVerify() {
                     className={ContentCSS.contactFormContainer}
                   >
                     <label>AI Assistant:</label>
-                    <img
+                    {/* <img
                       style={{
                         margin: "20px",
                         alignSelf: "center",
                         width: "600px",
                       }}
                       src={`${url}`}
-                    />
+                    /> */}
                     <hr style={{ width: "550px" }} />
                     <div>
-                      {isTextValid && isObjectValid ? (
+                      {isObjectValid ? ( //add "isTextValid &&" to include OCR
                         <>
                           <p style={{ color: "green" }}>
-                            Texts: Good Chance of being a certificate{" "}
+                            Texts: -
+                            {/*Good Chance of being a certificate{" "}*/}
                             <Icon
                               icon="mdi:tick-outline"
                               style={{ color: "green" }}
@@ -339,10 +340,11 @@ function CheckVerify() {
                         </>
                       ) : (
                         <>
-                          {isTextValid && !isObjectValid ? (
+                          {!isObjectValid ? ( //add "isTextValid &&" to include OCR
                             <>
                               <p style={{ color: "green" }}>
-                                Texts: Good Chance of being a certificate{" "}
+                                Texts: -
+                                {/*Good Chance of being a certificate{" "}*/}
                                 <Icon
                                   icon="mdi:tick-outline"
                                   style={{ color: "green" }}
@@ -358,11 +360,12 @@ function CheckVerify() {
                             </>
                           ) : (
                             <>
-                              {!isTextValid && isObjectValid ? (
+                              {isObjectValid ? ( //add "!isTextValid &&" to include OCR
                                 <>
                                   <p style={{ color: "orange" }}>
-                                    Texts: Very Low Chance of being a
-                                    certificate{" "}
+                                    Texts: -
+                                    {/*Very Low Chance of being a
+                                    certificate{" "}*/}
                                     <Icon
                                       icon="mdi:warning-outline"
                                       style={{ color: "orange" }}
@@ -379,7 +382,8 @@ function CheckVerify() {
                               ) : (
                                 <>
                                   <p style={{ color: "red" }}>
-                                    Texts: No chance of being a certificate{" "}
+                                    Texts: -
+                                    {/*No chance of being a certificate{" "}*/}
                                     <Icon
                                       icon="zondicons:block"
                                       style={{ color: "red" }}

@@ -128,28 +128,28 @@ function UploadForm() {
 
         //OCR AI certificate verification
         setPendingVerification(true);
-        const responseOCR = await fetch(
-          `${import.meta.env.VITE_OCR_APP_URL}/validate`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "x-access-token":
-                userStore?.token?.token || localStorage.getItem("token"),
-            },
-            body: JSON.stringify({
-              data: `${import.meta.env.VITE_CLOUDINARY_URL}/${
-                dataCloudinary.public_id
-              }`,
-            }),
-          }
-        ).catch((err) => {
-          console.log(err);
-          setIsSubmitting(false);
-        });
+        // const responseOCR = await fetch(
+        //   `${import.meta.env.VITE_OCR_APP_URL}/validate`,
+        //   {
+        //     method: "POST",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //       "x-access-token":
+        //         userStore?.token?.token || localStorage.getItem("token"),
+        //     },
+        //     body: JSON.stringify({
+        //       data: `${import.meta.env.VITE_CLOUDINARY_URL}/${
+        //         dataCloudinary.public_id
+        //       }`,
+        //     }),
+        //   }
+        // ).catch((err) => {
+        //   console.log(err);
+        //   setIsSubmitting(false);
+        // });
 
-        const dataOCR = await responseOCR.json();
-        console.log(dataOCR.ocrPrediction);
+        // const dataOCR = await responseOCR.json();
+        // console.log(dataOCR.ocrPrediction);
 
         //ObjectDetection AI certificate verification
         setPendingVerification(true);
@@ -166,7 +166,7 @@ function UploadForm() {
               data: `${import.meta.env.VITE_CLOUDINARY_URL}/${
                 dataCloudinary.public_id
               }`,
-              isFileExported: "false",
+              is_export: "False",
             }),
           }
         ).catch((err) => {
@@ -180,7 +180,7 @@ function UploadForm() {
         // evaluate status according to the ai result
         setPendingVerification(false);
         if (
-          dataOCR.ocrPrediction == true &&
+          // dataOCR.ocrPrediction == true && //UNCOMMENT THIS FOR OCR********
           dataObjectDetection.yoloPrediction == true
         ) {
           // add uploaded image/document to database
@@ -221,32 +221,32 @@ function UploadForm() {
             theme: "colored",
           });
         } else if (
-          dataOCR.ocrPrediction == false &&
+          // dataOCR.ocrPrediction == false && //UNCOMMENT THIS FOR OCR********
           dataObjectDetection.yoloPrediction == false
         ) {
           // add uploaded image/document to database
-          const response = await fetch(
-            `${import.meta.env.VITE_REACT_APP_API_URL}/certificate/new`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "x-access-token":
-                  userStore?.token?.token || localStorage.getItem("token"),
-              },
-              body: JSON.stringify({
-                file: dataCloudinary.public_id,
-                skill: skill,
-                description: description,
-                status: "deny",
-              }),
-            }
-          ).catch((err) => {
-            console.log(err);
-            setIsSubmitting(false);
-          });
-          const data = await response.json();
-          console.log(data);
+          // const response = await fetch(
+          //   `${import.meta.env.VITE_REACT_APP_API_URL}/certificate/new`,
+          //   {
+          //     method: "POST",
+          //     headers: {
+          //       "Content-Type": "application/json",
+          //       "x-access-token":
+          //         userStore?.token?.token || localStorage.getItem("token"),
+          //     },
+          //     body: JSON.stringify({
+          //       file: dataCloudinary.public_id,
+          //       skill: skill,
+          //       description: description,
+          //       status: "deny",
+          //     }),
+          //   }
+          // ).catch((err) => {
+          //   console.log(err);
+          //   setIsSubmitting(false);
+          // });
+          // const data = await response.json();
+          // console.log(data);
 
           setVerificationStatus(
             "Rejected: Uploaded document does not appear to be a certificate! contact support if you think something went wrong"
@@ -264,48 +264,48 @@ function UploadForm() {
               theme: "colored",
             }
           );
-        } else if (dataOCR.ocrPrediction == false) {
-          // add uploaded image/document to database
-          const response = await fetch(
-            `${import.meta.env.VITE_REACT_APP_API_URL}/certificate/new`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "x-access-token":
-                  userStore?.token?.token || localStorage.getItem("token"),
-              },
-              body: JSON.stringify({
-                file: dataCloudinary.public_id,
-                skill: skill,
-                description: description,
-                status: "ongoing",
-              }),
-            }
-          ).catch((err) => {
-            console.log(err);
-            setIsSubmitting(false);
-          });
-          const data = await response.json();
-          console.log(data);
+        } // else if (dataOCR.ocrPrediction == false) {
+        //   // add uploaded image/document to database
+        //   const response = await fetch(
+        //     `${import.meta.env.VITE_REACT_APP_API_URL}/certificate/new`,
+        //     {
+        //       method: "POST",
+        //       headers: {
+        //         "Content-Type": "application/json",
+        //         "x-access-token":
+        //           userStore?.token?.token || localStorage.getItem("token"),
+        //       },
+        //       body: JSON.stringify({
+        //         file: dataCloudinary.public_id,
+        //         skill: skill,
+        //         description: description,
+        //         status: "ongoing",
+        //       }),
+        //     }
+        //   ).catch((err) => {
+        //     console.log(err);
+        //     setIsSubmitting(false);
+        //   });
+        //   const data = await response.json();
+        //   console.log(data);
 
-          setVerificationStatus(
-            "Under Review: Uploaded document is forwarded to the verification team for final approval!"
-          );
-          toast.warning(
-            "Document is not clear. Forwarded to verification team!",
-            {
-              position: "bottom-right",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-            }
-          );
-        }
+        //   setVerificationStatus(
+        //     "Under Review: Uploaded document is forwarded to the verification team for final approval!"
+        //   );
+        //   toast.warning(
+        //     "Document is not clear. Forwarded to verification team!",
+        //     {
+        //       position: "bottom-right",
+        //       autoClose: 2000,
+        //       hideProgressBar: false,
+        //       closeOnClick: true,
+        //       pauseOnHover: true,
+        //       draggable: true,
+        //       progress: undefined,
+        //       theme: "colored",
+        //     }
+        //   );
+        // }
 
         setTimeout(() => {
           setIsSubmitting(false);
