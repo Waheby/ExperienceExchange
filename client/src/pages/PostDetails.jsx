@@ -505,7 +505,9 @@ function PostDetails() {
             <div className={ContentCSS.detailedPostTop}>
               <img
                 className={ContentCSS.detailedPostImg}
-                src={`${import.meta.env.VITE_CLOUDINARY_URL}/${post.image}`}
+                src={`${
+                  import.meta.env.VITE_CLOUDINARY_URL
+                }/DefaultProfile.svg`}
                 alt="profile pic"
               />
               <div
