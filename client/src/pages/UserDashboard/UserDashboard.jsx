@@ -822,7 +822,7 @@ function UserDashboard() {
               onClose={() => setOpenPosts(false)}
             >
               <div
-                style={{ margin: "10px" }}
+                style={{ marginBottom: "10px" }}
                 className={ContentCSS.postsPageMainContainer}
               >
                 {posts.map((result, id) => {
