@@ -16,9 +16,14 @@ export const getPosts = async (req, res) => {
 };
 
 export const getUserPosts = async (req, res) => {
+  const token = req.headers["x-access-token"];
+
   try {
+    const decodeToken = jwt.verify(token, "secretkey");
+    const username = decodeToken.username;
+
     const Post = await PostModel.find({
-      creator: req.body.username,
+      creator: username || req.body.username,
     });
     // console.log(req.body.username);
 

@@ -211,13 +211,10 @@ function UserDashboard() {
       const response = await fetch(
         `${import.meta.env.VITE_REACT_APP_API_URL}/post/history`,
         {
-          method: "POST",
+          method: "GET",
           headers: {
-            "Content-Type": "application/json",
+            "x-access-token": token,
           },
-          body: JSON.stringify({
-            username: username,
-          }),
         }
       ).catch((err) => {
         console.log(err);
