@@ -821,7 +821,10 @@ function UserDashboard() {
               loading={loading}
               onClose={() => setOpenPosts(false)}
             >
-              <div style={{}} className={ContentCSS.postsPageMainContainer}>
+              <div
+                style={{ margin: "10px" }}
+                className={ContentCSS.postsPageMainContainer}
+              >
                 {posts.map((result, id) => {
                   return (
                     <div key={id}>
