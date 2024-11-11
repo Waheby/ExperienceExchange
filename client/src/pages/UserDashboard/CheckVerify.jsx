@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ContentCSS from "../../assets/styles/Content/content.module.css";
+import NavCSS from "../../assets/styles/Navbar/nav.module.css";
 import { Icon } from "@iconify/react";
 import * as jose from "jose";
 import { ToastContainer, toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import { Collapse, Modal, Popover } from "antd";
 
 function CheckVerify() {
   const userStore = useSelector((state) => state.user);
@@ -18,6 +20,7 @@ function CheckVerify() {
   const [isTextValid, setIsTextValid] = useState("");
   const [isObjectValid, setIsObjectValid] = useState("");
   const [pendingVerification, setPendingVerification] = useState(false);
+  const [openMessage, setOpenMessage] = useState(false);
 
   const certsInfo = useRef("");
 
@@ -216,6 +219,11 @@ function CheckVerify() {
     });
   };
 
+  const showModalMessage = async (e) => {
+    e.preventDefault();
+    setOpenMessage(true);
+  };
+
   return (
     <>
       <img
@@ -264,31 +272,90 @@ function CheckVerify() {
 
                 <hr style={{ width: "550px" }} />
                 <div>
-                  <button
-                    style={{
-                      width: "120px",
-                      backgroundColor: "green",
-                      color: "white",
-                    }}
-                    disabled={isSubmitting}
-                    className={ContentCSS.loginButton}
-                    onClick={(e) => acceptFile(e, result._id)}
+                  <Popover
+                    content={
+                      <form
+                        className={ContentCSS.contactFormContainer}
+                        style={{ boxShadow: "none", height: "150px" }}
+                      >
+                        <span style={{ fontSize: "20px" }}>
+                          Are you sure you want to accept it ?
+                        </span>
+                        <div style={{ marginTop: "50px" }}>
+                          <button
+                            style={{
+                              width: "20%",
+                              backgroundColor: "red",
+                              color: "white",
+                            }}
+                            className={ContentCSS.loginButton}
+                            disabled={isSubmitting}
+                            onClick={(e) => acceptFile(e, result._id)}
+                          >
+                            CONFIRM
+                          </button>
+                        </div>
+                      </form>
+                    }
+                    title=""
+                    trigger="click"
                   >
-                    Accept
-                  </button>
-                  <button
-                    style={{
-                      width: "120px",
-                      margin: "5px",
-                      backgroundColor: "red",
-                      color: "white",
-                    }}
-                    disabled={isSubmitting}
-                    className={ContentCSS.loginButton}
-                    onClick={(e) => denyFile(e, result._id)}
+                    <button
+                      style={{
+                        width: "120px",
+                        backgroundColor: "green",
+                        color: "white",
+                      }}
+                      disabled={isSubmitting}
+                      className={ContentCSS.loginButton}
+                      onClick={showModalMessage}
+                    >
+                      Accept
+                    </button>
+                  </Popover>
+
+                  <Popover
+                    content={
+                      <form
+                        className={ContentCSS.contactFormContainer}
+                        style={{ boxShadow: "none", height: "150px" }}
+                      >
+                        <span style={{ fontSize: "20px" }}>
+                          Are you sure you want to accept it ?
+                        </span>
+                        <div style={{ marginTop: "50px" }}>
+                          <button
+                            style={{
+                              width: "20%",
+                              backgroundColor: "red",
+                              color: "white",
+                            }}
+                            className={ContentCSS.loginButton}
+                            disabled={isSubmitting}
+                            onClick={(e) => denyFile(e, result._id)}
+                          >
+                            CONFIRM
+                          </button>
+                        </div>
+                      </form>
+                    }
+                    title=""
+                    trigger="click"
                   >
-                    Deny
-                  </button>
+                    <button
+                      style={{
+                        width: "120px",
+                        margin: "5px",
+                        backgroundColor: "red",
+                        color: "white",
+                      }}
+                      disabled={isSubmitting}
+                      className={ContentCSS.loginButton}
+                      onClick={showModalMessage}
+                    >
+                      Deny
+                    </button>
+                  </Popover>
                 </div>
                 <button
                   style={{

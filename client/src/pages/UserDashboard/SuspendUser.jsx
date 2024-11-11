@@ -5,6 +5,7 @@ import { Icon } from "@iconify/react";
 import * as jose from "jose";
 import { ToastContainer, toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import { Collapse, Modal, Popover } from "antd";
 
 function SuspendUser() {
   const userStore = useSelector((state) => state.user);
@@ -13,6 +14,8 @@ function SuspendUser() {
 
   const [username, setUsername] = useState("");
   const [bio, setBio] = useState("");
+  const [openMessage, setOpenMessage] = useState(false);
+
   //Deny entry to non-authorized users OR get user info
   useEffect(() => {
     const token = userStore?.token?.token || localStorage.getItem("token");
@@ -140,6 +143,11 @@ function SuspendUser() {
     }
   };
 
+  const showModalMessage = async (e) => {
+    e.preventDefault();
+    setOpenMessage(true);
+  };
+
   return (
     <>
       <img
@@ -160,10 +168,7 @@ function SuspendUser() {
       <div className={ContentCSS.mainContainer}>
         <h1>Suspend any user</h1>
         <div className={ContentCSS.registerContainer}>
-          <form
-            onSubmit={suspendUser}
-            className={ContentCSS.contactFormContainer}
-          >
+          <form className={ContentCSS.contactFormContainer}>
             <label htmlFor="text">Enter a username to suspend: </label>
             <input
               className={ContentCSS.loginInput}
@@ -174,12 +179,41 @@ function SuspendUser() {
               }}
             />
             <hr style={{ width: "350px" }} />
-            <button
-              style={{ backgroundColor: "red", color: "white" }}
-              className={ContentCSS.loginButton}
+            <Popover
+              content={
+                <form
+                  className={ContentCSS.contactFormContainer}
+                  style={{ boxShadow: "none", height: "150px" }}
+                >
+                  <span style={{ fontSize: "20px" }}>
+                    Are you sure you want to suspend user ?
+                  </span>
+                  <div style={{ marginTop: "50px" }}>
+                    <button
+                      style={{
+                        width: "20%",
+                        backgroundColor: "red",
+                        color: "white",
+                      }}
+                      className={ContentCSS.loginButton}
+                      onClick={(e) => suspendUser(e)}
+                    >
+                      CONFIRM
+                    </button>
+                  </div>
+                </form>
+              }
+              title=""
+              trigger="click"
             >
-              Confirm Suspension
-            </button>
+              <button
+                style={{ backgroundColor: "red", color: "white" }}
+                className={ContentCSS.loginButton}
+                onClick={showModalMessage}
+              >
+                Confirm Suspension
+              </button>
+            </Popover>
           </form>
         </div>
         <h1 style={{ marginTop: "50px", textAlign: "center" }}>
@@ -201,12 +235,41 @@ function SuspendUser() {
               }}
             />
             <hr style={{ width: "350px" }} />
-            <button
-              style={{ backgroundColor: "green", color: "white" }}
-              className={ContentCSS.loginButton}
+            <Popover
+              content={
+                <form
+                  className={ContentCSS.contactFormContainer}
+                  style={{ boxShadow: "none", height: "150px" }}
+                >
+                  <span style={{ fontSize: "20px" }}>
+                    Are you sure you want to Restore user ?
+                  </span>
+                  <div style={{ marginTop: "50px" }}>
+                    <button
+                      style={{
+                        width: "20%",
+                        backgroundColor: "red",
+                        color: "white",
+                      }}
+                      className={ContentCSS.loginButton}
+                      onClick={(e) => reinstateUser(e)}
+                    >
+                      CONFIRM
+                    </button>
+                  </div>
+                </form>
+              }
+              title=""
+              trigger="click"
             >
-              Confirm Reinitialization
-            </button>
+              <button
+                style={{ backgroundColor: "green", color: "white" }}
+                className={ContentCSS.loginButton}
+                onClick={showModalMessage}
+              >
+                Confirm Reinitialization
+              </button>
+            </Popover>
           </form>
         </div>
       </div>
