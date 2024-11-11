@@ -14,6 +14,7 @@ import { Icon } from "@iconify/react";
 import { ToastContainer, toast } from "react-toastify";
 import Filter from "bad-words";
 import { useSelector } from "react-redux";
+import { Collapse, Modal, Popover } from "antd";
 
 function PostDetails() {
   const userStore = useSelector((state) => state.user);
@@ -28,6 +29,8 @@ function PostDetails() {
   const [resultsSimilar, setResultsSimilar] = useState([]);
   const [post, setPost] = useState("");
   const [content, setContent] = useState("");
+  const [openMessage, setOpenMessage] = useState(false);
+
   const postID = params.postId;
 
   useEffect(() => {
@@ -223,7 +226,8 @@ function PostDetails() {
     }
   };
 
-  const deletePost = async () => {
+  const deletePost = async (e) => {
+    e.preventDefault();
     const response = await fetch(
       `${import.meta.env.VITE_REACT_APP_API_URL}/post/delete`,
       {
@@ -254,11 +258,12 @@ function PostDetails() {
       theme: "colored",
     });
     setTimeout(() => {
-      navigate("/no-post");
+      navigate("/userdashboard");
     }, 2000);
   };
 
-  const deleteComment = async (id) => {
+  const deleteComment = async (e, id) => {
+    e.preventDefault();
     const response = await fetch(
       `${import.meta.env.VITE_REACT_APP_API_URL}/comment/delete`,
       {
@@ -291,6 +296,11 @@ function PostDetails() {
     setTimeout(() => {
       window.location.reload();
     }, 2000);
+  };
+
+  const showModalMessage = async (e) => {
+    e.preventDefault();
+    setOpenMessage(true);
   };
 
   if (role !== "admin") {
@@ -370,23 +380,51 @@ function PostDetails() {
               >
                 Delete my Post
               </span>
-              <div
-                className={ContentCSS.adminControlIcon}
-                onClick={() => {
-                  deletePost();
-                }}
-                style={{
-                  margin: "5px",
-                  cursor: "pointer",
-                  display: "flex",
-                  borderRadius: "10px",
-                }}
+              <Popover
+                content={
+                  <form
+                    className={ContentCSS.contactFormContainer}
+                    style={{ boxShadow: "none", height: "150px" }}
+                  >
+                    <span style={{ fontSize: "20px" }}>
+                      Are you sure you want to delete post ?
+                    </span>
+                    <div style={{ marginTop: "50px" }}>
+                      <button
+                        style={{
+                          width: "20%",
+                          backgroundColor: "red",
+                          color: "white",
+                        }}
+                        className={ContentCSS.loginButton}
+                        onClick={(e) => deletePost(e)}
+                      >
+                        CONFIRM
+                      </button>
+                    </div>
+                  </form>
+                }
+                title=""
+                trigger="click"
               >
-                <Icon
-                  icon="material-symbols:delete"
-                  style={{ color: "red", width: "40px", height: "40px" }}
-                />
-              </div>
+                <div
+                  className={ContentCSS.adminControlIcon}
+                  onClick={() => {
+                    showModalMessage;
+                  }}
+                  style={{
+                    margin: "5px",
+                    cursor: "pointer",
+                    display: "flex",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Icon
+                    icon="material-symbols:delete"
+                    style={{ color: "red", width: "40px", height: "40px" }}
+                  />
+                </div>
+              </Popover>
             </div>
           </div>
         )}
@@ -538,6 +576,10 @@ function PostDetails() {
               <div style={{ fontSize: "larger", textAlign: "center" }}>
                 {post.tags ? post.tags.join(", ") : null}
               </div>
+              <div style={{ justifyContent: "center" }}>
+                Posted on:{" "}
+                {post.createdAt ? post.createdAt.split("T", 1) : null}
+              </div>
             </div>
           </div>
         </div>
@@ -569,23 +611,51 @@ function PostDetails() {
             >
               Admin Control
             </span>
-            <div
-              className={ContentCSS.adminControlIcon}
-              onClick={() => {
-                deletePost();
-              }}
-              style={{
-                margin: "5px",
-                cursor: "pointer",
-                display: "flex",
-                borderRadius: "10px",
-              }}
+            <Popover
+              content={
+                <form
+                  className={ContentCSS.contactFormContainer}
+                  style={{ boxShadow: "none", height: "150px" }}
+                >
+                  <span style={{ fontSize: "20px" }}>
+                    Are you sure you want to delete post ?
+                  </span>
+                  <div style={{ marginTop: "50px" }}>
+                    <button
+                      style={{
+                        width: "20%",
+                        backgroundColor: "red",
+                        color: "white",
+                      }}
+                      className={ContentCSS.loginButton}
+                      onClick={(e) => deletePost(e)}
+                    >
+                      CONFIRM
+                    </button>
+                  </div>
+                </form>
+              }
+              title=""
+              trigger="click"
             >
-              <Icon
-                icon="material-symbols:delete"
-                style={{ color: "red", width: "40px", height: "40px" }}
-              />
-            </div>
+              <div
+                className={ContentCSS.adminControlIcon}
+                onClick={() => {
+                  showModalMessage;
+                }}
+                style={{
+                  margin: "5px",
+                  cursor: "pointer",
+                  display: "flex",
+                  borderRadius: "10px",
+                }}
+              >
+                <Icon
+                  icon="material-symbols:delete"
+                  style={{ color: "red", width: "40px", height: "40px" }}
+                />
+              </div>
+            </Popover>
           </div>
         </div>
         <h1 style={{ textAlign: "center" }}>Similar Posts </h1>
@@ -727,23 +797,57 @@ function PostDetails() {
                     >
                       Admin Control
                     </span>
-                    <div
-                      className={ContentCSS.adminControlIcon}
-                      onClick={() => {
-                        deleteComment(result._id);
-                      }}
-                      style={{
-                        margin: "5px",
-                        cursor: "pointer",
-                        display: "flex",
-                        borderRadius: "10px",
-                      }}
+                    <Popover
+                      content={
+                        <form
+                          className={ContentCSS.contactFormContainer}
+                          style={{ boxShadow: "none", height: "150px" }}
+                        >
+                          <span style={{ fontSize: "20px" }}>
+                            Are you sure you want to delete comment ?
+                          </span>
+                          <div style={{ marginTop: "50px" }}>
+                            <button
+                              style={{
+                                width: "20%",
+                                backgroundColor: "red",
+                                color: "white",
+                              }}
+                              className={ContentCSS.loginButton}
+                              onClick={(e) => {
+                                deleteComment(e, result._id);
+                              }}
+                            >
+                              CONFIRM
+                            </button>
+                          </div>
+                        </form>
+                      }
+                      title=""
+                      trigger="click"
                     >
-                      <Icon
-                        icon="material-symbols:delete"
-                        style={{ color: "red", width: "40px", height: "40px" }}
-                      />
-                    </div>
+                      <div
+                        className={ContentCSS.adminControlIcon}
+                        onClick={(e) => {
+                          showModalMessage;
+                        }}
+                        style={{
+                          margin: "5px",
+                          cursor: "pointer",
+                          display: "flex",
+                          borderRadius: "10px",
+                        }}
+                      >
+                        <Icon
+                          icon="material-symbols:delete"
+                          style={{
+                            color: "red",
+                            width: "40px",
+                            height: "40px",
+                          }}
+                        />
+                      </div>
+                    </Popover>
                   </div>
                 </div>
               </div>

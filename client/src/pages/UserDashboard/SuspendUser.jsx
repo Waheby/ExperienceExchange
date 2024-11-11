@@ -242,7 +242,7 @@ function SuspendUser() {
                   style={{ boxShadow: "none", height: "150px" }}
                 >
                   <span style={{ fontSize: "20px" }}>
-                    Are you sure you want to Restore user ?
+                    Are you sure you want to restore user ?
                   </span>
                   <div style={{ marginTop: "50px" }}>
                     <button

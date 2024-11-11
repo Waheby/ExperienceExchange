@@ -321,7 +321,7 @@ function CheckVerify() {
                         style={{ boxShadow: "none", height: "150px" }}
                       >
                         <span style={{ fontSize: "20px" }}>
-                          Are you sure you want to accept it ?
+                          Are you sure you want to deny it ?
                         </span>
                         <div style={{ marginTop: "50px" }}>
                           <button
