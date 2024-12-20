@@ -49,7 +49,7 @@ function VideoPLayer(
 
   if (localCameraTrack) {
     // localCameraTrack.setEnabled(true);
-    localCameraTrack.setMuted(false);
+    // localCameraTrack.setMuted(false);
   }
 
   return (
