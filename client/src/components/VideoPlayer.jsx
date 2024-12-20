@@ -29,8 +29,8 @@ function VideoPLayer(
     useLocalCameraTrack(true);
 
   const remoteUsers = useRemoteUsers();
-  console.log(remoteUsers);
-  console.log(localMicrophoneTrack, localCameraTrack);
+  // console.log(localMicrophoneTrack, localCameraTrack);
+  // console.log(remoteUsers);
   usePublish([localMicrophoneTrack, localCameraTrack]); //to publish the local media tracks (microphone and camera tracks).
   useJoin({
     appid: AppID,
@@ -42,9 +42,15 @@ function VideoPLayer(
   const { videoTracks } = useRemoteVideoTracks(remoteUsers);
   audioTracks.map((track) => track.play());
   videoTracks.map((track) => track.play());
-
+  // console.log(remoteUsers);
   const deviceLoading = isLoadingMic || isLoadingCam;
   if (deviceLoading) return <div style={styles.grid}>Loading devices...</div>;
+  console.log(localCameraTrack);
+
+  if (localCameraTrack) {
+    // localCameraTrack.setEnabled(true);
+    localCameraTrack.setMuted(false);
+  }
 
   return (
     <div style={{ ...styles.grid, ...returnGrid(remoteUsers) }}>
