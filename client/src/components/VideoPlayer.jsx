@@ -10,6 +10,7 @@ import {
   useRemoteUsers,
   RemoteUser,
   LocalVideoTrack,
+  useRemoteVideoTracks,
 } from "agora-rtc-react";
 import AgoraRTC from "agora-rtc-sdk-ng";
 import React from "react";
@@ -28,6 +29,7 @@ function VideoPLayer(
     useLocalCameraTrack(true);
 
   const remoteUsers = useRemoteUsers();
+  console.log(remoteUsers);
   console.log(localMicrophoneTrack, localCameraTrack);
   usePublish([localMicrophoneTrack, localCameraTrack]); //to publish the local media tracks (microphone and camera tracks).
   useJoin({
@@ -37,7 +39,9 @@ function VideoPLayer(
   });
 
   const { audioTracks } = useRemoteAudioTracks(remoteUsers);
+  const { videoTracks } = useRemoteVideoTracks(remoteUsers);
   audioTracks.map((track) => track.play());
+  videoTracks.map((track) => track.play());
 
   const deviceLoading = isLoadingMic || isLoadingCam;
   if (deviceLoading) return <div style={styles.grid}>Loading devices...</div>;

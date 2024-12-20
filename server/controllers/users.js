@@ -803,7 +803,7 @@ export const userUploadFace = async (req, res) => {
 
 export const userGetMatchingFace = async (req, res) => {
   const uploadedFaceDescriptions = req.body.uploadedFace;
-  const faceLabel = req.body.label;
+  // const faceLabel = req.body.label;
   // console.log(uploadedFaceDescriptions);
 
   try {
@@ -824,10 +824,12 @@ export const userGetMatchingFace = async (req, res) => {
         );
       }
 
-      allFaces[index] = new faceapi.LabeledFaceDescriptors(
-        allFaces[index].faceLabel,
-        allFaces[index].faceDescriptions
-      );
+      if (typeof allFaces[index].faceLabel === "string") {
+        allFaces[index] = new faceapi.LabeledFaceDescriptors(
+          allFaces[index].faceLabel,
+          allFaces[index].faceDescriptions
+        );
+      }
     }
 
     // const descriptorsFace = [
@@ -839,11 +841,11 @@ export const userGetMatchingFace = async (req, res) => {
     //   const
     //  }
     // }
+    console.log(allFaces);
 
     const uploadedDescriptorsFace = new Float32Array(
       Object.values(uploadedFaceDescriptions.descriptor)
     );
-    console.log(uploadedDescriptorsFace);
 
     // console.log(descriptorsFace);
 
@@ -899,7 +901,7 @@ export const userFaceLogin = async (req, res) => {
       username: req.body.username,
     });
 
-    console.log(checkUser);
+    // console.log(checkUser);
 
     if (checkUser != null) {
       if (checkUser.status != "suspended") {
