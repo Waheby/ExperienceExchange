@@ -46,6 +46,11 @@ function Session() {
     setInCall(false);
     return <div>Rate the session:</div>;
   };
+
+  const muteCall = () => {
+    client.localTracks.map((track) => track.setEnabled(true));
+    console.log(client.uid);
+  };
   // const [users, setUsers] = useState([]);
 
   // let localTracks = [];
@@ -146,6 +151,8 @@ function Session() {
               >
                 Leave Call
               </button>
+              {client.uid}
+              <button onClick={() => muteCall()}>Mute Call</button>
             </div>
           </AgoraRTCProvider>
         </>

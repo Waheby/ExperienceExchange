@@ -48,8 +48,12 @@ function VideoPLayer(
   console.log(localCameraTrack);
 
   if (localCameraTrack) {
-    // localCameraTrack.setEnabled(true);
-    // localCameraTrack.setMuted(false);
+    localCameraTrack.setEnabled(true);
+    localCameraTrack.setMuted(false);
+  }
+
+  if (videoTracks) {
+    videoTracks.map((track) => track.play());
   }
 
   return (
