@@ -48,8 +48,8 @@ function Session() {
   };
 
   const muteCall = () => {
-    client.localTracks.map((track) => track.setEnabled(true));
-    console.log(client.uid);
+    // client.localTracks.map((track) => track.setEnabled(true));
+    // console.log(client.uid);
   };
   // const [users, setUsers] = useState([]);
 
