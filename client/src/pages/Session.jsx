@@ -152,7 +152,7 @@ function Session() {
                 Leave Call
               </button>
               {client.uid}
-              <button onClick={() => muteCall()}>Mute Call</button>
+              {/* <button onClick={() => muteCall()}>Mute Call</button> */}
             </div>
           </AgoraRTCProvider>
         </>
