@@ -31,7 +31,7 @@ import { useSearchParams } from "react-router-dom";
 
 function Session() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const queryToken = searchParams.get("token");
+  const queryToken = searchParams.get("token").replace(/ /g, "+"); //replace spaces with + sign
   const queryChannel = searchParams.get("name");
 
   const client = useRTCClient(
