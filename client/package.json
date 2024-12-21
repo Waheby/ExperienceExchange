@@ -14,7 +14,7 @@
     "@cloudinary/url-gen": "^1.19.0",
     "@reduxjs/toolkit": "^2.2.5",
     "@tensorflow/tfjs-core": "^4.20.0",
-    "agora-rtc-react": "^2.0.0-beta.0",
+    "agora-rtc-react": "^2.3.0",
     "agora-rtc-sdk-ng": "^4.23.0",
     "antd": "^5.17.2",
     "axios": "^1.6.7",
